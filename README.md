@@ -1,1 +1,1 @@
-![](images/filename%20IndicTextShaping.png)
+![](filename%20IndicTextShaping.png)
