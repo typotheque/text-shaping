@@ -2,13 +2,13 @@
 
 _5 July 2019 draft_
 
-Typography occupies space at the intersection of linguistics, text rendering technologies, and design, and requires some knowledge of all of these areas. This document addresses how Indic (or Brahmic) scripts work, how the Unicode Standard encodes those scripts, what shaping behaviour is expected for rendering, and how OpenType Layout features are utilized to implement the shaping behaviour, especially the Devanagari script.
+Typography occupies space at the intersection of linguistics, text rendering technologies, and design, and requires some knowledge of all of these areas. This document addresses how Indic (or Brahmic) scripts work, how the Unicode Standard encodes those scripts, what shaping behavior is expected for rendering, and how OpenType Layout features are utilized to implement the shaping behavior, especially the Devanagari script.
 
 #### Scope and intended audience
 
 <!-- [The nine Unicode ISCII scripts, with an initial focus on Devanagari.] -->
 
-Indic characters change shape depending on their context. This document is intended for type designers who designed Devanagari typefaces and wish to turn them into functional fonts. It is also relevant for type users that wish to understand expected shaping behaviour, how the text shaping engines process Devanagari text.
+Indic characters change shape depending on their context. This document is intended for type designers who designed Devanagari typefaces and wish to turn them into functional fonts. It is also relevant for type users that wish to understand expected shaping behavior, how the text shaping engines process Devanagari text.
 
 <!-- [FIGURE: just an intriguing and welcoming figure] -->
 
@@ -32,7 +32,7 @@ The authors will be happy to review feedback and suggestions how to improve this
 
 <!-- [Letter vs diacritic. Letter character vs combining mark character. Base grapheme (simple letter or complex) vs sign (simple diacritic or complex) grapheme? Base glyph vs mark glyph.] -->
 
-<!-- [Graphemes (base vs sign), glyphs (spacing vs nonspacing); GDEF classes (base vs mark)] -->
+<!-- [Graphemes (base vs sign), glyphs (spacing vs non-spacing); GDEF classes (base vs mark)] -->
 
 ## 2 Unicode text representation and rendering
 
@@ -48,7 +48,7 @@ This abstraction is straightforward for scripts like Latin, for example a charac
 
 <!-- [FIGURE: relationship between text representation and text rendering] -->
 
-This complex mapping intended by the Unicode Standard is both meant to be the guidelines for _text representation_ (i.e., how text is encoded in Unicode character sequences) and expected to be a responsibility of font techonologies for _text rendering_. The process of properly mapping a character sequence to a glyph sequence is known as _text shaping_.
+This complex mapping intended by the Unicode Standard is both meant to be the guidelines for _text representation_ (i.e., how text is encoded in Unicode character sequences) and expected to be a responsibility of font technologies for _text rendering_. The process of properly mapping a character sequence to a glyph sequence is known as _text shaping_.
 
 OpenType Layout (OTL) is the de facto standard shaping technology today for implementing Unicode-encoded complex scripts. There are also other shaping technologies, such as AAT (Apple Advanced Typography, available in Apple products) and Graphite (available in LibreOffice, XeTeX, Firefox, etc.), that require differently coded shaping rules to be coded in fonts.
 
@@ -69,7 +69,7 @@ The key characteristics of the Unicode ISCII encoding model are:
 
 <!-- [FIGURES: how characteristics above play roles in text representation and rendering of an akshar] -->
 
-When analyzing an Indic text’s Unicode representation, the text is broken down to a sequence of _akshar_ (the classic Indic orthograhic syllable), and Indic-specific complex shaping is only expected within each akshar.
+When analyzing an Indic text’s Unicode representation, the text is broken down to a sequence of _akshar_ (the classic Indic orthographic syllable), and Indic-specific complex shaping is only expected within each akshar.
 
 Graphically speaking, each akshar has a single independent base (which can be consonantal or vocalic, simple or complex base) and can optionally have dependent signs (spacing or not) applied (connected or not) to the base.
 
@@ -103,7 +103,7 @@ A conjunct is encoded as its phonetically equivalent sequence of independent con
 
 <!-- [FIGURE: Typical pure consonant, conjunct, and the interchangeable simplified form] -->
 
-Traditionally vowel killers are not used inside a phonetic syllable, but in order to write fewer conjuncts, the contemporary Hindi orthography allows a vowel killer to be used inside a syllable to mark a pure consonant when writing certain consonant clusters, and such written forms are largely interchangeable with the consoant clusters’ traditional conjunct forms.
+Traditionally vowel killers are not used inside a phonetic syllable, but in order to write fewer conjuncts, the contemporary Hindi orthography allows a vowel killer to be used inside a syllable to mark a pure consonant when writing certain consonant clusters, and such written forms are largely interchangeable with the consonant clusters’ traditional conjunct forms.
 
 This flexibility allows vowel killer characters, such as U+094D DEVANAGARI SIGN VIRAMA (_virama_), to contextually double as the conjoiner in the Unicode ISCII model. Such an encoding model largely leaves the decision of how to form a conjunct to a font’s discretion.
 
@@ -138,7 +138,7 @@ How an OTL shaping engine and a specific script’s font should work together is
 The OTL shaping behavior for the nine Unicode ISCII scripts have undergone a major change, thus there are the original version (Old Shaping Behavior, sometimes referred to as _Indic1_) and the version 2 (New Shaping Behavior, commonly referred to as _Indic2_), requested with different tags.
 
 script | original | version 2
-- | - | -
+-- | -- | --
 Assamese–Bangla | beng | bng2
 Devanagari | deva | dev2
 Gujarati | gujr | gjr2
@@ -163,7 +163,7 @@ For some of the nine Unicode ISCII scripts, their Indic2 shapers are well implem
 
 ## 3 Required interactions in Indic shaping
 
-Many scripts, such as Latin and Arabic, are conventionally considered to have two basic categories of graphemes, _letters_ (spacing and basic) and _diacritics_ (nonspacing and modifying) in the context of digital typography. This simple categorization doesn’t work well for Indic scripts, as Indic scripts tend to have a rich set of letter-like but conceptually complex structures besides basic letters, and the modifying structures in Indic scripts can be either nonspacing or spacing and are often closely related to basic letters or letter-like complex structures as their dependent forms.
+Many scripts, such as Latin and Arabic, are conventionally considered to have two basic categories of graphemes, _letters_ (spacing and basic) and _diacritics_ (non-spacing and modifying) in the context of digital typography. This simple categorization doesn’t work well for Indic scripts, as Indic scripts tend to have a rich set of letter-like but conceptually complex structures besides basic letters, and the modifying structures in Indic scripts can be either non-spacing or spacing and are often closely related to basic letters or letter-like complex structures as their dependent forms.
 
 <!-- [FIGURE: Latin letters and diacritics vs Indic bases and signs] -->
 
@@ -201,7 +201,7 @@ Various ways of sign categorization:
 
 - syllabic: virama, vowel sign, consonant conjoining form, syllable modifier, nukta…
 - visual relationship: pre-base, below-base, above-base, post-base…
-- advance: spacing and nonspacing
+- advance: spacing and non-spacing
 - encoding: atomic and complex
 - shaping: reordered…
 - …
@@ -234,11 +234,11 @@ In a glyph sequence, conventionally, pre-base glyphs are stored before a base, w
 
 #### Sign carrier
 
-Akshar-level nonspacing (above- or below-base) signs are usually carried by the base, but sometimes another spacing sign or a group of spacing structures jointly are preferred carrier. When the carrier has a significant width, there can often be a preference of where exactly a nonspacing sign should land. The exact positioning on a carrier is control with `abvm` and `blwm`, the OTL GPOS features for _above-base mark positioning_ and _below-base mark positioning_, repsectively.
+Akshar-level non-spacing (above- or below-base) signs are usually carried by the base, but sometimes another spacing sign or a group of spacing structures jointly are preferred carrier. When the carrier has a significant width, there can often be a preference of where exactly a non-spacing sign should land. The exact positioning on a carrier is control with `abvm` and `blwm`, the OTL GPOS features for _above-base mark positioning_ and _below-base mark positioning_, respectively.
 
 #### Sign-to-sign interaction
 
-Multiple nonspacing signs can be placed to a carrier at the same side (above or below). Instead of just stacking, they often interact graphically. Such interaction is usually dealt with in `pres`, the OTL GSUB feature originally designed for _pre-base substitutions_ but can be used to handle all _presentation forms_.
+Multiple non-spacing signs can be placed to a carrier at the same side (above or below). Instead of just stacking, they often interact graphically. Such interaction is usually dealt with in `pres`, the OTL GSUB feature originally designed for _pre-base substitutions_ but can be used to handle all _presentation forms_.
 
 <!-- [FIGURE: composition <|Ta| ◌|Signe| ◌|Signreph| ◌|Signanusvara|> → signs interacting |Ta||Signe_Signreph_Signanusvara|] -->
 
@@ -252,7 +252,7 @@ Nukta is not an akshar-level sign. Instead, it is placed directly on the graphem
 
 In a certain analysis, when all the identified productive signs have been stripped away from an akshar, the leftover is a base, either _atomic_ (encoded atomically as a single character) or _complex_ (encoded complexly as a character sequence). Generally, a complex consonantal base is encoded with conjoiner joining a sequence of basic consonant letters.
 
-Complex bases are formed either in `akhn` or `cjct`, the OTL GSUB features for _akhands_ and _conjunct forms_, respectively. As `akhn` presecdes the features for forming complex signs, while `cjct` is after those, where to form a specific complex base depends on its desired shaping priority and whether the complex base is expected to have its own conjoining forms.
+Complex bases are formed either in `akhn` or `cjct`, the OTL GSUB features for _akhands_ and _conjunct forms_, respectively. As `akhn` precedes the features for forming complex signs, while `cjct` is after those, where to form a specific complex base depends on its desired shaping priority and whether the complex base is expected to have its own conjoining forms.
 
 #### Vowel sign-conjoined complex bases
 
@@ -277,7 +277,7 @@ Because the Unicode ISCII model does not resolve conjunct shaping priorities on 
 
 When the default prioritization does not shape a desired composition, a ZWJ (U+200D ZERO WIDTH JOINER) is used to override which side of a virama should become a conjoining form.
 
-If a virama is neither used for forming a complex base, nor used by either of its flanking consonants for forming a conjoining form, it does not exhibit the conjoiner behavier and is simply left as a vowel killer on the preceding consonant.
+If a virama is neither used for forming a complex base, nor used by either of its flanking consonants for forming a conjoining form, it does not exhibit the conjoiner behavior and is simply left as a vowel killer on the preceding consonant.
 
 <!-- [Dependent forms are conventionally known by various terms: (dependent) vowel/consonant signs (corresponding to independent vowel/consonant letters), superscripts/subscripts, pre/above/below/post-base forms, half forms (either any dependent forms of consonant letters, or specifically the dependent forms of phonetically leading consonants letters that are written as pre-base signs, which are common in scripts such as Devanagari), etc.] -->
 
@@ -375,7 +375,7 @@ characters |Tta| <◌|Signvirama| |Ya|> → post-base conjoining form |TtYa|
 
 ## 4 Language-specific requirements
 
-Every language has its own extension to the baseline Sanskrit usage, while certain graphemes and interactions of the Sanskrit usage can also be obsolete for the langauge.
+Every language has its own extension to the baseline Sanskrit usage, while certain graphemes and interactions of the Sanskrit usage can also be obsolete for the language.
 
 ### 4.1 Basic character eligibility
 
@@ -413,7 +413,7 @@ Combined interactions:
 
 ## A Tutorial on how to build an OTL Devanagari font
 
-This turorial showcases that, with glyphs already in hand, how one can construct OTL rules to build a basic but functional Devanagari font with desired shaping behavior.
+This tutorial showcases that, with glyphs already in hand, how one can construct OTL rules to build a basic but functional Devanagari font with desired shaping behavior.
 
 <!-- [Glyph sequences are structured in way that a base is followed by zero or more combining marks. Preceding characters sometimes are shaped into following marks for easier shaping.] -->
 
@@ -463,7 +463,7 @@ languagesystem dev2 dflt;
 
 #### Nukta forms
 
-Under this feature, we forming `*__nukta` glyphs so they can participate in later shaping rules like nromal letters.
+Under this feature, we forming `*__nukta` glyphs so they can participate in later shaping rules like normal letters.
 
 ```
 feature nukt {
