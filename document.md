@@ -1,64 +1,53 @@
-# Devanagari script shaping for type designers
+# Indic text shaping for type designers
 
-_5 July 2019 draft_
+_Draft for initial technical review_
 
-Typography occupies space at the intersection of linguistics, text rendering technologies, and design, and requires some knowledge of all of these areas. This document addresses how Indic (or Brahmic) scripts work, how the Unicode Standard encodes those scripts, what shaping behavior is expected for rendering, and how OpenType Layout features are utilized to implement the shaping behavior, especially the Devanagari script.
+梁海 (Liang Hai), independent researcher  
+Peter Biľak, Typotheque
+
+Typography occupies space at the intersection of linguistics, text rendering technologies, and design, and requires some knowledge of all of these areas. This document addresses how Indic (or Brahmic) scripts work, how the Unicode Standard encodes those scripts, what shaping behavior is expected for rendering, and how OpenType Layout is utilized to implement the shaping behavior.
+
+To start with, the nine Unicode ISCII scripts, especially the Devanagari script, are selected to drive the initial development of this document.
 
 #### Scope and intended audience
 
-<!-- [The nine Unicode ISCII scripts, with an initial focus on Devanagari.] -->
+Encoded characters for Indic scripts change shape depending on their context. This document is intended for type designers who have designed Devanagari typefaces and wish to turn them into functional fonts. It is also relevant for type users that wish to understand the expected behavior of how text shaping engines process Indic text.
 
-Indic characters change shape depending on their context. This document is intended for type designers who designed Devanagari typefaces and wish to turn them into functional fonts. It is also relevant for type users that wish to understand expected shaping behavior, how the text shaping engines process Devanagari text.
+> FIGURE: just an intriguing and welcoming figure.
 
-<!-- [FIGURE: just an intriguing and welcoming figure] -->
+The intention of this document is to present a tool-independent explanation of the logic and techniques of turning encoded Indic letters and diacritics into rendered text. Hopefully it will allow to understand the techniques and allow type designers to produce fonts in the tool of their choice. The documentation of expected Indic text shaping can be useful for general type users to see if the combination of fonts and text shaping engines they use delivers correct results.
 
-The intention of this document is to present a tool-independent explanation of the logic and techniques of turning letters and signs into text. Hopefully it will allow to understand the techniques and allow type designers to produce fonts in the tool of their choice. The documentation of expected Devanagari text shaping can be useful for general type users to see if the combination of fonts and text shaping engines they use results in a correct combinations.
-
-This documentation doesn’t contain instructions how to draw and construct Devanagari or other letters. Linguistic evaluation of Hindi and other languages, grammar and orthography is also outside of the scope of this project, as we look solely at understanding of text representation of language.
+This documentation doesn’t contain instructions how to draw and construct glyphs of Devanagari or other scripts. Linguistic evaluation of Hindi and other languages, such as grammar and orthography, is also outside of the scope of this project, as we look solely at understanding of text representation and rendering of written languages.
 
 #### Feedback
 
-The authors will be happy to review feedback and suggestions how to improve this documentation, and we encourage users to open an issue on GitHub. Due to time constrains, however, the authors are unable to help with the production of specific fonts, so if you have such questions, raise them on a public forum such as TypeDrawers.
+The authors will be happy to review feedback and suggestions how to improve this documentation, and we encourage users to [open an issue on GitHub](https://github.com/typotheque/text-shaping/issues). Due to time constrains, however, the authors are unable to help with the production of specific fonts, so if you have such questions, raise them on a public forum such as [TypeDrawers](https://typedrawers.com).
 
-## 1 Glossary
+## Unicode text representation and rendering
 
-<!-- [Text representation, encoding, character, text rendering, shaping, glyph, …] -->
+Before digital typography became available, written shapes in text were directly reproduced in typesetting as glyphs, without relying on underlying abstract units that are independent from specific fonts and can be exchangeable. Now with digital typography, however, exchanging underlying, digitally encoded text is both a possibility and a need.
 
-<!-- [Composition vs complex base/sign] -->
+> FIGURE: Unicode’s role in the lifecycle of text: user—keyboard—encoding—display.
 
-<!-- [“Conjoining” instead of “reduced” as it’s less abstract. “Conjoining” as an encoding and shaping term; “dependent” as a term for static analysis.] -->
+In order to separate the concern of meaningful textual units from what exact font is used, [the Unicode Standard](https://www.unicode.org), as the predominant text encoding technology today, is designed with an architectural separation between abstract _characters_ and actual glyphs. So now our exchangeable text consists only of Unicode-encoded characters, while the exact look of these characters is provided by digital fonts that map characters to glyphs.
 
-<!-- [“Written (consonant) cluster” instead of “conjunct”?] -->
+> FIGURE: comparison between Latin and Devanagari’s expected shaping behavior.
 
-<!-- [Letter vs diacritic. Letter character vs combining mark character. Base grapheme (simple letter or complex) vs sign (simple diacritic or complex) grapheme? Base glyph vs mark glyph.] -->
+This abstraction is straightforward for scripts like Latin, for example a character U+0041 <span style="font-variant: all-small-caps;">LATIN CAPITAL LETTER A</span> is largely just mapped to a glyph “A”. But for so-called _complex scripts_ that are supported by Unicode with their inherent contextual interactions taken into consideration, such as Arabic and Devanagari, the abstraction leads to a contextually dynamic and thus complex mapping between characters and glyphs.
 
-<!-- [Graphemes (base vs sign), glyphs (spacing vs non-spacing); GDEF classes (base vs mark)] -->
-
-## 2 Unicode text representation and rendering
-
-Typesetting text was originally about directly reproducing written shapes as typographical glyphs <!-- “Typesetting … shapes” needs work. -->, until digital typography became possible, when exchanging underlying, digitally encoded text became both a possibility and a need.
-
-<!-- [FIGURE: Unicode’s role in the lifecycle of text: user—keyboard—encoding—display] -->
-
-In order to separate the concern of meaningful textual units from what exact font is used, the Unicode Standard, as the predominant text encoding technology today, is designed with an architectural separation between abstract _characters_ and actual glyphs. So now our exchangeable text consists only of Unicode-encoded characters, while the exact look of these characters is provided by digital fonts that map characters to glyphs.
-
-<!-- [FIGURE: comparison between Latin and Devanagari’s shaping behavior] -->
-
-This abstraction is straightforward for scripts like Latin, for example a character U+0041 LATIN CAPITAL LETTER A is largely just mapped to a glyph “A”. But for so-called _complex scripts_ that are supported by Unicode with their inherent contextual interactions taken into consideration, such as Arabic and Devanagari, the abstraction leads to a contextually dynamic and thus complex mapping between characters and glyphs.
-
-<!-- [FIGURE: relationship between text representation and text rendering] -->
+> FIGURE: highlighted relationship between text representation and text rendering, in the lifecycle of text figure.
 
 This complex mapping intended by the Unicode Standard is both meant to be the guidelines for _text representation_ (i.e., how text is encoded in Unicode character sequences) and expected to be a responsibility of font technologies for _text rendering_. The process of properly mapping a character sequence to a glyph sequence is known as _text shaping_.
 
-OpenType Layout (OTL) is the de facto standard shaping technology today for implementing Unicode-encoded complex scripts. There are also other shaping technologies, such as AAT (Apple Advanced Typography, available in Apple products) and Graphite (available in LibreOffice, XeTeX, Firefox, etc.), that require differently coded shaping rules to be coded in fonts.
+[OpenType Layout](https://docs.microsoft.com/en-us/typography/opentype/spec/ttochap1) (OTL) is the predominant text shaping technology today for implementing Unicode-encoded complex scripts. There are also other shaping technologies, such as [AAT](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM06/Chap6AATIntro.html) (Apple Advanced Typography, available in Apple products) and [Graphite](https://graphite.sil.org/) (available in LibreOffice, XeTeX, Firefox, etc.), that require different shaping rules to be coded in fonts.
 
-### 2.1 Unicode Indic encoding principles and shaping requirements
+### Encoding principles and shaping requirements of Unicode Indic scripts
 
-Assamese–Bangla (Bengali), Devanagari, Gujarati, Gurmukhi, Kannada, Malayalam, Odia (Oriya), Tamil, and Telugu are the nine Indic (also known as Brahmic) scripts that are supported by Unicode with an encoding model based on ISCII-88 (Indian Script Code for Information Interchange, 1988).
+অসমীয়া–বাংলা Assamese–Bangla (Bengali), देवनागरी Devanagari, ગુજરાતી Gujarati, ਗੁਰਮੁਖੀ Gurmukhi, ಕನ್ನಡ Kannada, മലയാളം Malayalam, ଓଡ଼ିଆ Odia (Oriya), தமிழ் Tamil, and తెలుగు Telugu are the nine Indic (also known as Brahmic) scripts that are supported by Unicode with an encoding model based on ISCII-88 (Indian Script Code for Information Interchange, 1988).
 
-<!-- [FIGURE: Sanskrit–Devanagari alphabet] -->
+> FIGURE: Sanskrit–Devanagari alphabet.
 
-The Unicode ISCII model’s behavior exhibits strong influence of both Sanskrit and the contemporary Hindi’s Devanagari orthographies. Many other Indic scripts are supported by Unicode with their encoding models more or less derived from the Unicode ISCII model, such as Sinhala (Sinhalese), Myanmar (Burmese), Khmer (Cambodian), Balinese, and Javanese. While scripts such as Tibetan, Thai, and Lao are encoded with radically different models.
+The _Unicode ISCII_ model’s behavior exhibits strong influence of both Sanskrit and the contemporary Hindi’s Devanagari orthographies. Many other Indic scripts are supported by Unicode with their encoding models more or less derived from the Unicode ISCII model, such as සිංහල Sinhala (Sinhalese), မြန်မာ Myanmar (Burmese), ខ្មែរ Khmer (Cambodian), ᬩᬮᬶ Balinese, and ꦗꦮ Javanese. While scripts such as བོད་ Tibetan, ไทย Thai, and ລາວ Lao are encoded with radically different models.
 
 The key characteristics of the Unicode ISCII encoding model are:
 
@@ -105,7 +94,7 @@ A conjunct is encoded as its phonetically equivalent sequence of independent con
 
 Traditionally vowel killers are not used inside a phonetic syllable, but in order to write fewer conjuncts, the contemporary Hindi orthography allows a vowel killer to be used inside a syllable to mark a pure consonant when writing certain consonant clusters, and such written forms are largely interchangeable with the consonant clusters’ traditional conjunct forms.
 
-This flexibility allows vowel killer characters, such as U+094D DEVANAGARI SIGN VIRAMA (_virama_), to contextually double as the conjoiner in the Unicode ISCII model. Such an encoding model largely leaves the decision of how to form a conjunct to a font’s discretion.
+This flexibility allows vowel killer characters, such as U+094D <span style="font-variant: all-small-caps;">DEVANAGARI SIGN VIRAMA</span> (_virama_), to contextually double as the conjoiner in the Unicode ISCII model. Such an encoding model largely leaves the decision of how to form a conjunct to a font’s discretion.
 
 <!-- [FIGURE: characters <|Ka| ◌|Signvirama| |Ssa|> → conjoined |KSsa|] -->
 
@@ -117,11 +106,11 @@ Because conjuncts are encoded as such virama-connected consonant letters without
 
 <!-- [FIGURE: example of ZWJ and ZWNJ usage] -->
 
-A general format control character, U+200D ZERO WIDTH JOINER (ZWJ [zwɪdʒ]), is used in Indic specifically for assisting formation of conjuncts, when a desired productive conjoining form is not shaped by the default behavior. <!-- [ZWJ is used on a virama’s other side of the manipulated consonant letter. … between two consonants, immediately next to the virama on either side, so it both prevents the two consonants to form a … requesting the virama to form a productive conjoining form with the consonant not separated from the virama by the ZWJ, preventing an obscure conjunct.] -->
+A general format control character, U+200D <span style="font-variant: all-small-caps;">ZERO WIDTH JOINER</span> (ZWJ [zwɪdʒ]), is used in Indic specifically for assisting formation of conjuncts, when a desired productive conjoining form is not shaped by the default behavior. <!-- [ZWJ is used on a virama’s other side of the manipulated consonant letter. … between two consonants, immediately next to the virama on either side, so it both prevents the two consonants to form a … requesting the virama to form a productive conjoining form with the consonant not separated from the virama by the ZWJ, preventing an obscure conjunct.] -->
 
-Another general format control character, U+200D ZERO WIDTH NON-JOINER (ZWNJ [zwɪndʒ]), is used immediately after a virama to ensure the virama acts only as a vowel killer, without being conjoined with any following character, thus effectively terminating an akshar.
+Another general format control character, U+200D <span style="font-variant: all-small-caps;">ZERO WIDTH NON-JOINER</span> (ZWNJ [zwɪndʒ]), is used immediately after a virama to ensure the virama acts only as a vowel killer, without being conjoined with any following character, thus effectively terminating an akshar.
 
-### 2.2 Text shaping engines
+### Text shaping engines
 
 A text shaping engine shapes a Unicode character sequence into a final glyph sequence, with aid of the shaping rules coded in a font. HarfBuzz (open source), DirectWrite/Uniscribe (Microsoft), Core Text (Apple), and Adobe’s unnamed engine are the four groups of OTL shaping engines that matter the most to digital type production.
 
@@ -161,7 +150,7 @@ For some of the nine Unicode ISCII scripts, their Indic2 shapers are well implem
 
 <!-- […] -->
 
-## 3 Required interactions in Indic shaping
+## Required interactions in Indic shaping
 
 Many scripts, such as Latin and Arabic, are conventionally considered to have two basic categories of graphemes, _letters_ (spacing and basic) and _diacritics_ (non-spacing and modifying) in the context of digital typography. This simple categorization doesn’t work well for Indic scripts, as Indic scripts tend to have a rich set of letter-like but conceptually complex structures besides basic letters, and the modifying structures in Indic scripts can be either non-spacing or spacing and are often closely related to basic letters or letter-like complex structures as their dependent forms.
 
@@ -169,7 +158,7 @@ Many scripts, such as Latin and Arabic, are conventionally considered to have tw
 
 Therefore, for analyzing Indic scripts, their graphemes are instead categorized as _bases_ (independent structures) and _signs_ (dependent and productive structures, known as _mātrā_, _kār_, etc., in various languages).
 
-### 3.1 Indic bases and signs
+### Indic bases and signs
 
 Fundamentally, Indic scripts work in a way that, though joining (sometimes not apparent graphically, then only conceptually) a set of basic written units (basic bases and basic signs) together to form compositions that can represent more complicated sounds.
 
@@ -206,9 +195,9 @@ Various ways of sign categorization:
 - shaping: reordered…
 - …
 
-### 3.2 Compositions
+### Compositions
 
-One more signs can be placed on a base, forming a composition. Due to the encoding principle of phonetic segmentation, some compositions (or part of a composition, such as a split vowel sign) are encoded atomically, such as U+0906 आ DEVANAGARI LETTER AA, which is comparable to Latin precomposed characters such as U+00C1 Á LATIN CAPITAL LETTER A WITH ACUTE. <!-- [Normalized shaping process with a decomposing preprocess.] -->
+One more signs can be placed on a base, forming a composition. Due to the encoding principle of phonetic segmentation, some compositions (or part of a composition, such as a split vowel sign) are encoded atomically, such as U+0906 आ <span style="font-variant: all-small-caps;">DEVANAGARI LETTER AA</span>, which is comparable to Latin precomposed characters such as U+00C1 Á <span style="font-variant: all-small-caps;">LATIN CAPITAL LETTER A WITH ACUTE</span>. <!-- [Normalized shaping process with a decomposing preprocess.] -->
 
 <!-- [FIGURE:
 base <|Ta|> → simple akshar |Ta|
@@ -248,7 +237,7 @@ Nukta is not an akshar-level sign. Instead, it is placed directly on the graphem
 
 <!-- [FIGURE: example of creating a nukta form] -->
 
-### 3.3 Complex bases (obscure conjuncts)
+### Complex bases (obscure conjuncts)
 
 In a certain analysis, when all the identified productive signs have been stripped away from an akshar, the leftover is a base, either _atomic_ (encoded atomically as a single character) or _complex_ (encoded complexly as a character sequence). Generally, a complex consonantal base is encoded with conjoiner joining a sequence of basic consonant letters.
 
@@ -258,7 +247,7 @@ Complex bases are formed either in `akhn` or `cjct`, the OTL GSUB features for _
 
 <!-- [FIGURE: रु গু…] -->
 
-### 3.4 Complex signs (conjoining forms)
+### Complex signs (conjoining forms)
 
 <!-- [List how each of the interaction is applicable to each script.] -->
 
@@ -275,7 +264,7 @@ Because the Unicode ISCII model does not resolve conjunct shaping priorities on 
 - `half`: half forms (_pre-base leading_)
 - `pstf`: post-base forms (_post-base trailing_)
 
-When the default prioritization does not shape a desired composition, a ZWJ (U+200D ZERO WIDTH JOINER) is used to override which side of a virama should become a conjoining form.
+When the default prioritization does not shape a desired composition, a ZWJ (U+200D <span style="font-variant: all-small-caps;">ZERO WIDTH JOINER</span>) is used to override which side of a virama should become a conjoining form.
 
 If a virama is neither used for forming a complex base, nor used by either of its flanking consonants for forming a conjoining form, it does not exhibit the conjoiner behavior and is simply left as a vowel killer on the preceding consonant.
 
@@ -369,17 +358,17 @@ characters <|Ta| ◌|Signvirama|> |Ya| → half form |T||Ya|
 characters |Tta| <◌|Signvirama| |Ya|> → post-base conjoining form |TtYa|
 ] -->
 
-### 3.5 Devanagari-specific knowledge
+### Devanagari-specific knowledge
 
 <!-- […] -->
 
-## 4 Language-specific requirements
+## Language-specific requirements
 
 Every language has its own extension to the baseline Sanskrit usage, while certain graphemes and interactions of the Sanskrit usage can also be obsolete for the language.
 
-### 4.1 Basic character eligibility
+### Basic character eligibility
 
-<!-- Benchmark: Sanskrit
+<!-- Baseline: Sanskrit
 The classic Sanskrit alphabet:
 |A| |Aa| |I| |Ii| |U| |Uu| |Vocalicr| |Vocalicrr| |Vocalicl| |Vocalicll| |E| |Ai| |O| |Au|
 |Ka| |Kha| |Ga| |Gha| |Nga| |Ca| |Cha| |Ja| |Jha| |Nya| |Tta| |Ttha| |Dda| |Ddha| |Nna| |Ta| |Tha| |Da| |Dha| |Na| |Pa| |Pha| |Ba| |Bha| |Ma|
@@ -391,7 +380,7 @@ Marathi
 Nepali
 Theoretical completion -->
 
-### 4.2 Interaction eligibility
+### Interaction eligibility
 
 <!-- [FIGURE: two-dimensional table between languages and interactions] -->
 
@@ -407,11 +396,11 @@ Combined interactions:
 
 - Dependent forms (i.e., half forms) of obscure conjuncts (i.e., CC conjuncts). `*R`: K|Kh|G|Gh|C|J|Jh|Ny|Nn|T|Th|Dh|N|P|Ph|B|Bh|M|Y|L|V|Sh|Ss|S -->
 
-## 5 Typographic considerations
+## Typographic considerations
 
 <!-- [Side bearings, kerning, size and darkness proportion between Indic and Latin, metrics, Signi (ikar matra) matching, headstroke overlapping…] -->
 
-## A Tutorial on how to build an OTL Devanagari font
+## Tutorial on how to build an OTL Devanagari font
 
 This tutorial showcases that, with glyphs already in hand, how one can construct OTL rules to build a basic but functional Devanagari font with desired shaping behavior.
 
@@ -425,17 +414,17 @@ This tutorial showcases that, with glyphs already in hand, how one can construct
 
 <!-- [Define the intended scope and glyph set according to the information available in the main text, then list all rules (without omission) in the following sections.] -->
 
-### A.1 Scope
+### Scope
 
 <!-- [Devanagari and contemporary Hindi] -->
 
 <!-- [Glyph set] -->
 
-### A.2 Character to glyph mapping
+### Character to glyph mapping
 
 <!-- […] -->
 
-### A.1 OpenType Layout
+### OpenType Layout
 
 <!-- […] -->
 
@@ -569,13 +558,13 @@ feature blwm {
 } blwm;
 ```
 
-## B Tips and commonly used tricks for OTL shaping
+## Tips and commonly used tricks for OTL shaping
 
 <!-- [GSUB reordering, IgnoreMarks/MarkAttachmentType, mark tricks (what Andrew G did for Egyptian hieroglyphs)…] -->
 
-## C Tips and reference for glyphs
+## Tips and reference for glyphs
 
-### C.1 Glyphs naming convention
+### Glyphs naming convention
 
 Consistently assigned glyph names facilitate font production.
 
@@ -598,12 +587,12 @@ rasignabovebase
 rasignpostbaseinitial
 ] -->
 
-### C.2 Reference glyphs
+### Reference glyphs
 
 #### Devanagari (script suffix -Deva is omitted)
 
 <!-- Original table omitted -->
 
-### C.3 Stylistic, regional, and orthographic variants
+### Stylistic, regional, and orthographic variants
 
 <!-- [North variants of letters and digits. Marathi variants of letters.] -->
