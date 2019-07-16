@@ -21,14 +21,14 @@ This documentation doesn’t contain instructions how to draw and construct glyp
 
 ### Documentation
 
-1. [Unicode text representation and rendering](docs/1-Unicode.md)
-2. [Script- and orthography-specific shaping requirements](docs/2-orthographies.md)
-3. [Text shaping engines](docs/3-engines.md)
-4. [Glyphs](docs/4-glyphs.md)
+1\. [Unicode text](docs/1-Unicode.md)  
+2\. [OTL text shaping](docs/2-OTL.md)  
+3\. [Orthography-specific shaping requirements](docs/3-orthographies.md)
 
-### Tutorial
+### Appendix
 
-- [Tutorial on how to build an OTL Devanagari font](docs/tutorial.md)
+A. [Tutorial on how to build an OTL Devanagari font](docs/A-tutorial.md)  
+B. [About glyphs](docs/B-glyphs.md)
 
 ### Feedback
 

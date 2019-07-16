@@ -1,6 +1,6 @@
-# 4. Glyphs
+# B. About glyphs
 
-# 4.1 Glyphs naming convention
+# B.1 Glyphs naming convention
 
 Consistently assigned glyph names facilitate font production.
 
