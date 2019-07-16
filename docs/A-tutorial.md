@@ -1,4 +1,4 @@
-# Tutorial on how to build an OTL Devanagari font
+# A. Tutorial on how to build an OTL Devanagari font
 
 This tutorial showcases that, with glyphs already in hand, how one can construct OTL rules to build a basic but functional Devanagari font with desired shaping behavior.
 
@@ -12,17 +12,17 @@ This tutorial showcases that, with glyphs already in hand, how one can construct
 
 <!-- [Define the intended scope and glyph set according to the information available in the main text, then list all rules (without omission) in the following sections.] -->
 
-## 4.1 Scope
+## A.1 Scope
 
 <!-- [Devanagari and contemporary Hindi] -->
 
 <!-- [Glyph set] -->
 
-## 4.2 Character to glyph mapping
+## A.2 Character to glyph mapping
 
 <!-- […] -->
 
-## 4.3 OpenType Layout
+## A.3 OpenType Layout
 
 <!-- […] -->
 
@@ -30,7 +30,6 @@ This tutorial showcases that, with glyphs already in hand, how one can construct
 languagesystem DFLT dflt;
 languagesystem dev2 dflt;
 
-feature nukt { ... } nukt;
 feature akhn { ... } akhn;
 feature rphf { ... } rphf;
 feature half { ... } half;
@@ -52,9 +51,16 @@ languagesystem dev2 dflt;
 
 Under this feature, we forming `*__nukta` glyphs so they can participate in later shaping rules like normal letters.
 
+GPOS (blwm) can be used to position nukta on a base instead, then later shaping rules will need to both ignore Signnukta when forming ligatures and position Signnukta on ligature components properly, but also still always recognize the existence of nukta on every component characters (note the ones not next to a virama thus not blocking a virama’s function automatically) and decide whether these clusters should shape in a way consistent to their nukta-less counterparts.
+
+### Akhand Ligatures
+
+<!-- […] -->
+
 ```
-feature nukt {
-    lookup nukt.general {
+feature akhn {
+
+    lookup nukta {
 
         # Hindi
         sub dda nukta by dda__nukta;
@@ -67,18 +73,7 @@ feature nukt {
         sub ja nukta by ja__nukta;
         sub pha nukta by pha__nukta;
 
-    } nukt.general;
-} nukt;
-```
-
-GPOS (blwm) can be used to position nukta on a base instead, then later shaping rules will need to both ignore Signnukta when forming ligatures and position Signnukta on ligature components properly, but also still always recognize the existence of nukta on every component characters (note the ones not next to a virama thus not blocking a virama’s function automatically) and decide whether these clusters should shape in a way consistent to their nukta-less counterparts.
-
-### Akhand Ligatures
-
-<!-- […] -->
-
-```
-feature akhn {
+    } nukta;
 
     lookup akhn.classical_prioritized_complex_bases {
         sub ka virama ssa by k_ssa;
