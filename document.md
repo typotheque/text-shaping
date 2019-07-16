@@ -9,7 +9,7 @@ Typography occupies space at the intersection of linguistics, text rendering tec
 
 To start with, the nine Unicode ISCII scripts, especially the Devanagari script, are selected to drive the initial development of this document.
 
-#### Scope and intended audience
+### Scope and intended audience
 
 Encoded characters for Indic scripts change shape depending on their context. This document is intended for type designers who have designed Devanagari typefaces and wish to turn them into functional fonts. It is also relevant for type users that wish to understand the expected behavior of how text shaping engines process Indic text.
 
@@ -19,11 +19,11 @@ The intention of this document is to present a tool-independent explanation of t
 
 This documentation doesn’t contain instructions how to draw and construct glyphs of Devanagari or other scripts. Linguistic evaluation of Hindi and other languages, such as grammar and orthography, is also outside of the scope of this project, as we look solely at understanding of text representation and rendering of written languages.
 
-#### Feedback
+### Feedback
 
 The authors will be happy to review feedback and suggestions how to improve this documentation, and we encourage users to [open an issue on GitHub](https://github.com/typotheque/text-shaping/issues). Due to time constrains, however, the authors are unable to help with the production of specific fonts, so if you have such questions, raise them on a public forum such as [TypeDrawers](https://typedrawers.com).
 
-## Unicode text representation and rendering
+# 1. Unicode text representation and rendering
 
 Before digital typography became available, written shapes in text were directly reproduced in typesetting as glyphs, without relying on underlying abstract units that are independent from specific fonts and can be exchangeable. Now with digital typography, however, exchanging underlying, digitally encoded text is both a possibility and a need.
 
@@ -41,7 +41,7 @@ This complex mapping intended by the Unicode Standard is both meant to be the gu
 
 [OpenType Layout](https://docs.microsoft.com/en-us/typography/opentype/spec/ttochap1) (OTL) is the predominant text shaping technology today for implementing Unicode-encoded complex scripts. There are also other shaping technologies, such as [AAT](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM06/Chap6AATIntro.html) (Apple Advanced Typography, available in Apple products) and [Graphite](https://graphite.sil.org/) (available in LibreOffice, XeTeX, Firefox, etc.), that require different shaping rules to be coded in fonts.
 
-### Encoding principles and shaping requirements of Unicode Indic scripts
+## 1.1 Encoding principles and shaping requirements
 
 অসমীয়া–বাংলা Assamese–Bangla (Bengali), देवनागरी Devanagari, ગુજરાતી Gujarati, ਗੁਰਮੁਖੀ Gurmukhi, ಕನ್ನಡ Kannada, മലയാളം Malayalam, ଓଡ଼ିଆ Odia (Oriya), தமிழ் Tamil, and తెలుగు Telugu are the nine Indic (also known as Brahmic) scripts that are supported by Unicode with an encoding model based on ISCII-88 (Indian Script Code for Information Interchange, 1988).
 
@@ -56,23 +56,25 @@ The key characteristics of the Unicode ISCII encoding model are:
 - **vowel killer doubles as conjoiner**, thus shaping-stage discretion for conjuncts
 - **conjoiner joins letters to form conjuncts**, thus shaping-stage prioritization of productive conjoining forms
 
-<!-- [FIGURES: how characteristics above play roles in text representation and rendering of an akshar] -->
-
-When analyzing an Indic text’s Unicode representation, the text is broken down to a sequence of _akshar_ (the classic Indic orthographic syllable), and Indic-specific complex shaping is only expected within each akshar.
-
-Graphically speaking, each akshar has a single independent base (which can be consonantal or vocalic, simple or complex base) and can optionally have dependent signs (spacing or not) applied (connected or not) to the base.
+> FIGURE: how characteristics above play roles in text representation and rendering of an akshar.
 
 <!-- [Unicode Indic properties] -->
 
-#### Phonetic segmentation, phonetic order, and reordering
+### Akshar
 
-<!-- [Important clarification: phonetic analysis is only an aid to the foundational graphic analysis. Many written structures are not explainable with a classic linear phonetic analysis.] -->
+When analyzing an Indic text for its Unicode representation, the text is broken down to a sequence of _akshar_ (a classic Indic orthographic syllable), and Indic-specific complex shaping is only expected within each akshar. Each akshar consists of a single independent base and optionally have dependent signs (spacing or not) applied to the base.
 
-Each akshar is then linearized and segmented into an ordered sequence of characters according to how Sanskrit systematically identifies the underlying phonetic segments. Phonetically, an akshar can be either /C*VC?/, a vowel optionally prefixed with a consonant (or consonant cluster) and optionally suffixed with one of the special consonants, or /C+/, a pure consonant (or consonant cluster). <!-- [And special cases.] -->
+In order to segment and order an akshar’s internal components into a one-dimensional character sequence, a limited phonetic analysis is employed as an aid to the fundamental graphic analysis. Note that Unicode’s phonetic analysis for Indic scripts is often misinterpreted and overemphasized.
 
-<!-- [FIGURE: graphic and phonetic anatomy of an akshar: র্স্ত্বোং] -->
+### Phonetic segmentation, phonetic order, and reordering of akshar components
 
-Therefore conjuncts are encoded complexly of basic letters because conjuncts represent consonant clusters. While certain graphically composite structures are encoded atomically because they represent simple phonetic segments.
+Each akshar is linearized and segmented into an ordered sequence of characters according to how Sanskrit systematically identifies the underlying phonetic segments. Phonetically, an akshar can be either /C*VC?/, a vowel optionally prefixed with a consonant cluster and optionally suffixed with one of the special consonants, or /C+/, a pure consonant cluster. <!-- [And special cases.] -->
+
+> FIGURE: graphic and phonetic anatomy of an akshar: র্স্ত্বোং.
+
+An inherent vowel is not encoded separately from its base consonant letter, because it does not have graphic significance.
+
+Certain bases are encoded as a complex sequence of basic letters because they represent consonant clusters. While certain graphically composite structures are encoded atomically because they represent simple phonetic segments.
 
 <!-- [The vowel killer sign (virama) suppresses the inherent vowel of a consonant letter, signifying a pure consonant; vowel signs instead alters the inherent vowel to a different one; while vowel modifier signs add additional phonetic value either to or after the nucleus vowel of a living syllable.] -->
 
@@ -82,49 +84,57 @@ Therefore conjuncts are encoded complexly of basic letters because conjuncts rep
 
 Also, the encoding order of an akshar’s component characters is thus decided regardless of the writing or visual order. <!-- [And special cases.] --> Therefore certain intermediate glyphs in shaping process are expected to be _reordered_ by the shaping engine from the originally encoded phonetic position to the graphic position as they appear.
 
-<!-- [FIGURE: characters <|Pa| |Signi|◌> → reordered |Signi||Pa|] -->
+> FIGURE: akshar पि → characters <प ि> → reordered पि
 
-#### Vowel killer, conjoiner, and conjuncts
+### Vowel killer, conjoiner, and conjuncts
 
 As Indic consonant letters are syllabic, including an inherent vowel, pure consonants are marked explicitly with a _vowel killer_ sign.
 
 A conjunct is encoded as its phonetically equivalent sequence of independent consonant letters that are to be connected with _conjoiners_. Contextual shaping is thus required for proper rendering. Certain written forms’ composition might seem obscure in a specific writing system, but the well-understood Sanskrit orthography often reveals their phonetic structures.
 
-<!-- [FIGURE: Typical pure consonant, conjunct, and the interchangeable simplified form] -->
+> FIGURE: typical pure consonant, conjunct, and the interchangeable simplified form.
 
 Traditionally vowel killers are not used inside a phonetic syllable, but in order to write fewer conjuncts, the contemporary Hindi orthography allows a vowel killer to be used inside a syllable to mark a pure consonant when writing certain consonant clusters, and such written forms are largely interchangeable with the consonant clusters’ traditional conjunct forms.
 
 This flexibility allows vowel killer characters, such as U+094D <span style="font-variant: all-small-caps;">DEVANAGARI SIGN VIRAMA</span> (_virama_), to contextually double as the conjoiner in the Unicode ISCII model. Such an encoding model largely leaves the decision of how to form a conjunct to a font’s discretion.
 
-<!-- [FIGURE: characters <|Ka| ◌|Signvirama| |Ssa|> → conjoined |KSsa|] -->
+> FIGURE: characters <क ् ष> → conjoined क्ष
 
-When used for forming conjuncts, the graphic role of being a conjoiner is actually the major reason, and the phonetic role of being a vowel killer often don’t make sense.
+When used for forming conjuncts, the graphic role of being a conjoiner is the major rationale, and the phonetic role of being a vowel killer don’t necessarily make sense.
 
-<!-- [FIGURE: Conjuncts that don’t make sense phonetically: र्ऋ · অ্যা · ಉ್ೞ] -->
+> FIGURE: conjuncts that don’t make sense phonetically: र्ऋ · অ্যা · ಉ್ೞ.
 
 Because conjuncts are encoded as such virama-connected consonant letters without an explicit hierarchy, conjunct forming rules in fonts need to be prioritized appropriately to enable desired fallback behavior when the whole cluster is not captured by any single conjunct glyph in a font. This is a major source of complexity in shaping.
 
-<!-- [FIGURE: example of ZWJ and ZWNJ usage] -->
+> FIGURE: example of ZWJ and ZWNJ usage.
 
 A general format control character, U+200D <span style="font-variant: all-small-caps;">ZERO WIDTH JOINER</span> (ZWJ [zwɪdʒ]), is used in Indic specifically for assisting formation of conjuncts, when a desired productive conjoining form is not shaped by the default behavior. <!-- [ZWJ is used on a virama’s other side of the manipulated consonant letter. … between two consonants, immediately next to the virama on either side, so it both prevents the two consonants to form a … requesting the virama to form a productive conjoining form with the consonant not separated from the virama by the ZWJ, preventing an obscure conjunct.] -->
 
 Another general format control character, U+200D <span style="font-variant: all-small-caps;">ZERO WIDTH NON-JOINER</span> (ZWNJ [zwɪndʒ]), is used immediately after a virama to ensure the virama acts only as a vowel killer, without being conjoined with any following character, thus effectively terminating an akshar.
 
-### Text shaping engines
+# 2 Text shaping engines
 
 A text shaping engine shapes a Unicode character sequence into a final glyph sequence, with aid of the shaping rules coded in a font. HarfBuzz (open source), DirectWrite/Uniscribe (Microsoft), Core Text (Apple), and Adobe’s unnamed engine are the four groups of OTL shaping engines that matter the most to digital type production.
 
-<!-- [FIGURE: table of which engines the commonly encountered products use] -->
+> FIGURE: table of which engines the commonly encountered products use.
 
 For OTL, the exact shaping operations executed by a shaping engine are decided jointly by the engine’s knowledge of the script and the font’s rules. In particular, OTL shaping engines try to match a text against any of the predefined, restrictive character cluster patterns, then insert dotted circles as placeholder base glyphs wherever a failure of the match leads to stray marks.
 
-<!-- [FIGURE: example of an OTL Indic cluster pattern and a match failure] -->
+> FIGURE: example of an OTL Indic cluster pattern and a match failure.
 
-#### Shapers and script tags
+## 2.1 Shapers, script tags, and features
 
 How an OTL shaping engine and a specific script’s font should work together is prescribed in Microsoft’s _script development specifications_, and is implemented in shaping engines conceptually as script-specific _shapers_. An OTL font declares one or more _script tags_ to request what shaper should be used.
 
-The OTL shaping behavior for the nine Unicode ISCII scripts have undergone a major change, thus there are the original version (Old Shaping Behavior, sometimes referred to as _Indic1_) and the version 2 (New Shaping Behavior, commonly referred to as _Indic2_), requested with different tags.
+<!-- Language systems -->
+
+OTL _features_ provide a mechanism for fonts to declare the purpose of a set of rules to shaping engines with predefined semantics, allowing the latter to execute specific sets of rules based on users’ implied or explicit request. For example, rules organized under the feature `liga` are understood as rules for typographically optional ligatures, and can be enabled per users’ discretion; while rules in `init` are understood as required for Arabic letters to correctly connect to each other and are always executed fro Arabic characters. 
+
+## 2.2 Special treatments for Indic scripts
+
+For Indic scripts, in particular, a large set of mandatory features are always applied by shapers, with a largely restricted order that is structured by a couple of _shaping stages_. This is to ensure Indic scripts’ required shaping behavior is always achieved. Certain features are expected to only contain rules that have a particular structure, to allow shapers to extract necessary glyph properties from a font and execute reordering properly.
+
+The OTL shaping behavior for the nine Unicode ISCII scripts have undergone a major change, thus there are the original version (Old Shaping Behavior, sometimes referred to as _Indic 1_) and the version 2 (New Shaping Behavior, commonly referred to as _Indic 2_), requested with different tags.
 
 script | original | version 2
 -- | -- | --
@@ -138,143 +148,134 @@ Odia | orya | ory2
 Tamil | taml | tml2
 Telugu | telu | tel2
 
-Unlike their Indic1 counterparts, Indic2 shapers no longer statically assume a consonant letter to have a particular type of conjoining form. Instead, such a property is defined dynamically by fonts in certain features (rphf, pref, blwf, half, and pstf) in the _basic shaping forms_ stage and is retrieved by shapers. Consequently, the reordering process in Indic2 shapers is divided into the _initial reordering_ before any shaping rules kick in, and the _final reordering_ after the basic shaping forms stage.
+Unlike their Indic 1 counterparts, Indic 2 shapers no longer statically assume a consonant letter to have a particular type of conjoining form. Instead, such a property is defined dynamically by fonts in certain features (rphf, pref, blwf, half, and pstf) in the _basic shaping forms_ stage and is retrieved by shapers. Consequently, the reordering process in Indic 2 shapers is divided into the _initial reordering_ before any shaping rules kick in, and the _final reordering_ after the basic shaping forms stage.
 
-For some of the nine Unicode ISCII scripts, their Indic2 shapers are well implemented in major platforms, therefore their Indic1 tags are mostly obsolete and do not need to be supported by fonts. But some still rely on their Indic1 shapers, thus their fonts are recommended to support both Indic1 and Indic2 shapers.
+The nine Unicode ISCII scripts are specified to be subject to the following features and shaping stages:
 
-<!-- [FIGURE: table of products that still do not support the Indic2 shapers] -->
+> FIGURE: table of the nine Unicode ISCII scripts’ specified features and stages.
 
-<!-- [Language tags] -->
+For some of the nine Unicode ISCII scripts, their Indic 2 shapers are well implemented in major platforms, therefore their Indic 1 tags are mostly obsolete and do not need to be supported by fonts. But some still rely on their Indic 1 shapers, thus their fonts are recommended to support both Indic 1 and Indic 2 shapers.
 
-#### Features and lookups
+> FIGURE: table of products that still do not support the Indic 2 shapers.
 
-<!-- […] -->
-
-## Required interactions in Indic shaping
+# 2. Required interactions in shaping
 
 Many scripts, such as Latin and Arabic, are conventionally considered to have two basic categories of graphemes, _letters_ (spacing and basic) and _diacritics_ (non-spacing and modifying) in the context of digital typography. This simple categorization doesn’t work well for Indic scripts, as Indic scripts tend to have a rich set of letter-like but conceptually complex structures besides basic letters, and the modifying structures in Indic scripts can be either non-spacing or spacing and are often closely related to basic letters or letter-like complex structures as their dependent forms.
 
-<!-- [FIGURE: Latin letters and diacritics vs Indic bases and signs] -->
+> FIGURE: Latin letters and diacritics vs Indic bases and signs.
 
 Therefore, for analyzing Indic scripts, their graphemes are instead categorized as _bases_ (independent structures) and _signs_ (dependent and productive structures, known as _mātrā_, _kār_, etc., in various languages).
 
-### Indic bases and signs
+## 2.1 Indic bases and signs
 
-Fundamentally, Indic scripts work in a way that, though joining (sometimes not apparent graphically, then only conceptually) a set of basic written units (basic bases and basic signs) together to form compositions that can represent more complicated sounds.
+Fundamentally, Indic scripts work in a way that, through joining (sometimes not apparent graphically, then only conceptually) a set of basic written units (basic bases and basic signs) together to form composite akshars that can represent more complicated sounds.
 
-<!-- [FIGURE: A two-by-two chart, ক র্কোং and ক্ষ র্ক্ষোং. How র্ক্ষোং is broken down to a complex base ক্ষ (different from an atomic base ক) and several productive signs, and how the whole structure is a composition (different from a simple akshar ক্ষ).] -->
+> FIGURE: a two-by-two chart, ক র্কেং and ক্ষ র্ক্ষেং; how র্ক্ষেং is broken down to a complex base ক্ষ (different from an atomic base ক) and several productive signs, and how the whole structure is a composite akshar (different from a simple akshar ক্ষ).
 
-Compositions are ultimately obscure in terms of their graphical structures, but as an aid to analysis, generalized and productive signs can often be identified in compositions, thus always an akshar analytically consists of a base and optional productive signs. When a productive sign conceptually has a corresponding independent structure, the sign is considered a _dependent form_ of the latter.
+Composite akshars are ultimately obscure in terms of their graphical structures, but as an aid to analysis, generalized and productive signs can often be identified in composite akshars, thus always an akshar analytically consists of a base and optional productive signs. When a productive sign conceptually has a corresponding independent structure, the sign is considered a _dependent form_ of the latter.
 
-<!-- [FIGURE:
-characters <|Ka| ◌|Signvirama| |Ssa|> → complex base |KSsa|
-characters <|Pa| ◌|Signvirama| |Ra|> → complex base? |PRa|
-characters <|Ta| ◌|Signvirama| |Ka|> → composition |T_Ka|
-] -->
+> FIGURE:  
+> characters <क ् ष> → complex base क्ष  
+> characters <प ् र> → complex base? प्र  
+> characters <त ् क> → composite akshar of a base plus a sign त्क
 
-There can be multiple ways to analyze a specific akshar. An analysis may suggest an akshar is either only an obscure base or a composition of a base and signs, and how the signs are identified can differ.
+There can be multiple ways to analyze a specific akshar. An analysis may suggest an akshar is either only an obscure base or a composite akshar of a base and signs, and how the signs are identified can differ.
 
-<!-- [FIGURE: Alternative analyses for प्र and ट्र: base, base + ra sign vertically (works for both), half sign + alternative base horizontally (only works for प्र)] -->
+> FIGURE: alternative analyses for प्र and ट्र: base, base + ra sign vertically (works for both), half sign + alternative base horizontally (only works for प्र).
 
-Productive signs provide extensibility to a script, and shaping and prioritizing them appropriately provide reasonable fallback patterns for edge case spellings that are out of the intended design scope and are thus not optimized specially. It’s beneficial to try to locate an analytical balance between simpler base–sign composition (less contextual variation, but more glyphs) and more productive signs (fewer glyphs, but more contextual variation).
+<!-- [The line between a complex base and a composite akshar (in which there are productive signs identified) is not definite. There can be different analyses. In order to build a font with desired shaping behavior, one appropriate analysis needs to be selected and is implemented in the font as shaping rules.] -->
 
-<!-- [FIGURE:
-base |I| → dependent |Signi|x
-base |Ta| → dependent |T|x
-base |Ra| → dependent x|Signreph| or ~x or x|Signrakar|
-] -->
+Productive signs provide extensibility to a script, therefore shaping and prioritizing them appropriately provide reasonable fallback patterns for edge case spellings that are out of the intended design scope and are thus not optimized specially. It’s beneficial to try to find an analytical balance between simpler base–sign composition (less contextual variation, but more glyphs) and more productive signs (fewer glyphs, but more contextual variation).
 
-<!-- [The line between a complex base and a composition (in which there are productive signs identified) is not definite. There can be different analyses. In order to build a font with desired shaping behavior, one appropriate analysis needs to be selected and is implemented in the font as shaping rules.] -->
+> FIGURE:  
+> base इ → dependent {isign}  
+> base त → dependent {t}  
+> base र → dependent {reph} or {r} or {rasignbottom}
 
 Various ways of sign categorization:
 
 - syllabic: virama, vowel sign, consonant conjoining form, syllable modifier, nukta…
-- visual relationship: pre-base, below-base, above-base, post-base…
+- visual relationship: left-side, bottom-side, top-side, right-side…
+- phonetic relationship: pre-base, post-base…
 - advance: spacing and non-spacing
 - encoding: atomic and complex
 - shaping: reordered…
 - …
 
-### Compositions
+## 2.2 Composite akshars
 
-One more signs can be placed on a base, forming a composition. Due to the encoding principle of phonetic segmentation, some compositions (or part of a composition, such as a split vowel sign) are encoded atomically, such as U+0906 आ <span style="font-variant: all-small-caps;">DEVANAGARI LETTER AA</span>, which is comparable to Latin precomposed characters such as U+00C1 Á <span style="font-variant: all-small-caps;">LATIN CAPITAL LETTER A WITH ACUTE</span>. <!-- [Normalized shaping process with a decomposing preprocess.] -->
+One more signs can be placed on a base, forming a composite akshar. Due to the encoding principle of phonetic segmentation, some composite akshars (or part of a composite akshar, such as a split vowel sign) are encoded atomically, such as U+0906 आ <span style="font-variant: all-small-caps;">DEVANAGARI LETTER AA</span>, which is comparable to Latin precomposed characters such as U+00C1 Á <span style="font-variant: all-small-caps;">LATIN CAPITAL LETTER A WITH ACUTE</span>. <!-- [Normalized shaping process with a decomposing preprocess.] -->
 
-<!-- [FIGURE:
-base <|Ta|> → simple akshar |Ta|
-base and sign <|Ta| ◌|Signanusvara|> → composition |Ta||Signanusvara|
-] -->
+> FIGURE:  
+> base त → simple akshar त  
+> base and sign <त ं> → composite akshar तं
 
 Both a base and a sign may then have complex encoding, and would require complex shaping internally.
 
-<!-- [FIGURE:
-characters <|Ka| ◌|Signvirama| |Ssa|> → complex base |KSsa|
-characters <|Ra| ◌|Signvirama| |Ta|> → complex sign |Ta||Signreph|
-] -->
+> FIGURE:  
+> characters <क ् ष> → complex base क्ष  
+> characters <र ् त> → complex sign र्त
 
-<!-- [Technically in a glyph sequence, a composition may consists of multiple GDEF base glyphs and GDEF mark glyphs.] -->
+<!-- [Technically, in a glyph sequence, a composite akshar may consists of multiple GDEF base glyphs and GDEF mark glyphs.] -->
 
-#### Reordering
+### Reordering
 
-In a glyph sequence, conventionally, pre-base glyphs are stored before a base, while above-, below- and post-base glyphs are all stored after a base. If the encoding order contradicts the expected glyph order, the concerning glyphs generally need to be reordered. Crucial reordering operations are mostly handled by shaping engines.
+In a glyph sequence, conventionally, glyphs on the left side are stored before a base, while glyphs on top, bottom and right sides are all stored after a base. If the encoding order contradicts the expected glyph order, the concerning glyphs generally need to be reordered. Crucial reordering operations are mostly handled by shaping engines.
 
-<!-- [FIGURE: Reordering of repha and isign] -->
+> FIGURE: Reordering of repha and isign.
 
 <!-- [Various reordered signs, atomic or complex.] -->
 
-#### Sign carrier
+### Sign carrier
 
-Akshar-level non-spacing (above- or below-base) signs are usually carried by the base, but sometimes another spacing sign or a group of spacing structures jointly are preferred carrier. When the carrier has a significant width, there can often be a preference of where exactly a non-spacing sign should land. The exact positioning on a carrier is control with `abvm` and `blwm`, the OTL GPOS features for _above-base mark positioning_ and _below-base mark positioning_, respectively.
+Akshar-level non-spacing (top or bellow) signs are usually carried by the base, but sometimes another spacing sign or a group of spacing structures jointly are preferred carrier. When the carrier has a significant width, there can often be a preference of where exactly a non-spacing sign should land. The exact positioning on a carrier is specified with OTL glyph positioning rules in `abvm` and `blwm`, features for _above-base mark positioning_ and _below-base mark positioning_, respectively.
 
-#### Sign-to-sign interaction
+### Sign-to-sign interaction
 
 Multiple non-spacing signs can be placed to a carrier at the same side (above or below). Instead of just stacking, they often interact graphically. Such interaction is usually dealt with in `pres`, the OTL GSUB feature originally designed for _pre-base substitutions_ but can be used to handle all _presentation forms_.
 
-<!-- [FIGURE: composition <|Ta| ◌|Signe| ◌|Signreph| ◌|Signanusvara|> → signs interacting |Ta||Signe_Signreph_Signanusvara|] -->
+> FIGURE: composite akshar <त े {reph} {anusvara}> → signs interacting र्तें
 
-#### Nukta
+### Nukta
 
-Nukta is not an akshar-level sign. Instead, it is placed directly on the grapheme it modifies (typically consonant letters and their dependent forms; certain innovative orthographies apply nukta to vowel letters and vowel signs also). As it is a low-level modifier and a nukta-ed grapheme is generally expected to behave like an atomic grapheme, nukta is generally ligated to the modified grapheme in `nukt`, the OTL GSUB feature for _nukta forms_. <!-- [Possibility for GPOS, mark on ligature, and contextual detection.] -->
+Nukta is not an akshar-level sign. Instead, it is placed directly on the grapheme it modifies (typically consonant letters and their dependent forms; certain innovative orthographies apply nukta to vowel letters and vowel signs also). As it is a low-level modifier and a nukta-ed grapheme is generally expected to behave like an atomic grapheme (also sometimes with behavior different from their nukta-less counterparts), nukta is generally ligated to the modified grapheme in `nukt`, the OTL GSUB feature for _nukta forms_.
 
-<!-- [FIGURE: example of creating a nukta form] -->
+<!-- [Possibility for GPOS, mark on ligature, and contextual detection.] -->
 
-### Complex bases (obscure conjuncts)
+> FIGURE: example of creating a nukta form.
 
-In a certain analysis, when all the identified productive signs have been stripped away from an akshar, the leftover is a base, either _atomic_ (encoded atomically as a single character) or _complex_ (encoded complexly as a character sequence). Generally, a complex consonantal base is encoded with conjoiner joining a sequence of basic consonant letters.
+## 2.3 Complex bases
+
+In a specific analysis, when all the identified productive signs have been stripped away from an akshar, the leftover is a base, either _atomic_ (encoded atomically as a single character) or _complex_ (encoded complexly as a character sequence). <!-- Both consonant clusters and consonant–vowel ones, eg, रु গু… -->
 
 Complex bases are formed either in `akhn` or `cjct`, the OTL GSUB features for _akhands_ and _conjunct forms_, respectively. As `akhn` precedes the features for forming complex signs, while `cjct` is after those, where to form a specific complex base depends on its desired shaping priority and whether the complex base is expected to have its own conjoining forms.
 
-#### Vowel sign-conjoined complex bases
-
-<!-- [FIGURE: रु গু…] -->
-
-### Complex signs (conjoining forms)
-
-<!-- [List how each of the interaction is applicable to each script.] -->
+## 2.4 Complex signs (conjoining forms)
 
 Complex signs, the productive signs that are encoded as a sequence, are usually conjoining forms of simple or complex consonantal bases, as vowel signs are generally encoded atomically. Conjoining signs are systematically named according to both of their graphic relation and phonetic relation with the base:
 
-- **graphically, conjoined to the base:** _above-base_ (initial by default), _pre-base_ (leading by default), _below-base_ (trailing by default), or _post-base_ (trailing by default)
+- **graphically, conjoined to the base:** _top_ (initial by default), _left_ (leading by default), _bottom_ (trailing by default), or _right_ (trailing by default)
 - **phonetically, in the consonant cluster with the base:** _initial_ (the first leading consonant), _leading_, or _trailing_
 
 Because the Unicode ISCII model does not resolve conjunct shaping priorities on the encoding level, complex signs especially need to be formed in a prioritized way. Typically, conjoining forms are formed in OTL GSUB features in the following order:
 
-- `rphf`: reph form (_above/post-base initial_)
-- `pref`: pre-base form (_pre-base trailing_)
-- `blwf`: below-base forms (_below-base trailing_)
-- `half`: half forms (_pre-base leading_)
-- `pstf`: post-base forms (_post-base trailing_)
+- `rphf`: reph form (_top/right initial_)
+- `pref`: left form (_left trailing_)
+- `blwf`: bottom forms (_bottom trailing_)
+- `half`: half forms (_left leading_)
+- `pstf`: right forms (_right trailing_)
 
-When the default prioritization does not shape a desired composition, a ZWJ (U+200D <span style="font-variant: all-small-caps;">ZERO WIDTH JOINER</span>) is used to override which side of a virama should become a conjoining form.
+When the default prioritization does not shape a desired composite akshar, a ZWJ (U+200D <span style="font-variant: all-small-caps;">ZERO WIDTH JOINER</span>) is used to override which side of a virama should become a conjoining form.
 
 If a virama is neither used for forming a complex base, nor used by either of its flanking consonants for forming a conjoining form, it does not exhibit the conjoiner behavior and is simply left as a vowel killer on the preceding consonant.
 
-<!-- [Dependent forms are conventionally known by various terms: (dependent) vowel/consonant signs (corresponding to independent vowel/consonant letters), superscripts/subscripts, pre/above/below/post-base forms, half forms (either any dependent forms of consonant letters, or specifically the dependent forms of phonetically leading consonants letters that are written as pre-base signs, which are common in scripts such as Devanagari), etc.] -->
+<!-- [Dependent forms are conventionally known by various terms: (dependent) vowel/consonant signs (corresponding to independent vowel/consonant letters), superscripts/subscripts, pre/above/below/post-base forms, half forms (either any dependent forms of consonant letters, or specifically the dependent forms of phonetically leading consonants letters that are written as left signs, which are common in scripts such as Devanagari), etc.] -->
 
-#### Above/post-base initial (repha)
+### Top/right initial (repha)
 
-A special conjoining form of the initial _ra_ that is graphically different from other (if any) leading conjoining forms, is conventionally referred to as _repha_. Repha is formed in the OTL GSUB feature `rphf` (_reph form_), and is subject to reordering in the Unicode ISCII model because it is encoded initially but its attested graphical forms (above- and post-base) all expect a position after the base in a glyph sequence.
+A special conjoining form of the initial _ra_ that is graphically different from other (if any) leading conjoining forms, is conventionally referred to as _repha_. Repha is formed in the OTL GSUB feature `rphf` (_reph form_), and is subject to reordering in the Unicode ISCII model because it is encoded initially but its attested graphical forms (top and right) all expect a position after the base in a glyph sequence.
 
-<!-- [FIGURE: characters <|Ra| ◌|Signvirama|> |Ta| → repha |Ta||Signreph|] -->
+> FIGURE: characters <र ्> त → repha र्त
 
 Script-specific applicability: <!-- [Is this ultimately language-specific?] -->
 
@@ -287,7 +288,7 @@ Script-specific applicability: <!-- [Is this ultimately language-specific?] -->
 - **Malayalam:** <rephdot> BASE → rasignabove (repha), _traditional orthography_
 - Tamil: _unattested_
 
-#### Pre-base trailing
+### Left trailing
 
 Formed in the OTL GSUB feature `pref` (_pre-base form_), and is subject to reordering.
 
@@ -298,9 +299,9 @@ Script-specific applicability:
 - **Malayalam:** BASE <virama, ra> → rasignprebasetrailing, _simplified orthography_
 - Tamil: _unattested_
 
-#### Below-base trailing
+### Bottom trailing
 
-Below-base forms, along with post-base forms, are the predominant consonantal dependent forms in Telugu and Kannada. Formed in the OTL GSUB feature `blwf` (_below-base forms_), and is subject to reordering in Telugu and Kannada.
+Bottom forms, along with right forms, are the predominant consonantal dependent forms in Telugu and Kannada. Formed in the OTL GSUB feature `blwf` (_below-base forms_), and is subject to reordering in Telugu and Kannada.
 
 Script-specific applicability:
 
@@ -311,7 +312,7 @@ Script-specific applicability:
 - **Malayalam:** BASE <virama, BASE> → kasignbelow/…, _traditional orthography_; BASE <virama, la> → lasignbelow, _simplified orthography (limited)_
 - **Tamil:** _unattested_
 
-#### Pre-base leading (half form)
+### Left leading (half form)
 
 Formed in the OTL GSUB feature `half` (_half forms_).
 
@@ -319,14 +320,13 @@ Formed in the OTL GSUB feature `half` (_half forms_).
 
 Half forms are the predominant consonantal dependent forms in Devanagari and Gujarati. Both simple and complex bases can have half forms. Mainly applicable to typical bases that have a vertical stem on the right side, and the vertical stem is lost in their half forms. <!-- [Interchangeable analysis with “a base conjoined by another base below, see: प्त.] -->
 
-<!-- [FIGURE: characters <|Ta| ◌|Signvirama|> |Ka| → half form |T||Ka|] -->
+> FIGURE: characters <त ्> क → half form त्क
 
 Note the consonant letter ra has a true half form (which is also known as an _eyelash_) besides its more commonly used conjoining form for a phonetically leading/initial position, _repha_.
 
-<!-- [FIGURE:
-characters <|Ra| ◌|Signvirama|> |Ya| → repha |Ya||Signreph|
-characters <|Ra| ◌|Signvirama| ZWJ> |Ya| → rasignpre ~|Ya|
-] -->
+> FIGURE:  
+> characters <र ्> य → repha र्य  
+> characters <र ् ZWJ> य → र्‍य
 
 Script-specific applicability:
 - **Devanagari:** <BASE, virama> BASE → kasignpre/… (k/…) and <ra, virama, zerowidthjoiner> BASE → rasignpre (r)
@@ -338,9 +338,9 @@ Script-specific applicability:
 
 <!-- [Reordering behavior is determined by half forms: …] -->
 
-#### Post-base trailing
+### Right trailing
 
-Post-base forms, along with below-base forms, are the predominant consonantal dependent forms in Telugu and Kannada. Formed in the OTL GSUB feature `pstf` (_post-base forms_), and is subject to reordering in Telugu and Kannada.
+Right forms, along with bottom forms, are the predominant consonantal dependent forms in Telugu and Kannada. Formed in the OTL GSUB feature `pstf` (_post-base forms_), and is subject to reordering in Telugu and Kannada.
 
 Script-specific applicability:
 
@@ -351,22 +351,19 @@ Script-specific applicability:
 - **Malayalam:** BASE <virama, ya/va> → ya/vasignpost (ya/vasign)
 - **Tamil:** _unattested_
 
-Devanagari has a semi-productive post-base form of Ya, which appears when there isn’t a special complex base form between a stemless consonant and Ya. This form is not shaped as a post-base form in OTL’s sense (i.e., in the `pstf` feature), because an OTL post-base form is assumed not to be a vowel sign carrier.
+Devanagari has a semi-productive right form of Ya, which appears when there isn’t a special complex base form between a stemless consonant and Ya. This form is not shaped as a right form in OTL’s sense (i.e., in the `pstf` feature), because an OTL right form is assumed not to be a vowel sign carrier.
 
-<!-- [FIGURE:
-characters <|Ta| ◌|Signvirama|> |Ya| → half form |T||Ya|
-characters |Tta| <◌|Signvirama| |Ya|> → post-base conjoining form |TtYa|
-] -->
+> FIGURE:  
+> characters <त ्> य → half form त्य  
+> characters ट <् य> → right conjoining form ट्य
 
-### Devanagari-specific knowledge
-
-<!-- […] -->
-
-## Language-specific requirements
+# 3. Script- and language-specific requirements
 
 Every language has its own extension to the baseline Sanskrit usage, while certain graphemes and interactions of the Sanskrit usage can also be obsolete for the language.
 
-### Basic character eligibility
+## 2.5 Devanagari-specific knowledge
+
+## 3.1 Basic character eligibility
 
 <!-- Baseline: Sanskrit
 The classic Sanskrit alphabet:
@@ -380,9 +377,9 @@ Marathi
 Nepali
 Theoretical completion -->
 
-### Interaction eligibility
+## 3.2 Interaction eligibility
 
-<!-- [FIGURE: two-dimensional table between languages and interactions] -->
+> FIGURE: two-dimensional table between languages and interactions.
 
 <!-- - Nukta: Generally used on consonant letters, the sign nukta is a secondary modifier that theoretically can actually be applied to any letter and signs. The interaction is often restricted with actual language usage: Hindi: Dda, Ddha; Perso-Arabic: Ka, Kha, Ga, Ja, Pha; English: Ja, Pha; Marathi, Nepali: Ra (Technical consideration: <Ra_Signnukta, Signvirama, <L>> as one of the two ways of encoding R-Deva, if later operations do not consider the <Ra, Signnukta> sequence anymore.); Kashmiri: Ca, Cha, Ja
 
@@ -396,11 +393,7 @@ Combined interactions:
 
 - Dependent forms (i.e., half forms) of obscure conjuncts (i.e., CC conjuncts). `*R`: K|Kh|G|Gh|C|J|Jh|Ny|Nn|T|Th|Dh|N|P|Ph|B|Bh|M|Y|L|V|Sh|Ss|S -->
 
-## Typographic considerations
-
-<!-- [Side bearings, kerning, size and darkness proportion between Indic and Latin, metrics, Signi (ikar matra) matching, headstroke overlapping…] -->
-
-## Tutorial on how to build an OTL Devanagari font
+# 4 Tutorial on how to build an OTL Devanagari font
 
 This tutorial showcases that, with glyphs already in hand, how one can construct OTL rules to build a basic but functional Devanagari font with desired shaping behavior.
 
@@ -414,17 +407,17 @@ This tutorial showcases that, with glyphs already in hand, how one can construct
 
 <!-- [Define the intended scope and glyph set according to the information available in the main text, then list all rules (without omission) in the following sections.] -->
 
-### Scope
+## 4.1 Scope
 
 <!-- [Devanagari and contemporary Hindi] -->
 
 <!-- [Glyph set] -->
 
-### Character to glyph mapping
+## 4.2 Character to glyph mapping
 
 <!-- […] -->
 
-### OpenType Layout
+## 4.3 OpenType Layout
 
 <!-- […] -->
 
@@ -443,14 +436,14 @@ feature abvm { ... } abvm;
 feature blwm { ... } blwm;
 ```
 
-#### Language systems
+### Language systems
 
 ```
 languagesystem DFLT dflt;
 languagesystem dev2 dflt;
 ```
 
-#### Nukta forms
+### Nukta forms
 
 Under this feature, we forming `*__nukta` glyphs so they can participate in later shaping rules like normal letters.
 
@@ -475,7 +468,7 @@ feature nukt {
 
 GPOS (blwm) can be used to position nukta on a base instead, then later shaping rules will need to both ignore Signnukta when forming ligatures and position Signnukta on ligature components properly, but also still always recognize the existence of nukta on every component characters (note the ones not next to a virama thus not blocking a virama’s function automatically) and decide whether these clusters should shape in a way consistent to their nukta-less counterparts.
 
-#### Akhand Ligatures
+### Akhand Ligatures
 
 <!-- […] -->
 
@@ -507,9 +500,9 @@ feature akhn {
 } akhn;
 ```
 
-#### Conjoining forms
+### Conjoining forms
 
-<!-- [OTL pre-base forms are pre-base forms for a phonetically (and thus in encoding) trailing position. …] -->
+<!-- [OTL pre-base forms are left forms for a phonetically (and thus in encoding) trailing position. …] -->
 
 ```
 feature rphf {
@@ -528,7 +521,7 @@ feature half {
 } half;
 ```
 
-#### Presentation forms
+### Presentation forms
 
 <!-- […] -->
 
@@ -540,7 +533,7 @@ feature pres {
 } pres;
 ```
 
-#### Above- and below-base mark positioning
+### Above- and below-base mark positioning
 
 <!-- [probably needs a note what this feature requires, showing anchors, and how they work] -->
 
@@ -558,20 +551,15 @@ feature blwm {
 } blwm;
 ```
 
-## Tips and commonly used tricks for OTL shaping
+# 5. Tips and reference for glyphs
 
-<!-- [GSUB reordering, IgnoreMarks/MarkAttachmentType, mark tricks (what Andrew G did for Egyptian hieroglyphs)…] -->
-
-## Tips and reference for glyphs
-
-### Glyphs naming convention
+# 5.1 Glyphs naming convention
 
 Consistently assigned glyph names facilitate font production.
 
-<!-- [FIGURE:
-vocalicrsign
-k_ssa.northern-Deva
-] -->
+> FIGURE:  
+> vocalicrsign  
+> k_ssa.northern-Deva
 
 A simple glyph name is derived from the corresponding Unicode character’s name, using the tool, glyphNameFormatter. <!-- [something about glyphsNameFormatter, where it can be found, how it works, etc] -->
 
@@ -581,18 +569,7 @@ A period ( `.` ) leads a _variation suffix_, which is always after the main body
 
 A dash ( `-` ) leads a _script suffix_, which clarifies a glyph’s script namespace, and is always placed at the end, after any variation suffixes. The suffix in principle should be the script’s code in ISO 15924, _Codes for the representation of names of scripts_. If a script namespace is explicitly set at the project level, that script’s suffix can be omitted.
 
-<!-- [FIGURE:
-viramasign
-rasignabovebase
-rasignpostbaseinitial
-] -->
-
-### Reference glyphs
-
-#### Devanagari (script suffix -Deva is omitted)
-
-<!-- Original table omitted -->
-
-### Stylistic, regional, and orthographic variants
-
-<!-- [North variants of letters and digits. Marathi variants of letters.] -->
+> FIGURE:  
+> virama  
+> rasignbottom  
+> rasignrightinitial
