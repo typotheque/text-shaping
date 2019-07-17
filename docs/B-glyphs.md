@@ -1,6 +1,6 @@
 # B. About glyphs
 
-# B.1 Glyphs naming convention
+## B.1 Glyphs naming convention
 
 Consistently assigned glyph names facilitate font production.
 
@@ -20,3 +20,11 @@ A dash ( `-` ) leads a _script suffix_, which clarifies a glyph’s script names
 > virama  
 > rasignbottom  
 > rasignrightinitial
+
+## B.2 Reference Glyphs
+
+glyph | name | character | note
+-- | -- | -- | --
+◌ | dottedcircle | 25CC | placeholder base
+अ | a-Deva | 0905 | variant: a.north
+… | … | … |

@@ -1,18 +1,14 @@
 # 3. Orthography-specific shaping requirements
 
-Every language has its own extension to the baseline Sanskrit usage, while certain graphemes and interactions of the Sanskrit usage can also be obsolete for the language.
+Because of the multi-dimensional contextual interactions happening in Indic scripts, a script’s all possible shaping requirements tend to show a long tail of edge/corner cases. Fonts therefore need to restrict their scope to a specific set of orthographies to allow a reasonable amount of workload.
 
-## Devanagari and Gujarati scripts
+Every orthography has its own extension to the script’s baseline Sanskrit usage, while certain graphemes and interactions of the Sanskrit usage can also be obsolete in the orthography.
 
-Signs:
+## 3.1 Devanagari and Gujarati scripts
 
-- repha: <ra, virama> BASE → rasignabove (repha) <!-- [Or use the linguistic format “ra, virama → rasignabove / _ BASE” instead for a clearer separation of context?] -->
-<!-- - bottom-side trailing: _unattested_ (_rasignbelow, etc., are limited_) -->
-- half forms: <BASE, virama> BASE → kasignpre/… (k/…) and <ra, virama, zerowidthjoiner> BASE → rasignpre (r)
-- half forms: <BASE, virama> BASE → kasignpre/… (k/…)
-<!-- - right-side trailing: _limited_ -->
+<!-- Modularize requirements into subsets according to overlapping of orthographies’ requirements, and refer to the subsets in every orthography? -->
 
-Devanagari has a semi-productive right form of Ya, which appears when there isn’t a special complex base form between a stemless consonant and Ya. This form is not shaped as a right form in OTL’s sense (i.e., in the `pstf` feature), because an OTL right form is assumed not to be a vowel sign carrier.
+### Sanskrit (baseline)
 
 > FIGURE:  
 > characters <त ्> य → half form त्य  
@@ -20,22 +16,54 @@ Devanagari has a semi-productive right form of Ya, which appears when there isn�
 
 Bases:
 
-- …
+- atomically encoded (composite ones in parentheses): अ (आ) इ ई उ ऊ ऋ ॠ ऌ ॡ ए (ऐ) (ओ) (औ) क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण त थ द ध न प फ ब भ म य र ल व श ष स ह
+- various additional bases: <consonant, (virama, consonant)+>, <consonant, (virama, consonant)\*, vowelsign>…
 
+Signs:
 
-## 3.1 Basic character eligibility
+- atomically encoded: ् ा ि (reordered) ी ु ू ृ ॄ ॢ ॣ े ै ो ौ ं ँ ः ऽ
+- repha: pre-base initial <ra, virama> → repha (reordered)
+- half forms: pre-base <BASE, virama> → half form of BASE (e.g., pre-base <ka, virama> → k)
 
-<!-- Baseline: Sanskrit
-The classic Sanskrit alphabet:
-|A| |Aa| |I| |Ii| |U| |Uu| |Vocalicr| |Vocalicrr| |Vocalicl| |Vocalicll| |E| |Ai| |O| |Au|
-|Ka| |Kha| |Ga| |Gha| |Nga| |Ca| |Cha| |Ja| |Jha| |Nya| |Tta| |Ttha| |Dda| |Ddha| |Nna| |Ta| |Tha| |Da| |Dha| |Na| |Pa| |Pha| |Ba| |Bha| |Ma|
-|Ya| |Ra| |La| |Va| |Sha| |Ssa| |Sa| |Ha|
-with signs ◌|Signvirama| ◌|Signaa| |Signi|◌ ◌|Signii| ◌|Signu| ◌|Signuu| ◌|Signvocalicr| ◌|Signvocalicrr| ◌|Signvocalicl| ◌|Signvocalicll| ◌|Signe| ◌|Signai| ◌|Signo| ◌|Signau| ◌|Signanusvara| ◌|Signvisarga|, a modifier letter |Avagraha|, and a marginal sign ◌|Signcandrabindu|.
-Various dependent forms and complex bases.
-Hindi
-Marathi
-Nepali
-Theoretical completion -->
+Pre-base <ra, virama> has a half form in additional to repha, thus pre-base <rra, virama> (equivalent: pre-base <ra, nukta, virama>) is exploited for this need; pre-base <ra, virama, zerowidthjoiner> is later also specified for the same need.
+
+<!-- [Or use the linguistic format “ra, virama → rasignabove / _ BASE” instead for a clearer separation of context?] -->
+<!-- - bottom-side trailing: _unattested_ (_rasignbelow, etc., are limited_) -->
+<!-- - right-side trailing: _limited_ -->
+
+Grapheme ya has a semi-productive right-side form, which appears when the preceding base does not have a half form to conjoin to ya.
+
+<!-- This form is not shaped as a right-side form in OTL’s sense (i.e., in the `pstf` feature), because an OTL right form is assumed not to be a vowel sign carrier. -->
+
+> FIGURE:  
+> त ् य → त्य  
+> ट ् य → ट्य
+
+### Hindi–Devanagari
+
+Bases:
+
+- obsolete: ॠ ऌ ॡ
+
+Signs:
+
+- obsolete: ॄ ॢ ॣ
+- additional: ॉ ़
+
+### Marathi–Devanagari
+
+Bases:
+
+- obsolete: ॠ ऌ ॡ
+
+Signs:
+
+- obsolete: ॄ ॢ ॣ
+- additional: ॅ ॉ
+
+<!-- ### Nepali -->
+
+<!-- ### Theoretical completion -->
 
 ## 3.2 Interaction eligibility
 
