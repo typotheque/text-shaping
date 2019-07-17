@@ -123,7 +123,7 @@ Note when a vowel killer character is used for conjoining consonants, the graphi
 
 ## 1.3 Additional conjoining control
 
-A general format control character, U+200D <span style="font-variant: all-small-caps;">ZERO WIDTH JOINER</span> (ZWJ [zwɪdʒ]), is used in Indic scripts specifically for assisting shaping of consonant clusters, when a desired productive conjoining form is not shaped by the default behavior. <!-- [ZWJ is used on a virama’s other side of the manipulated consonant letter. … between two consonants, immediately next to the virama on either side, so it both prevents the two consonants to form a … requesting the virama to form a productive conjoining form with the consonant not separated from the virama by the ZWJ, preventing an obscure base.] -->
+A general format control character, U+200D <span style="font-variant: all-small-caps;">ZERO WIDTH JOINER</span> (ZWJ [zwɪdʒ]), is used in Indic scripts specifically for assisting shaping of consonant clusters, when a desired productive conjoining form is not shaped by the default behavior. <!-- [ZWJ is used on a virama’s other side of the manipulated consonant letter. … between two consonants, immediately next to the virama on either side, so it both prevents the two consonants to form a … requesting the virama to form a productive conjoining form with the consonant not separated from the virama by the ZWJ, preventing an obscure base.] -->
 
 > FIGURE: example of ZWJ and ZWNJ usage.
 
