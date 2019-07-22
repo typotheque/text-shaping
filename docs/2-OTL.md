@@ -4,7 +4,7 @@
 
 ## 2.1 Text shaping engine
 
-A text shaping engine shapes a Unicode character sequence into a final glyph sequence, with aid of the shaping rules coded in a font. HarfBuzz (open source), DirectWrite/Uniscribe (Microsoft), Core Text (Apple), and Adobe’s unnamed engine are the four groups of OTL shaping engines that matter the most to digital type production.
+A text shaping engine shapes a Unicode character sequence into a final glyph sequence, with aid of the shaping rules coded in a font. There are four groups of OTL shaping engines that matter the most to digital type production. Platform-specific and proprietary shaping engines are available in products of Microsoft (where the shaping engine is now part of DirectWrite, and is often called “Uniscribe” for historical reasons), Apple (part of Core Text), and Adobe. HarfBuzz, on the contrary, is the de facto standard cross-platform and open source shaping engine.
 
 > FIGURE: table of which engines the commonly encountered products use.
 
