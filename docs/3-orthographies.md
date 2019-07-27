@@ -2,30 +2,28 @@
 
 Because of the multi-dimensional contextual interactions happening in Indic scripts, a script’s all possible shaping requirements tend to show a long tail of edge/corner cases. Fonts therefore need to restrict their scope to a specific set of orthographies to allow a reasonable amount of workload.
 
-Every orthography has its own extension to the script’s baseline Sanskrit usage, while certain graphemes and interactions of the Sanskrit usage can also be obsolete in the orthography.
+The following sections introduce, within each script group, what shaping behavior is required by a specific orthography.
+
+<!-- The distinction between vowel and consonant is an orthographical issue. -->
 
 ## 3.1 Devanagari and Gujarati scripts
 
 <!-- Modularize requirements into subsets according to overlapping of orthographies’ requirements, and refer to the subsets in every orthography? -->
 
-### Sanskrit (baseline)
+Phantom characters that are discouraged: ॓ ॔
 
-> FIGURE:  
-> characters <त ्> य → half form त्य  
-> characters ट <् य> → right conjoining form ट्य
+### Devanagari, general
 
 Bases:
 
-- atomically encoded (composite ones in parentheses): अ (आ) इ ई उ ऊ ऋ ॠ ऌ ॡ ए (ऐ) (ओ) (औ) क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण त थ द ध न प फ ब भ म य र ल व श ष स ह
-- various additional bases: <consonant, (virama, consonant)+>, <consonant, (virama, consonant)\*, vowelsign>…
+- atomically encoded (composite ones in parentheses): अ (आ) इ ई उ ऊ ऋ ए (ऐ) (ओ) (औ) क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण त थ द ध न प फ ब भ म य र ल व श ष स ह
+- various complex bases: <consonant, (virama, consonant)+> (CONSONANT CLUSTER), <CONSONANT CLUSTER, vowel sign>…
 
 Signs:
 
-- atomically encoded: ् ा ि (reordered) ी ु ू ृ ॄ ॢ ॣ े ै ो ौ ं ँ ः ऽ
+- atomically encoded: ् ा ि (reordered) ी ु ू ृ े ै ो ौ ं ः
 - repha: pre-base initial <ra, virama> → repha (reordered)
 - half forms: pre-base <BASE, virama> → half form of BASE (e.g., pre-base <ka, virama> → k)
-
-Pre-base <ra, virama> has a half form in additional to repha, thus pre-base <rra, virama> (equivalent: pre-base <ra, nukta, virama>) is exploited for this need; pre-base <ra, virama, zerowidthjoiner> is later also specified for the same need.
 
 <!-- [Or use the linguistic format “ra, virama → rasignabove / _ BASE” instead for a clearer separation of context?] -->
 <!-- - bottom-side trailing: _unattested_ (_rasignbelow, etc., are limited_) -->
@@ -36,32 +34,39 @@ Grapheme ya has a semi-productive right-side form, which appears when the preced
 <!-- This form is not shaped as a right-side form in OTL’s sense (i.e., in the `pstf` feature), because an OTL right form is assumed not to be a vowel sign carrier. -->
 
 > FIGURE:  
-> त ् य → त्य  
-> ट ् य → ट्य
+> characters <त ्> य → half form त्य  
+> characters ट <् य> → right-side form ट्य
 
-### Hindi–Devanagari
-
-Bases:
-
-- obsolete: ॠ ऌ ॡ
-
-Signs:
-
-- obsolete: ॄ ॢ ॣ
-- additional: ॉ ़
-
-### Marathi–Devanagari
+### Sanskrit-Devanagari/Gujarati
 
 Bases:
 
-- obsolete: ॠ ऌ ॡ
+- atomically encoded, additional: ॠ ऌ ॡ
 
 Signs:
 
-- obsolete: ॄ ॢ ॣ
+- atomically encoded, additional: ॄ ॢ ॣ
+- marginal: ँ ऽ
+
+### Hindi-Devanagari
+
+Signs:
+
+- additional: ॉ ँ ़
+- marginal: ऽ
+
+### Marathi/Nepali-Devanagari
+
+Signs:
+
+- Pre-base <ra, virama> has a half form in additional to repha, and the unrelated pre-base <ra, nukta, virama> (equivalent: pre-base <rra, virama>) is exploited for this need; the more systematic pre-base <ra, virama, zerowidthjoiner> is later also specified for the same need.
+
+### Marathi-Devanagari
+
+Signs:
+
 - additional: ॅ ॉ
-
-<!-- ### Nepali -->
+- marginal: ँ ़
 
 <!-- ### Theoretical completion -->
 
@@ -80,10 +85,6 @@ Signs:
 Combined interactions:
 
 - Dependent forms (i.e., half forms) of obscure conjuncts (i.e., CC conjuncts). `*R`: K|Kh|G|Gh|C|J|Jh|Ny|Nn|T|Th|Dh|N|P|Ph|B|Bh|M|Y|L|V|Sh|Ss|S -->
-
-
-
-
 
 ## Gurmukhi script
 
@@ -127,10 +128,16 @@ Signs:
 
 ## Tamil script
 
+### General
+
+Note the Unicode Tamil script is a mixture of Tamil and graphemes loaned from the Grantha script.
+
 Signs:
 
-- …
+- Grantha, conditional: ு ூ
 
 Bases:
 
-- …
+- Grantha: ஜ ஷ ஹ
+- Grantha, marginal: ஶ
+- Grantha, complex: <ka, virama, ssa>, <sa/sha, virama, ra, iisign>

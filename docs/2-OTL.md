@@ -48,22 +48,31 @@ For some of the nine Unicode ISCII scripts, their Indic 2 shapers are well imple
 
 > FIGURE: table of products that still do not support the Indic 2 shapers.
 
+<!-- ## 2.X Shaping-oriented property model
+
+Property is assigned to character or sequence or sequence in a specific context:
+
+(SIGN.COMPLEX and BASE.COMPLEX are implied with sequences instead of characters.)
+
+SIGN(.TOP|.BOTTOM|.SPACING_LEFT|.SPACING_RIGHT)?(.REORDERED)?
+
+BASE -->
+
 ## 2.2 Required shaping operations
 
 Shaping prioritization:
 
 - Normalize Unicode characters to units that matter to shaping
-  * Decompose composite characters
-  * Create nukta forms
-- Orthographical
-  - Orthographical operations to be done before reordering
-    * Structures that have higher priority than productive signs
-    * Productive signs
-      - Features that affect reordering
-      - Features that do not affect reordering
-    * Structures that have lower priority than productive signs
-  - Reorder
-  - Orthographical operations to be done after reordering
+  * Decompose split vowel signs
+- _Initial reordering_
+- Orthographical operations to be done before reordering
+  * Structures that have higher priority than productive signs
+  * Productive signs
+    - Features that affect reordering
+    - Features that do not affect reordering
+  * Structures that have lower priority than productive signs
+- _Final reordering_
+- Orthographical operations to be done after reordering
 - Typographical
 
 Utilizing the predefined and preordered Indic features:
@@ -74,8 +83,6 @@ Utilizing the predefined and preordered Indic features:
 
 <!-- Figure out a single principle for deciding which feature to use: graphic grouping or prioritization. -->
 
-- _localized forms (GSUB)_
-  * feature locl
 - _basic shaping forms (GSUB)_
   * feature akhn
   * feature rphf _(reordered)_
@@ -101,9 +108,9 @@ Complex bases are formed either in `akhn` or `cjct`, the OTL GSUB features for _
 
 ### 2.2.1 Typographical
 
-One more signs can be placed on a base, forming a composite akshara. There is usually a preference for where exactly a non-spacing sign should be placed in an akshara. The exact positioning of a non-spacing sign needs to be specified with _glyph positioning_ (GPOS) on an appropriate glyph (not necessary the base).
+One or more signs can be placed on a base, forming a composite akshara. There is usually a preference for where exactly a nonspacing sign should be placed in an akshara. The exact positioning of a nonspacing sign needs to be specified with _glyph positioning_ (GPOS) on an appropriate glyph (not necessary the base).
 
-Multiple non-spacing signs can also be placed at the position. Instead of just stacking, they often interact graphically, and typically require OTL _glyph substitution_ (GSUB) treatments for variation and ligation.
+Multiple nonspacing signs can also be placed at the position. Instead of just stacking, they often interact graphically, and typically require OTL _glyph substitution_ (GSUB) treatments for variation and ligation.
 
 > FIGURE:  
 > base त → simple akshara त  
@@ -125,7 +132,7 @@ Both a base and a sign may have _complex_ (encoded as a character sequence) inst
 
 ### 2.2.2 Complex bases
 
-In a specific analysis, when all the identified productive signs have been stripped away from an akshara, the leftover is a base, either _atomic_  or _complex_ . <!-- Both consonant clusters and consonant–vowel ones, eg, रु গু (also Javanese vocalicr as consonant-vowel)… --> A complex bases is formed with GSUB rules, either before forming complex signs or after, depending on desired shaping priority and whether the complex base is expected to have its own conjoining forms.
+A base is either _atomic_  or _complex_ in terms of encoding. <!-- Both consonant clusters and consonant–vowel ones, eg, रु গু (also Javanese vocalicr as consonant-vowel)… --> A complex bases is formed with GSUB rules, either before forming complex signs or after, depending on desired shaping priority and whether the complex base is expected to have its own conjoining forms.
 
 ### 2.2.3 Reordered and complex signs
 
@@ -144,7 +151,7 @@ Because the Unicode ISCII model does not resolve consonant-cluster shaping prior
 - `half`: half forms (_left leading_)
 - `pstf`: right-side forms (_right trailing_)
 
-When the default prioritization does not shape a desired composite akshara, a ZWJ (U+200D <span style="font-variant: all-small-caps;">ZERO WIDTH JOINER</span>) is used to override which side of a virama should absorb the virama and become a conjoining form.
+When the default prioritization does not shape a desired composite akshara, a ZWJ (U+200D ZERO WIDTH JOINER) is used to override which side of a virama should absorb the virama and become a conjoining form.
 
 If a virama is neither used for forming a complex base, nor used by either of its flanking consonants for forming a conjoining form, it does not exhibit the conjoiner behavior and is simply left as a vowel killer on the preceding consonant.
 

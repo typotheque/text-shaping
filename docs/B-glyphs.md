@@ -21,6 +21,8 @@ A dash ( `-` ) leads a _script suffix_, which clarifies a glyph’s script names
 > rasignbottom  
 > rasignrightinitial
 
+<!-- A dependent sign or conjoining form of a base is systematically named with `sign` suffixed to the base’s name, if it has a corresponding base. It might have a conventional name as well. But how is a base named? -->
+
 ## B.2 Reference Glyphs
 
 glyph | name | character | note
