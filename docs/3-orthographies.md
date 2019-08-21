@@ -10,6 +10,8 @@ The following sections introduce, within each script group, what shaping behavio
 
 <!-- Modularize requirements into subsets according to overlapping of orthographies’ requirements, and refer to the subsets in every orthography? -->
 
+<!-- Every base needs to be marked with conjoining-form eligibility (eg, d_ma can have (d_ma)half although not commonly implemented.) -->
+
 Phantom characters that are discouraged: ॓ ॔
 
 ### Devanagari, general
@@ -33,8 +35,8 @@ Grapheme ya has a semi-productive right-side form, which appears when the preced
 
 <!-- This form is not shaped as a right-side form in OTL’s sense (i.e., in the `pstf` feature), because an OTL right form is assumed not to be a vowel sign carrier. -->
 
-> FIGURE:  
-> characters <त ्> य → half form त्य  
+> FIGURE:
+> characters <त ्> य → half form त्य
 > characters ट <् य> → right-side form ट्य
 
 ### Sanskrit-Devanagari/Gujarati
@@ -47,6 +49,8 @@ Signs:
 
 - atomically encoded, additional: ॄ ॢ ॣ
 - marginal: ँ ऽ
+
+<!-- Candrabindu on half la; skip combining marks in the half feature. -->
 
 ### Hindi-Devanagari
 

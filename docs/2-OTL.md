@@ -22,6 +22,8 @@ OTL _features_ provide a mechanism for fonts to declare the purpose of a set of 
 
 ### 2.1.2 Special treatments for Indic scripts
 
+<!-- Script itemization happens before the shaping engine examines what script tags are available in the font. Therefore a font gets to decide if deva or dev2 is to be used. But a font can’t control the determined script of a script run. Note script itemization -->
+
 For Indic scripts, in particular, a large set of mandatory features are always applied by shapers, with a largely restricted order that is structured by a couple of _shaping stages_. This is to ensure Indic scripts’ required shaping behavior is always achieved. Certain features are expected to only contain rules that have a particular structure, to allow shapers to extract necessary glyph properties from a font and execute reordering properly.
 
 The OTL shaping behavior for the nine Unicode ISCII scripts have undergone a major change, thus there are the original version (Old Shaping Behavior, sometimes referred to as _Indic 1_) and the version 2 (New Shaping Behavior, commonly referred to as _Indic 2_), requested with different tags.
@@ -37,6 +39,10 @@ Malayalam | mlym | mlm2
 Odia | orya | ory2
 Tamil | taml | tml2
 Telugu | telu | tel2
+
+<!-- It’s said, Odia 1 was abandoned by Microsoft before it was implemented. Note that Malayalam 1 had a similar story. -->
+
+<!-- Developers should not use Indic 1 unless targeting Adobe products. -->
 
 Unlike their Indic 1 counterparts, Indic 2 shapers no longer statically assume a consonant letter to have a particular type of conjoining form. Instead, such a property is defined dynamically by fonts in certain features (rphf, pref, blwf, half, and pstf) in the _basic shaping forms_ stage and is retrieved by shapers. Consequently, the reordering process in Indic 2 shapers is divided into the _initial reordering_ before any shaping rules kick in, and the _final reordering_ after the basic shaping forms stage.
 
@@ -60,6 +66,34 @@ BASE -->
 
 ## 2.2 Required shaping operations
 
+<!-- Shaping stages and available features of `dev2`:
+
+- Initial reordering
+- GSUB: localized forms
+	- `locl`, localized form substitution
+- GSUB: basic shaping forms
+	- `nukt`, nukta form substitution
+	- `akhn`, akhand ligature substitution
+	- `rphf`, reph form substitution
+	- `rkrf`, rakaar form substitution
+	- `blwf`, below-base form substitution
+	- `half`, half-form substitution
+	- `vatu`, vattu variants: obsolete
+	- `cjct`, conjunct form substitution
+- Final reordering
+- GSUB: presentation forms
+	- `pres`, pre-base substitution
+	- `abvs`, above-base substitution
+	- `blws`, below-base substitution
+	- `psts`, post-base substitution
+	- `haln`, halant form substitution
+	- `calt` (discretionary), contextual alternates
+- GPOS: positioning features
+	- `kern` (discretionary), kerning
+	- `dist`, distances: a non-discretionary `kern`
+	- `abvm`, above-base mark positioning
+	- `blwm`, below-base mark positioning -->
+
 Shaping prioritization:
 
 - Normalize Unicode characters to units that matter to shaping
@@ -82,6 +116,8 @@ Utilizing the predefined and preordered Indic features:
 <!-- Can half be used for forming blwf and post forms (<virama, consonant>)? -->
 
 <!-- Figure out a single principle for deciding which feature to use: graphic grouping or prioritization. -->
+
+<!-- Certain features participating in shaping engines’ conjoining form masking. -->
 
 - _basic shaping forms (GSUB)_
   * feature akhn
@@ -112,16 +148,16 @@ One or more signs can be placed on a base, forming a composite akshara. There is
 
 Multiple nonspacing signs can also be placed at the position. Instead of just stacking, they often interact graphically, and typically require OTL _glyph substitution_ (GSUB) treatments for variation and ligation.
 
-> FIGURE:  
-> base त → simple akshara त  
+> FIGURE:
+> base त → simple akshara त
 > base and sign <त ं> → composite akshara तं
 
 > FIGURE: composite akshara <त े {reph} {anusvara}> → signs interacting र्तें
 
 Both a base and a sign may have _complex_ (encoded as a character sequence) instead of _atomic_  (encoded as a single character) encoding, and would require complex shaping internally. <!-- They may also be alternative bases and alternative signs, when the boundary is not gone but either or both sides are altered productively (see Kannada consonant-vowel aksharas). -->
 
-> FIGURE:  
-> characters <क ् ष> → complex base क्ष  
+> FIGURE:
+> characters <क ् ष> → complex base क्ष
 > characters <र ् त> → complex sign र्त
 
 > FIGURE: a two-by-two chart, ক র্কেং and ক্ষ র্ক্ষেং; how র্ক্ষেং is broken down to a complex base ক্ষ (different from an atomic base ক) and several productive signs, and how the whole structure is a composite akshara (different from a simple akshara ক্ষ).
@@ -173,8 +209,8 @@ Left-side leading forms (half form) are formed in the OTL GSUB feature `half` (_
 
 Note the consonant letter ra has a true half form (which is also known as an _eyelash_) besides its more commonly used conjoining form for a phonetically leading/initial position, repha.
 
-> FIGURE:  
-> characters <र ्> य → repha र्य  
+> FIGURE:
+> characters <र ्> य → repha र्य
 > characters <र ् ZWJ> य → र्‍य
 
 <!-- [For letters that do not have a half form, virama is shown as a vowel killer. Maintain the consistency between halant forms and half forms for such letters for a smooth experience in typing.] -->

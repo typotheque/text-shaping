@@ -34,6 +34,8 @@ Indic-specific principles of the Unicode ISCII encoding model are:
 
 ### 1.2.1 Akshara-based complex shaping
 
+<!-- Specialty of Indic scripts: inline dependent graphemes (thus akshara-based analysis), phonetic segment order (even on a single inline grapheme with its non-spacing signs) and graphic segment order are inconsistent. -->
+
 When analyzing an Indic text for its Unicode representation, the text is broken down to a sequence of isolated _akshara_ (a classic Indic orthographic syllable), and Indic-specific complex shaping is only expected within each akshara. Indic scripts have specific restrictions about how graphemes can be assembled together to form an akshara.
 
 Many scripts, such as Latin and Arabic, are conventionally considered to have two basic categories of graphemes, letters (spacing and basic) and diacritics (nonspacing and modifying) in the context of digital typography. This simple categorization doesn’t work well for Indic scripts, as Indic scripts tend to have a rich set of letter-like but conceptually complex structures besides basic letters, and the modifying structures in Indic scripts can be either nonspacing or spacing and are often closely related to basic letters or letter-like complex structures as being their dependent forms.
@@ -44,9 +46,9 @@ Therefore, for analyzing Indic scripts, their graphemes are instead categorized 
 
 Fundamentally, Indic scripts work by joining (sometimes not apparent graphically, then only conceptually) a set of basic written units (basic bases and basic signs) together to form additional aksharas that can represent more complicated sounds. Graphical compositions of aksharas are ultimately obscure, but as an aid to analysis, generalized and productive signs can often be identified, thus always an akshara analytically consists of a base and optional productive signs.
 
-> FIGURE:  
-> characters <क ् ष> → simple akshara क्ष  
-> characters <प ् र> → simple akshara? प्र  
+> FIGURE:
+> characters <क ् ष> → simple akshara क्ष
+> characters <प ् र> → simple akshara? प्र
 > characters <त ् क> → composite akshara of a base plus a sign त्क
 
 When a productive sign conceptually has a corresponding independent base, the sign is considered a _dependent form_ of the latter. There are various other ways of categorizing signs:
@@ -59,9 +61,9 @@ When a productive sign conceptually has a corresponding independent base, the si
 - shaping: reordered…
 - …
 
-> FIGURE:  
-> base इ → dependent {isign}  
-> base त → dependent {t}  
+> FIGURE:
+> base इ → dependent {isign}
+> base त → dependent {t}
 > base र → dependent {reph} or {r} or {rasignbottom}
 
 There can be multiple ways to analyze a specific akshara. An analysis may suggest an akshara is either only a bare base or a composite akshara of a base and signs, and how signs are identified can also differ. In a specific analysis, when all the identified productive signs have been stripped away from an akshara, the leftover is a base.
@@ -71,6 +73,8 @@ There can be multiple ways to analyze a specific akshara. An analysis may sugges
 Productive signs provide extensibility to a script. Shaping and prioritizing them appropriately provide reasonable fallback patterns for edge case spellings that are out of the intended design scope and are thus not optimized specially. It’s beneficial to try to find an analytical balance between simpler base–sign composition (less contextual variation between base and sign, but more precomposed glyphs) and more productive signs (fewer glyphs, but more contextual variation between base and sign).
 
 ### 1.2.2 Phonetic segmentation and order
+
+<!-- “Use” and “Do not use” for visually confusable structures. Devanagari aa vs <a, aasign>, Odia wa vs <o, basign>. -->
 
 In order to segment and order an akshara’s components into a one-dimensional character sequence, a phonetic analysis is employed. Note that Unicode’s phonetic analysis for Indic scripts is often misinterpreted and overemphasized. The phonetic analysis is only meant to be a limited aid to the fundamental graphic analysis.
 
@@ -92,7 +96,7 @@ Note that, according to the fundamental graphic principle though, an inherent vo
 
 Also, the encoding order of an akshara’s components is thus decided regardless of the writing or visual order. <!-- [And special cases.] --> In a glyph sequence, conventionally, glyphs on the left side are stored before a base, while glyphs on top, bottom and right sides are all stored after a base. Certain intermediate glyphs in shaping process are then expected to be _reordered_ by the shaping engine from the originally encoded phonetic position to the expected glyph position, if the encoding order contradicts the expected glyph order.
 
-> FIGURE:  
+> FIGURE:
 > akshara र्पि → characters <र ् प ि> → reordered र्पि
 
 ### 1.2.3 Vowel killer doubles as conjoiner

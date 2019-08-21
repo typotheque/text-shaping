@@ -70,15 +70,15 @@ lookup nukta_forms {
 } nukta_forms;
 ```
 
-> FIGURE:  
-> क (ka) ् (virama) ष (ssa) → क्ष (k_ssa)  
+> FIGURE:
+> क (ka) ् (virama) ष (ssa) → क्ष (k_ssa)
 > र (ra) ु (usign) → रु (ra_usign)
 
 ```
-lookup complex_bases.classical {
+lookup complex_bases.classic {
     sub ka virama ssa by k_ssa;
     sub ja virama nya by j_nya;
-} complex_bases.classical;
+} complex_bases.classic;
 ```
 
 ```
@@ -176,8 +176,8 @@ lookup complex_bases.general {
 
 <!-- [OTL pre-base forms are left forms for a phonetically (and thus in encoding) trailing position. …] -->
 
-> FIGURE:  
-> र (ra) ् (virama) → {repha} (repha)  
+> FIGURE:
+> र (ra) ् (virama) → {repha} (repha)
 > क (ka) ् (virama) → {k} (k)
 
 ```
@@ -288,19 +288,19 @@ languagesystem DFLT dflt;
 languagesystem dev2 dflt;
 
 feature akhn {
-  lookup nukta_forms;
-  lookup complex_bases.classical;
-  lookup complex_bases.rakar_forms;
-  lookup complex_bases.vowel_sign_forms;
-  lookup complex_bases.general;
+  lookup base.nukta;
+  lookup base.classic;
+  lookup base.trailing_ra;
+  lookup base.trailing_vowel;
+  lookup base.general;
 } akhn;
 
 feature rphf {
-  lookup repha;
+  lookup sign.repha;
 } rphf;
 
 feature half {
-  lookup half_forms;
+  lookup sign.half;
 } half;
 
 feature pres {
