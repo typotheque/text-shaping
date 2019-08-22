@@ -26,6 +26,11 @@ OTL _features_ provide a mechanism for fonts to declare the purpose of a set of 
 
 For Indic scripts, in particular, a large set of mandatory features are always applied by shapers, with a largely restricted order that is structured by a couple of _shaping stages_. This is to ensure Indic scripts’ required shaping behavior is always achieved. Certain features are expected to only contain rules that have a particular structure, to allow shapers to extract necessary glyph properties from a font and execute reordering properly.
 
+<!-- In a glyph sequence, conventionally, glyphs on the left side are stored before a base, while glyphs on top, bottom and right sides are all stored after a base. Certain intermediate glyphs in shaping process are then expected to be **reordered** by the shaping engine from the originally encoded phonetic position to the expected glyph position, if the encoding order contradicts the expected glyph order. -->
+
+<!-- > FIGURE:\
+> akshara र्पि → characters <र ् प ि> → reordered र्पि -->
+
 The OTL shaping behavior for the nine Unicode ISCII scripts have undergone a major change, thus there are the original version (Old Shaping Behavior, sometimes referred to as _Indic 1_) and the version 2 (New Shaping Behavior, commonly referred to as _Indic 2_), requested with different tags.
 
 script | original | version 2
@@ -65,6 +70,8 @@ SIGN(.TOP|.BOTTOM|.SPACING_LEFT|.SPACING_RIGHT)?(.REORDERED)?
 BASE -->
 
 ## 2.2 Required shaping operations
+
+<!-- [Normalized shaping process with a decomposing preprocess.] -->
 
 <!-- Shaping stages and available features of `dev2`:
 

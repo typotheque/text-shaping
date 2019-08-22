@@ -1,113 +1,128 @@
 # 1. Unicode Indic text
 
-Before digital typography became available, written shapes in text were directly reproduced in typesetting as glyphs, without relying on underlying abstract units that are independent from specific fonts and can be exchangeable. Now with digital typography, however, exchanging underlying, digitally encoded text is both a possibility and a need.
+Before digital typography became available, written shapes in text had been directly reproduced as glyphs in printing, without relying on some underlying abstract units that would be independent from specific fonts and could be exchangeable. Now with digital typography, however, exchanging underlying, digitally encoded text is both a possibility and a need.
 
 ## 1.1 Lifecycle of Unicode text
 
-In order to separate the concern of meaningful textual units from what exact font is used, the predominant text encoding technology today, [the Unicode Standard](https://www.unicode.org), is designed with an architectural separation between abstract _characters_ and actual glyphs. So now our exchangeable text consists only of Unicode-encoded characters, while the exact look of these characters is provided by digital fonts that map characters to glyphs.
+In order to separate the concern of meaningful textual units from the exact font that is used, [_the Unicode Standard_](https://www.unicode.org/standard/standard.html) was designed with an architectural separation between abstract, encoded **characters** and actual glyphs, and has become the predominant text encoding technology today. So now our exchangeable text consists of Unicode-encoded characters, while the exact look of these abstract characters is provided by digital fonts that map characters to glyphs.
 
-> FIGURE: Unicode’s role in the lifecycle of text: user—keyboard—encoding—display.
+> FIGURE: Unicode’s role in the lifecycle of text.\
+> User—keyboard—encoding—display;\
+> analog text and user, as well as digital editing environment and data.
 
-This abstraction is largely straightforward for scripts like Latin, for example a character U+0041 LATIN CAPITAL LETTER A is just mapped to a glyph “A”. But for so-called _complex scripts_ that are supported by Unicode with their inherent contextual interactions taken into consideration, such as Arabic and Devanagari, the abstraction leads to a contextually dynamic and thus complex mapping between characters and glyphs.
+This abstraction is largely straightforward for simpler scripts like Latin, for example a character U+0041 LATIN CAPITAL LETTER A is just mapped to a glyph “A”, although diacritics can be trickier to handle in digital typography. However for so-called **complex scripts**, such as Arabic and Devanagari, that are supported by the Unicode Standard with their inherent contextual interactions taken into consideration, the abstraction leads to a contextually dynamic and thus complex mapping between characters and glyphs.
 
 > FIGURE: comparison between Latin and Devanagari’s expected shaping behavior.
 
-This complex mapping intended by the Unicode Standard is both meant to be the guidelines for _text representation_ (i.e., how text is _encoded_ as Unicode character sequences) and expected to be a responsibility of font technologies for _text rendering_. The process of properly mapping a character sequence to a glyph sequence is known as _shaping_.
+This intentionally complex mapping is bidirectional. It is meant to be the guidelines for **text representation**, that is to say, how an analog text is **encoded** as an ideally unique sequence of Unicode characters. Then consequently, this mapping is expected to be a responsibility of font technologies for **text rendering** (which is about reproducing the text from its encoded form), where the crucial process of properly mapping a character sequence to a glyph sequence is known as **shaping**.
 
 > FIGURE: highlighted relationship between text representation and text rendering, in the lifecycle of text figure.
 
-[OpenType Layout](https://docs.microsoft.com/en-us/typography/opentype/spec/ttochap1) (OTL) is the predominant text shaping technology today for implementing Unicode-encoded complex scripts. There are also other shaping technologies, such as [AAT](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM06/Chap6AATIntro.html) (Apple Advanced Typography, available in Apple products) and [Graphite](https://graphite.sil.org/) (available in LibreOffice, XeTeX, Firefox, etc.), that require different shaping rules to be coded in fonts.
+[OpenType Layout](https://docs.microsoft.com/en-us/typography/opentype/spec/ttochap1) (OTL) is the predominant text shaping technology today for implementing Unicode-encoded complex scripts. For an introduction, see [section 2, _OTL text shaping_](2-OTL.md). There are also other shaping technologies, such as [AAT](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM06/Chap6AATIntro.html) (Apple Advanced Typography, available in Apple products) and [Graphite](https://graphite.sil.org/) (available in LibreOffice, XeTeX, Firefox, etc.), that require different shaping rules to be supplied by fonts.
 
 ## 1.2 Indic encoding principles
 
-অসমীয়া–বাংলা Assamese–Bangla (Bengali), देवनागरी Devanagari, ગુજરાતી Gujarati, ਗੁਰਮੁਖੀ Gurmukhi, ಕನ್ನಡ Kannada, മലയാളം Malayalam, ଓଡ଼ିଆ Odia (Oriya), தமிழ் Tamil, and తెలుగు Telugu are the nine Indic (also known as Brahmic) scripts that are supported by Unicode with an encoding model based on the ISCII-88 standard (Indian Script Code for Information Interchange, 1988).
+বাংলা–অসমীয়া Bangla–Asamiya (or Bengali–Assamese), देवनागरी Devanagari, ગુજરાતી Gujarati, ਗੁਰਮੁਖੀ Gurmukhi, ಕನ್ನಡ Kannada, മലയാളം Malayalam, ଓଡ଼ିଆ Odia (Oriya), தமிழ் Tamil, and తెలుగు Telugu are the nine Indic scripts (also known as Brahmic scripts) that are supported by the Unicode Standard with an encoding model based on the ISCII-88 standard (_Indian Script Code for Information Interchange_, 1988). This **Unicode ISCII** model exhibits strong influences from Sanskrit and Hindi’s Devanagari orthographies.
 
-> FIGURE: Sanskrit–Devanagari alphabet.
+> FIGURE: Sanskrit–Devanagari alphabet.\
+> अ आ इ ई उ ऊ\
+> ऋ ॠ ऌ ॡ\
+> ए ऐ ओ औ\
+> अं अः\
+> क ख ग घ ङ\
+> च छ ज झ ञ\
+> ट ठ ड ढ ण\
+> त थ द ध न\
+> प फ ब भ म\
+> य र ल व\
+> श ष स ह
 
-The _Unicode ISCII_ model’s behavior exhibits strong influence of both Sanskrit and the contemporary Hindi’s Devanagari orthography. Many other Indic scripts are supported by Unicode with their encoding models more or less derived from the Unicode ISCII model, such as ខ្មែរ Khmer (Cambodian), සිංහල Sinhala (Sinhalese), and မြန်မာ Myanmar (Burmese). While scripts such as བོད་ Tibetan, ไทย Thai, and ລາວ Lao are encoded with radically different models.
+Besides general principles that are shared across all of Unicode’s script-specific encoding models, the Unicode ISCII model has the following Indic-specific principles:
 
-Indic-specific principles of the Unicode ISCII encoding model are:
-
-- **akshara-based complex shaping**
-- **phonetic segmentation and order**
+- **akshara-based analysis**
+- **phonetic segmentation and serialization**
 - **vowel killer doubles as non-directional conjoiner**
 
-### 1.2.1 Akshara-based complex shaping
+Many other Indic scripts are supported by the Unicode Standard with encoding models more or less derived from the Unicode ISCII model, such as ខ្មែរ Khmer (Cambodian), සිංහල Sinhala (Sinhalese), and မြန်မာ Myanmar (Burmese). While there are also Indic scripts such as བོད་ Tibetan and ไทย Thai that are encoded with radically different models.
 
-<!-- Specialty of Indic scripts: inline dependent graphemes (thus akshara-based analysis), phonetic segment order (even on a single inline grapheme with its non-spacing signs) and graphic segment order are inconsistent. -->
+### 1.2.1 Akshara-based analysis
 
-When analyzing an Indic text for its Unicode representation, the text is broken down to a sequence of isolated _akshara_ (a classic Indic orthographic syllable), and Indic-specific complex shaping is only expected within each akshara. Indic scripts have specific restrictions about how graphemes can be assembled together to form an akshara.
-
-Many scripts, such as Latin and Arabic, are conventionally considered to have two basic categories of graphemes, letters (spacing and basic) and diacritics (nonspacing and modifying) in the context of digital typography. This simple categorization doesn’t work well for Indic scripts, as Indic scripts tend to have a rich set of letter-like but conceptually complex structures besides basic letters, and the modifying structures in Indic scripts can be either nonspacing or spacing and are often closely related to basic letters or letter-like complex structures as being their dependent forms.
+Many simpler scripts, such as Latin and Arabic, are conventionally considered to have two basic categories of graphemes, letters (basic and spacing) and diacritics (modifying and nonspacing) in the context of digital typography. This simple categorization does not work well for Indic scripts, as Indic scripts tend to have a rich set of letter-like but conceptually composite structures besides basic letters, and the modifying structures in Indic scripts can be either nonspacing or spacing and are often productively derived from basic letters (or letter-like composite structures).
 
 > FIGURE: Latin letters and diacritics vs Indic bases and signs.
 
-Therefore, for analyzing Indic scripts, their graphemes are instead categorized as _bases_ (independent structures) and _signs_ (dependent and productive structures, known as _mātrā_, _kār_, etc., in various languages). Each akshara consists of a single base and can optionally have signs applied to the base.
+Thus for analyzing Indic scripts, graphemes are instead categorized as **bases** (independent structures) and **signs** (dependent and productive structures, known as _mātrā_, _kār_, etc., in various languages).
 
-Fundamentally, Indic scripts work by joining (sometimes not apparent graphically, then only conceptually) a set of basic written units (basic bases and basic signs) together to form additional aksharas that can represent more complicated sounds. Graphical compositions of aksharas are ultimately obscure, but as an aid to analysis, generalized and productive signs can often be identified, thus always an akshara analytically consists of a base and optional productive signs.
+As an Indic sign can pretty much appear in any side of the depended base, the apparent order of graphic units can contradict the order of phonetic segments represented by bases and signs. In order to systematically reconcile the contradicting graphic order and phonetic order and predict one from the order, when analyzing an Indic text for its Unicode representation, the text is first broken down to a sequence of isolated **akshara** (_akṣara_), the classic unit in which Indic scripts are written and analyzed. Asksharas allow Indic-specific complex encoding–shaping behaviors to be confined within a limited and predictable context.
 
-> FIGURE:
-> characters <क ् ष> → simple akshara क्ष
-> characters <प ् र> → simple akshara? प्र
-> characters <त ् क> → composite akshara of a base plus a sign त्क
+Indic scripts work in a way that, by conceptually joining a set of basic bases and signs together, variable aksharas are dynamically formed to represent additional syllables. Graphical compositions of aksharas are ultimately obscure, but as an aid to analysis, productive signs can often be identified.
+> FIGURE:\
+> basic bases क _ka_ and ष _ṣa_ → simple akshara (only क्ष _kṣa_ base) क्ष _kṣa_\
+> basic bases क _ka_ and र _ra_ → borderline composite akshara (only क्र _kra_ base or क _ka_ base plus र _ra_ sign?) क्र _kra_\
+> basic bases त _ta_ and क _ka_ → composite akshara (त _ta_ sign plus क _ka_ base) त्क _tka_
 
-When a productive sign conceptually has a corresponding independent base, the sign is considered a _dependent form_ of the latter. There are various other ways of categorizing signs:
+> FIGURE:\
+> base इ → sign {isign}\
+> base त → sign {t}\
+> base र → sign {reph} or {r} or {rasignbottom}
 
-- syllabic: virama, vowel sign, consonant conjoining form, dependent sign, syllable modifier, nukta…
-- visual relationship: left-side, bottom-side, top-side, right-side…
-- phonetic relationship: pre-base, post-base…
-- advance: spacing and nonspacing
-- encoding: atomic and complex
-- shaping: reordered…
-- …
+There can be various ways to analyze a specific akshara. One analysis may suggest an akshara is only a bare base, while some other analysese might suggest it is a composite akshara with a base and signs identified in various ways. In a specific analysis, when all the identified productive signs have been stripped away from an akshara, the leftover is a base. Analytically, an akshara always consists of a single base and optional (zero or more) signs that are applied to the base.
 
-> FIGURE:
-> base इ → dependent {isign}
-> base त → dependent {t}
-> base र → dependent {reph} or {r} or {rasignbottom}
+> FIGURE:\
+> alternative analyses for प्र and ट्र: base, base + ra sign vertically (works for both), half sign + alternative base horizontally (only works for प्र).\
+> alternative analyses for and evolution of ग्न/ग्य/क्य/प्त’s various styles…
 
-There can be multiple ways to analyze a specific akshara. An analysis may suggest an akshara is either only a bare base or a composite akshara of a base and signs, and how signs are identified can also differ. In a specific analysis, when all the identified productive signs have been stripped away from an akshara, the leftover is a base.
+Productive signs are key to the extensibility of a script. Shaping and prioritizing them appropriately in digital typography provides reasonable fallback patterns for edge-case spellings that are out of the intended design scope and are thus not optimized specially. It is beneficial to try to find an analytical balance between simpler akshara composition (less contextual variation between base and sign, but more precomposed glyphs) and more productive signs (fewer glyphs, but more contextual variation between base and sign).
 
-> FIGURE: alternative analyses for प्र and ट्र: base, base + ra sign vertically (works for both), half sign + alternative base horizontally (only works for प्र).
+There are various ways of categorizing bases:
 
-Productive signs provide extensibility to a script. Shaping and prioritizing them appropriately provide reasonable fallback patterns for edge case spellings that are out of the intended design scope and are thus not optimized specially. It’s beneficial to try to find an analytical balance between simpler base–sign composition (less contextual variation between base and sign, but more precomposed glyphs) and more productive signs (fewer glyphs, but more contextual variation between base and sign).
+- _syllabic role in the akshara_: vowel, consonant…
+- _encoding and shaping_: atomic, complex…
 
-### 1.2.2 Phonetic segmentation and order
+And signs:
 
-<!-- “Use” and “Do not use” for visually confusable structures. Devanagari aa vs <a, aasign>, Odia wa vs <o, basign>. -->
+- _syllabic role in the akshara_: virama, vowel, consonant, anusvara, visarga…
+- _encoding and shaping_: atomic, complex, reordered…
+- _inline spacing_: spacing, nonspacing…
+- _visual relation with base_: left-side, bottom-side, top-side, right-side…
+- _phonetic relation with base_: initial, leading, trailing…
+- _derivation from base_: orphan, conjoining form, dependent form…
 
-In order to segment and order an akshara’s components into a one-dimensional character sequence, a phonetic analysis is employed. Note that Unicode’s phonetic analysis for Indic scripts is often misinterpreted and overemphasized. The phonetic analysis is only meant to be a limited aid to the fundamental graphic analysis.
+### 1.2.2 Phonetic segmentation and serialization
 
-Each akshara is linearized and segmented into an ordered sequence of characters according to how Sanskrit systematically identifies the underlying phonetic segments. Phonetically, an akshara can be either /C*VC?/, a vowel optionally prefixed with a consonant cluster and optionally suffixed with one of the special consonants, or /C+/, a pure consonant cluster.
+In additional to the fundamental, akshara-bases graphic analysis of bases and signs, in order to segment and serialize an akshara into a one-dimensional character sequence, a phonetic analysis is also employed to aid the analysis. The encoding order of an akshara’s components is thus generally decided regardless of the writing or visual order.
 
-> FIGURE: graphic and phonetic anatomy of an akshara: র্স্ত্বোং.
+Note the phonetic analysis’ secondary nature, as its role in Unicode’s Indic encoding models is often misinterpreted and overemphasized.
 
-Certain bases are encoded as a complex sequence of basic letters because they represent consonant clusters. While certain graphically composite aksharas or signs are encoded atomically because they represent simple phonetic segments, such as U+0906 आ DEVANAGARI LETTER AA, which is comparable to Latin precomposed characters such as U+00C1 Á LATIN CAPITAL LETTER A WITH ACUTE.
+> FIGURE: mapping between graphic and phonetic anatomies of a fictional but valid akshara: র্ক্ষ্রোং.
 
-<!-- [Normalized shaping process with a decomposing preprocess.] -->
+Each akshara is analyzed according to how Sanskrit systematically identifies the underlying phonetic segments. Phonetically, a typical akshara has a structure of \[C*(V(C)?)?\], that is:
 
-Note that, according to the fundamental graphic principle though, an inherent vowel is not encoded separately at all from its base consonant letter because it does not have graphic significance, while the vowel killer sign is encoded as a character despite that it actually removes a phonetic segment of the inherent vowel.
+- an onset of zero or more consonant segments (i.e., a consonant cluster)
+- an optional nucleus with a single vowel segment
+- and when the nucleus is present, an optional coda with conceptually (although atypical) a single consonant segment
 
-<!-- [The vowel killer sign (virama) suppresses the inherent vowel of a consonant letter, signifying a pure consonant; vowel signs instead alters the inherent vowel to a different one; while vowel modifier signs add additional phonetic value either to or after the nucleus vowel of a living syllable.] -->
+Note that the syllable represented by an akshara is rather special. It can have no nucleus, and its coda has highly limited choices, typically only anusvara (_anusvāra_, a nasal consonant or other nasal feature), visarga (_visarga_, a fricative consonant), or anunasika (_anunāsika_, nasalization of the nucleus).
 
-<!-- [Decomposition of phonetically encoded atomic split vowel characters.] -->
+Because of the fundamental graphic analysis, the inherent vowel is not encoded separately from its consonant letter as it has no graphic significance. While the vowel killer sign _is_ encoded as a character of its own, although it does not represent a phonetic segment but only surpresses the inherent vowel.
 
-<!-- [With a generalized analysis, independent vowel letters can be considered as special consonant letters that have a zero consonant and a vowel different from the default inherent one. Dependent vowel signs are these special consonant letters’ productive dependent forms.] -->
+Graphically atomic written structures (bases or signs) are encoded as character sequences if they represent seuqences of phonetic segments (especially, consonant clusters), while certain graphically composite written structures (aksharas or groups of signs) are encoded atomically because they represent simple phonetic segments, such as U+0906 आ DEVANAGARI LETTER AA for _a_ (which is comparable to Latin precomposed characters such as U+00C1 Á LATIN CAPITAL LETTER A WITH ACUTE) and U+09CB ো BENGALI VOWEL SIGN O for _o_.
 
-Also, the encoding order of an akshara’s components is thus decided regardless of the writing or visual order. <!-- [And special cases.] --> In a glyph sequence, conventionally, glyphs on the left side are stored before a base, while glyphs on top, bottom and right sides are all stored after a base. Certain intermediate glyphs in shaping process are then expected to be _reordered_ by the shaping engine from the originally encoded phonetic position to the expected glyph position, if the encoding order contradicts the expected glyph order.
+> FIGURE: complexly encoded atomic and atomically encoded composite.
 
-> FIGURE:
-> akshara र्पि → characters <र ् प ि> → reordered र्पि
+Atomically encoded graphically-composite structures are often prone to confusable alternative encodings. Thus when no equivalent sequence is defined to address such issues (e.g., U+09CB ো BENGALI VOWEL SIGN O ≡ <U+09C7 ে BENGALI VOWEL SIGN E, U+09BE া BENGALI VOWEL SIGN AA>), the Unicode Standard tries to specify the preferred encodings and discourage those confusable alternatives.
 
-### 1.2.3 Vowel killer doubles as conjoiner
+> FIGURE: equivalent sequence and normalization, as well as “Use” vs. “Do Not Use”.
 
-As Indic consonant letters are syllabic and include an inherent vowel, pure consonants are marked explicitly with a _vowel killer_ sign.
+### 1.2.3 Vowel killer doubles as non-directional conjoiner
+
+As Indic consonant letters are syllabic and include an inherent vowel, pure consonants are marked explicitly with a **vowel killer** sign.
 
 > FIGURE: a typical pure consonant, consonant-cluster akshara, and the interchangeable simplified written form of the consonant cluster.
 
 Traditionally, vowel killers are not used inside a phonetic syllable, but in order to write fewer consonant-cluster bases, the contemporary Hindi orthography allows a vowel killer to be used inside a syllable to mark a pure consonant when writing certain consonant clusters, and such written forms are largely interchangeable with the consonant clusters’ traditional written forms.
 
-This flexibility allows vowel killer characters, such as U+094D DEVANAGARI SIGN VIRAMA, to contextually double as the _conjoiner_ in the Unicode ISCII model. The conjoiner is non-directional, as it is not directional in terms of which side of it is conjoined. Such a character with double identity of being both a vowel killer and a conjoiner is conventionally called _virama_.
+This flexibility allows vowel killer characters, such as U+094D DEVANAGARI SIGN VIRAMA, to contextually double as the **conjoiner** in the Unicode ISCII model. The conjoiner is non-directional, as it is not directional in terms of which side of it is conjoined. Such a character with double identity of being both a vowel killer and a conjoiner is conventionally called **virama** (_virāma_).
 
 <!-- Virama is not a good explicit term (see Myanmar virama and Chakma virama). However about “killer–conjoiner”? -->
 
@@ -119,7 +134,7 @@ Also, because consonant-cluster aksharas are encoded as such conjoiner-connected
 
 > FIGURE: characters <क ् ष> → conjoined क्ष
 
-Note when a vowel killer character is used for conjoining consonants, the graphic role of being a conjoiner is the major rationale, while the phonetic role of being a vowel killer don’t necessarily make sense.
+Note when a vowel killer character is used for conjoining consonants, the graphic role of being a conjoiner is the major rationale, while the phonetic role of being a vowel killer do not necessarily make sense.
 
 > FIGURE: atypical aksharas that do not conform to a typical akshara structure, or where a vowel killer does not make sense phonetically: र्ऋ · অ্যা (c.f., ক্যা) · ಉ್ೞ (c.f., ಕ್ೞು).
 
