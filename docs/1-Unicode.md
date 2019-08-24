@@ -4,7 +4,7 @@ Before digital typography became available, written shapes in text had been dire
 
 ## 1.1 Lifecycle of Unicode text
 
-In order to separate the concern of meaningful textual units from the exact font that is used, [**the Unicode Standard**](https://www.unicode.org/standard/standard.html) was designed with an architectural separation between encoded abstract **characters** and actual glyphs, and has become the predominant text encoding technology today. So now our exchangeable text consists of Unicode-encoded characters, while the exact look of these abstract characters is provided by digital fonts that map characters to glyphs.
+In order to separate the concern of meaningful textual units from the exact font that is used, [**the Unicode Standard**](https://www.unicode.org/standard/standard.html) was designed with an architectural separation between encoded abstract **characters** and actual glyphs, and has become the predominant text encoding model today. So now our exchangeable text consists of Unicode-encoded characters, while the exact look of these abstract characters is provided by digital fonts that map characters to glyphs.
 
 > FIGURE: Unicode’s role in the lifecycle of text.\
 > User—keyboard—encoding—display;\
@@ -18,9 +18,7 @@ This intentionally complex mapping is bidirectional. It is meant to be the guide
 
 > FIGURE: highlighted relationship between text representation and text rendering, in the lifecycle of text figure.
 
-[**OpenType Layout**](https://docs.microsoft.com/en-us/typography/opentype/spec/ttochap1) (OTL) is the predominant text shaping technology today for implementing Unicode-encoded complex scripts. For an introduction, see [section 2, _OTL text shaping_](2-OTL.md). There are also other shaping technologies, such as [AAT](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM06/Chap6AATIntro.html) (Apple Advanced Typography, available in Apple products) and [Graphite](https://graphite.sil.org/) (available in LibreOffice, XeTeX, Firefox, etc.), that require different shaping rules to be supplied by fonts.
-
-## 1.2 Indic encoding principles
+## 1.2 Indic-specific encoding principles
 
 বাংলা–অসমীয়া Bangla–Asamiya (or Bengali–Assamese), देवनागरी Devanagari, ગુજરાતી Gujarati, ਗੁਰਮੁਖੀ Gurmukhi, ಕನ್ನಡ Kannada, മലയാളം Malayalam, ଓଡ଼ିଆ Odia (Oriya), தமிழ் Tamil, and తెలుగు Telugu are the nine **Indic scripts** (also known as Brahmic scripts) that are supported by the Unicode Standard with an encoding model based on the ISCII-88 standard (_Indian Script Code for Information Interchange_, 1988). This **Unicode ISCII** model exhibits strong influences from Sanskrit and Hindi’s Devanagari orthographies.
 
@@ -43,7 +41,7 @@ Besides general principles that are shared across all of Unicode’s script-spec
 - **phonetic segmentation and serialization**
 - **inherent vowel killer doubles as conjoiner**
 
-Many other Indic scripts are supported by the Unicode Standard with encoding models more or less derived from the Unicode ISCII model, such as ខ្មែរ Khmer (Cambodian), සිංහල Sinhala (Sinhalese), and မြန်မာ Myanmar (Burmese). While there are also Indic scripts such as བོད་ Tibetan and ไทย Thai that are encoded with radically different models.
+Many other Indic scripts are supported by the Unicode Standard with encoding models more or less derived from the Unicode ISCII model, such as ខ្មែរ Khmer (Cambodian), සිංහල Sinhala (Sinhalese), and မြန်မာ Myanmar (Burmese). While there are also Indic scripts such as བོད་ Tibetan and ไทย Thai that are encoded with radically different Indic models.
 
 ### 1.2.1 Akshara-based analysis
 
@@ -127,8 +125,6 @@ A consonant cluster onset is therefore encoded as a sequence of virama-connected
 > FIGURE: obscure base क्ष → characters <क ् ष> → conjoined base क्ष
 
 Such an encoding model largely leaves the decision of if and how to form a consonant cluster akshara to fonts’ discretion. Note that this flexible conjoining behavior does not actually work very well for other orthographies and scripts, where conjoining is largely not interchangeable with a visible killer.
-
-Because there is no explicit hierarchy in conjoiner-connected base sequences, shaping rules in fonts need to be meticulously prioritized in order to correctly recognize contextual conditions for certain conjoining forms, and to enable appropriate fallback behavior when the whole sequence is not captured by a single precomposed glyph. This is a major source of complexity in shaping. OTL’s predefined features (and their recommended order) for Indic scripts are meant to partly address this issue.
 
 Note that when a killer character is used for conjoining bases, the role of being a conjoiner (per the graphic analysis) is the major rationale, while the role of being a killer (per the phonetic analysis) sometimes just does not make sense in a phonetically atypical akshara.
 

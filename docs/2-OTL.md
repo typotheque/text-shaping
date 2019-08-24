@@ -1,26 +1,71 @@
 # 2. OTL text shaping
 
-<!-- Introduce text shaping engine first or introduce required shaping rules first? -->
+The Unicode Indic encoding models, being highly contextual, present challenges for text rendering. Various complex shaping expectations of Unicode-encoded Indic texts are met by the cooperation between fonts and **text shaping engines** according to **text shaping models**.
 
-## 2.1 Text shaping engine
+<!-- An overview of shaping expectations:
 
-A text shaping engine shapes a Unicode character sequence into a final glyph sequence, with aid of the shaping rules coded in a font. There are four groups of OTL shaping engines that matter the most to digital type production. Platform-specific and proprietary shaping engines are available in products of Microsoft (where the shaping engine is now part of DirectWrite, and is often called “Uniscribe” for historical reasons), Apple (part of Core Text), and Adobe. HarfBuzz, on the contrary, is the de facto standard cross-platform and open source shaping engine.
+From Unicode:
 
-> FIGURE: table of which engines the commonly encountered products use.
+- Conjoining
 
-For OTL, the exact shaping operations executed by a shaping engine are decided jointly by the engine’s knowledge of the script and the font’s rules. In particular, OTL shaping engines try to match a text against any of the predefined, restrictive character cluster patterns, then insert dotted circles as placeholder base glyphs wherever a failure of the match leads to stray marks.
+From digital typography:
 
-> FIGURE: example of an OTL Indic cluster pattern and a match failure.
+- Reordering -->
 
-### 2.1.1 Shapers, script tags, and features
+<!-- Because there is no explicit hierarchy in conjoiner-connected base sequences, shaping rules in fonts need to be meticulously prioritized in order to correctly recognize contextual conditions for certain conjoining forms, and to enable appropriate fallback behavior when the whole sequence is not captured by a single precomposed glyph. This is a major source of complexity in shaping. [OTL’s predefined features](2-OTL.md) (and their recommended order) for Indic scripts are meant to partly address this issue. -->
 
-How an OTL shaping engine and a specific script’s font should work together is prescribed in Microsoft’s _script development specifications_, and is implemented in shaping engines conceptually as script-specific _shapers_. An OTL font declares one or more _script tags_ to request what shaper should be used.
+## 2.1 Fonts and text shaping engines
+
+Part of the **OpenType** specification, [OpenType Layout](https://docs.microsoft.com/en-us/typography/opentype/spec/ttochap1) (**OTL**) is the predominant text shaping model today for supporting Unicode-encoded complex scripts. Alternative shaping models such as [**AAT**](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM06/Chap6AATIntro.html) (Apple Advanced Typography, available in Apple products) and [**Graphite**](https://graphite.sil.org/) (available in LibreOffice, XeTeX, Firefox, etc.) have their different advantages. Each model requires a different set of **shaping rules** to be supplied by a font, in addition to the font’s glyphs and basic character-to-glyph mapping (**cmap**). A text shaping engine then shapes Unicode character sequences into final glyph sequences, base on the font’s shaping rules.
+
+In terms of the OTL model, there are four groups of shaping engines that matter the most for digital typography developers to understand their **targeted environments** and users to understand their **editing environments**. Note that text shaping engines are often built as part of text layout engines, and thus are conventionally referred to with the latter’s names.
+
+The de facto standard cross-platform solution is an open source project:
+
+- [**HarfBuzz**](https://harfbuzz.github.io), which also supports the AAT and Graphite models, however not all softwares are built with the AAT and Graphite shapers turned on.
+
+While some platform vendors have their own platform-specific and proprietary shaping engines available in their products:
+
+- Microsoft: where the shaping engine is now part of the [**DirectWrite**](https://docs.microsoft.com/en-us/windows/win32/directwrite/direct-write-portal) layout engine, but is often referred to with its historical name, “Uniscribe”.
+- Apple: part of the [**Core Text**](https://developer.apple.com/documentation/coretext) layout engine; also supports the AAT model.
+- Adobe: fractured and underdocumented, without a well-known name (commonly just referred to as “Adobe shaping engines”); accessible by various paragraph-level “composer/layout” settings in products such as Photoshop, Illustrator, and InDesign.
+
+> **Table 2-X.** Available shaping models in common software products
+
+product | shaping engine and supported models
+-- | -- | --
+Microsoft products (Windows, Internet Explorer, Edge, Office…) | DirectWrite (OTL)
+Apple products (macOS, iOS, Safari, Pages…) | Core Text (OTL, AAT)
+Android | HarfBuzz (OTL)
+Chrome | HarfBuzz (OTL, AAT)
+Adobe products (Photoshop, Illustrator, InDesign…) | Adobe shaping engines (OTL)
+Firefox | HarfBuzz (OTL), Graphite engine (Graphite)
+LibreOffice | HarfBuzz (OTL), Graphite engine (Graphite)
+XeTeX | HarfBuzz (OTL), Core Text (AAT), Graphite engine (Graphite)
+
+## 2.2 The OTL model
+
+In the OTL model, the exact shaping operations executed by a shaping engine for a script’s text are based on the engine’s knowledge of the script and supplemented by the font’s rules. The engine’s script-specific knowledge is meant to be prescribed in OpenType’s **script development specifications**, such as [_Developing OpenType Fonts for Devanagari Script_](https://docs.microsoft.com/en-us/typography/script-development/devanagari). Each specification is **implemented** as a script-specific **shaper** in an OTL shaping engine.
+
+However, it is a long-standing problem that the official script development specifications do not accurately reflect what shapers actually do, due to being generally incomplete and outdated. The work-in-progress project [n8willis/opentype-shaping-documents](https://github.com/n8willis/opentype-shaping-documents) is a major community effort to address the need of a complete, developer-oriented documentation for OTL shapers.
+
+In order to manipulate glyphs from cmap for complex text shaping, OTL defines two major mechanisms, substitution and positioning, which are leveraged by fonts with shaping rules that are recorded in the **GSUB** (Glyph Substitution) and **GPOS** (Glyph Positioning) tables. Additional glyph properties are recorded in the **GDEF** (Glyph Definition) table to support GSUB and GPOS.
+
+### 2.1.1 Scripts, language systems, features, and lookups
+
+<!-- Inside GSUB and GPOS tables -->
+
+A font declares one or more registered [**script tags**](https://docs.microsoft.com/en-us/typography/opentype/spec/scripttags) to suggest what script-specific shaper should be used. A script may have more than one tags registered, each corresponding to one of the its multiple versions of script development specifications.
 
 <!-- Language systems -->
 
 OTL _features_ provide a mechanism for fonts to declare the purpose of a set of rules to shaping engines with predefined semantics, allowing the latter to execute specific sets of rules based on users’ implied or explicit request. For example, rules organized under the feature `liga` are understood as rules for typographically optional ligatures, and can be enabled per users’ discretion; while rules in `init` are understood as required for Arabic letters to correctly connect to each other and are always executed fro Arabic characters.
 
-### 2.1.2 Special treatments for Indic scripts
+### 2.1.2 Indic-specific treatments
+
+In particular, OTL shaping engines try to match a text against any of the predefined, restrictive character cluster patterns, then insert dotted circles as placeholder base glyphs wherever a failure of the match leads to stray marks.
+
+> FIGURE: example of an OTL Indic cluster pattern and a match failure.
 
 <!-- Script itemization happens before the shaping engine examines what script tags are available in the font. Therefore a font gets to decide if deva or dev2 is to be used. But a font can’t control the determined script of a script run. Note script itemization -->
 
@@ -35,7 +80,7 @@ The OTL shaping behavior for the nine Unicode ISCII scripts have undergone a maj
 
 script | original | version 2
 -- | -- | --
-Assamese–Bangla | beng | bng2
+Bangla–Asamiya | beng | bng2
 Devanagari | deva | dev2
 Gujarati | gujr | gjr2
 Gurmukhi | guru | gur2
@@ -54,22 +99,6 @@ Unlike their Indic 1 counterparts, Indic 2 shapers no longer statically assume a
 The nine Unicode ISCII scripts are specified to be subject to the following features and shaping stages:
 
 > FIGURE: table of the nine Unicode ISCII scripts’ specified features and stages.
-
-For some of the nine Unicode ISCII scripts, their Indic 2 shapers are well implemented in major platforms, therefore their Indic 1 tags are mostly obsolete and do not need to be supported by fonts. But some still rely on their Indic 1 shapers, thus their fonts are recommended to support both Indic 1 and Indic 2 shapers.
-
-> FIGURE: table of products that still do not support the Indic 2 shapers.
-
-<!-- ## 2.X Shaping-oriented property model
-
-Property is assigned to character or sequence or sequence in a specific context:
-
-(SIGN.COMPLEX and BASE.COMPLEX are implied with sequences instead of characters.)
-
-SIGN(.TOP|.BOTTOM|.SPACING_LEFT|.SPACING_RIGHT)?(.REORDERED)?
-
-BASE -->
-
-## 2.2 Required shaping operations
 
 <!-- [Normalized shaping process with a decomposing preprocess.] -->
 
@@ -100,6 +129,22 @@ BASE -->
 	- `dist`, distances: a non-discretionary `kern`
 	- `abvm`, above-base mark positioning
 	- `blwm`, below-base mark positioning -->
+
+For some of the nine Unicode ISCII scripts, their Indic 2 shapers are well implemented in major platforms, therefore their Indic 1 tags are mostly obsolete and do not need to be supported by fonts. But some still rely on their Indic 1 shapers, thus their fonts are recommended to support both Indic 1 and Indic 2 shapers.
+
+> FIGURE: table of products that still do not support the Indic 2 shapers.
+
+<!-- ## 2.X Shaping-oriented property model
+
+Property is assigned to character or sequence or sequence in a specific context:
+
+(SIGN.COMPLEX and BASE.COMPLEX are implied with sequences instead of characters.)
+
+SIGN(.TOP|.BOTTOM|.SPACING_LEFT|.SPACING_RIGHT)?(.REORDERED)?
+
+BASE -->
+
+## 2.2 Typical implementation
 
 Shaping prioritization:
 

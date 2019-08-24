@@ -99,11 +99,11 @@ Signs:
 - half forms: <BASE, virama, zerowidthjoiner> BASE → sasignpre, _historical_
 - right-side trailing: BASE <virama, ya/…> → ya/…signpost _(additional ones are historical)_
 
-## Assamese–Bangla and Odia scripts
+## Bangla–Asamiya and Odia scripts
 
 Signs:
 
-- repha: <rabangla/raassamese, virama> BASE → rasignabove (repha)
+- repha: <rabangla/raasamiya, virama> BASE → rasignabove (repha)
 - repha: <ra, virama> BASE → rasignabove (repha)
 - bottom-side trailing: BASE <virama, ra/ba> → ra/basignbelow <!-- [Note Odia’s ambiguous encoding] -->
 - right-side trailing: BASE <virama, ya> → yasignpost (yasign) <!-- [Note Odia’s ambiguous encoding] -->
