@@ -1,6 +1,6 @@
 # 1. Unicode Indic text
 
-Before digital typography became available, written shapes in text had been directly reproduced as glyphs in printing, without relying on some underlying abstract units that would be independent from specific fonts and could be exchangeable. Now with **digital typography**, however, exchanging underlying, digitally encoded text is both a possibility and a need.
+Before digital typography became available, shapes in text had been directly reproduced as glyphs in printing, without relying on some underlying abstract units that would be independent from specific fonts and could be exchangeable. Now with **digital typography**, however, exchanging underlying, digitally encoded text is both a possibility and a need.
 
 ## 1.1 Lifecycle of Unicode text
 
@@ -45,15 +45,18 @@ Many other Indic scripts are supported by the Unicode Standard with encoding mod
 
 ### 1.2.1 Akshara-based analysis
 
-Many simpler scripts, such as Latin and Arabic, are conventionally considered to have two major categories of graphemes, letters (basic and spacing) and diacritics (modifying and nonspacing) in the context of digital typography. This simple categorization does not work well for Indic scripts, as Indic scripts tend to have a rich set of letter-like but conceptually **composite** structures besides basic letters, and the modifying structures in Indic scripts can be either nonspacing or spacing and are often derived from basic letters (or letter-like composite structures).
+Many simpler scripts, such as Latin and Arabic, are conventionally analyzed with two major categories of writing units in the context of digital typography: basic and spacing ones are letters, while modifying and nonspacing ones are diacritics. This simple categorization does not work well for Indic scripts, as Indic scripts tend to have a rich and open set of letter-like but conceptually **composite** units besides basic letters, while the modifying units in Indic scripts can be either nonspacing or spacing and are often systematically derived from letter-like units.
 
 > FIGURE: Latin letters and diacritics vs Indic bases and signs.
 
-Thus for analyzing Indic scripts, graphemes are instead categorized as **bases** (independent structures) and **signs** (dependent and **productive** structures, known as _mātrā_, _kār(a)_, etc., in various languages).
+For analyzing Indic scripts, therefore, writing units are instead conventionally categorized in this way:
+
+- independent units are **bases**;
+- dependent units are **signs**, which are known as _mātrā_, _kār(a)_, etc., in various languages.
 
 As an Indic sign can pretty much appear on any side of the depended base, the apparent order of graphic units can contradict the order of sounds represented by bases and signs. In order to systematically reconcile the contradicting graphic order and phonetic order and predict one from the order, when analyzing an Indic text for its Unicode representation, the text is first broken down to a sequence of isolated **akshara** (_akṣara_), the classic unit in which Indic scripts are written and analyzed. Aksharas allow Indic-specific complex encoding–shaping behaviors to be confined within a limited and predictable context.
 
-Indic scripts work in a way that, by conceptually joining a set of simple bases and signs together, variable aksharas are dynamically formed to represent additional syllables. Graphical compositions of aksharas are ultimately **obscure**, but as an aid to analysis, productive signs can often be identified.
+Indic scripts work in a way that, by conceptually joining a set of simple bases and signs together, variable aksharas are dynamically formed to represent additional syllables. Graphical compositions of aksharas are ultimately **obscure**, but as an aid to analysis, **productive** signs can often be identified.
 
 > FIGURE:\
 > simple bases क _ka_ and ष _ṣa_ → simple akshara (only क्ष _kṣa_ base) क्ष _kṣa_\
@@ -103,7 +106,7 @@ The syllable represented by an akshara is special. It can be onset-only, and its
 
 Because of the fundamental graphic analysis, the inherent vowel is not encoded separately from its consonant letter as it has no graphic significance. On the other hand, the inherent vowel killer sign is encoded as a character of its own, although it does not represent a phonetic segment but only suppresses the inherent vowel.
 
-Graphically atomic written structures (bases or signs) are **sequentially encoded** (as character sequences) if they represent sequences of phonetic segments (in particular, consonant clusters), while certain graphically composite written structures (aksharas or groups of signs) are **atomically encoded** because they represent simple phonetic segments. Also, atomically encoded graphically composite structures are often prone to confusable alternative encodings. Thus when no equivalent sequence is defined to address such issues, the Unicode Standard tries to specify the preferred encodings and discourage those confusable alternatives.
+Graphically atomic writing units (bases or signs) are **sequentially encoded** (as character sequences) if they represent sequences of phonetic segments (in particular, consonant clusters), while certain graphically composite writing units (aksharas or groups of signs) are **atomically encoded** because they represent simple phonetic segments. Also, atomically encoded graphically composite writing units are often prone to confusable alternative encodings. Thus when no equivalent sequence is defined to address such issues, the Unicode Standard tries to specify the preferred encodings and discourage those confusable alternatives.
 
 > FIGURE:\
 > Complexly encoded atomic and atomically encoded composite. Equivalent sequence and normalization, as well as “Use” vs. “Do Not Use”.\
