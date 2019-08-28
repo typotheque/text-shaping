@@ -136,6 +136,8 @@ Signs:
 
 Note the Unicode Tamil script is a mixture of Tamil and graphemes loaned from the Grantha script.
 
+Subscript and superscript digits 2–4.
+
 Signs:
 
 - Grantha, conditional: ு ூ

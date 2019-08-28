@@ -30,3 +30,8 @@ glyph | name | character | note
 ◌ | dottedcircle | 25CC | placeholder base
 अ | a-Deva | 0905 | variant: a.north
 … | … | … |
+
+<!-- Three levels of naming clarity:
+- Names with a modifier: dental t, retroflex t (doesn’t work well in composite names)
+- Unicode-style letter name transliteration (dental t: t, retroflex t: tt)
+- language-specific word transcription (Tamil, etc: th, t). Note the former doesn’t work in words. -->

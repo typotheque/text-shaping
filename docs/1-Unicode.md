@@ -151,4 +151,8 @@ ZWJ and ZWNJ also have script-specific behaviors defined for Malayalam, Bangla�
 
 ## 1.4 Character properties
 
-Various character properties are defined in the Unicode Standard for clarifying a character’s identity and behavior. The **`General_Category`** property (commonly referred to with its short name, `gc`), for example, makes a distinction between letters (`Lo`), nonspacing combining marks (`Mn`), and spacing combining marks (`Mc`), among other values. A pair of Indic-specific properties, **`Indic_Syllabic_Category`** (`InSC`) and **`Indic_Positional_Category`** (`InPC`), as quite an ongoing experiment, informatively specify a character’s intended role in an akshara. For example, U+094D DEVANAGARI SIGN VIRAMA has `InSC = Virama` and `InPC = Bottom`.
+Various character properties are defined in the Unicode Standard for clarifying a character’s identity and behavior. The data is released as and accessible from [the Unicode Character Database](http://www.unicode.org/ucd/) (**UCD**).
+
+The **`General_Category`** property (commonly referred to with its short name, `gc`), for example, makes a distinction among Indic characters between letters (`Lo`), nonspacing combining marks (`Mn`), spacing combining marks (`Mc`), and other values. In the Unicode Standard’s code charts, all combining mark characters (`Mn`, `Mc`, and `Me`) have their representative glyphs positioned in relation to the placeholder base, a dotted circle.
+
+A pair of Indic-specific properties, **`Indic_Syllabic_Category`** (`InSC`) and **`Indic_Positional_Category`** (`InPC`), as quite an ongoing experiment, informatively specify a character’s intended role in an akshara. For example, U+094D DEVANAGARI SIGN VIRAMA has `InSC = Virama` and `InPC = Bottom`.
