@@ -2,14 +2,14 @@
 
 > _Work in progress._
 
-[梁海 / Liang Hai](https://twitter.com/lianghai), independent researcher\
+[Liang Hai / 梁海](https://twitter.com/lianghai), independent researcher\
 [Peter Biľak](https://www.typotheque.com/authors/peter_bilak), Typotheque
 
 Typography occupies space at the intersection of linguistics, text rendering technologies, and design, and requires some knowledge of all of these areas. This document addresses how Indic (or Brahmic) scripts work, how the Unicode Standard encodes those scripts, what shaping behavior is expected for rendering, and how OpenType Layout (OTL) is utilized to implement the shaping behavior.
 
 ![](docs/IndicTextShaping.png)
 
-To start with, the nine Unicode ISCII scripts, especially the Devanagari script, are selected to drive the initial development of this document.
+The nine Unicode ISCII scripts, especially the Devanagari script, are selected to drive the initial development of this document.
 
 ### Scope and intended audience
 
@@ -32,7 +32,7 @@ This documentation does not contain instructions how to draw and construct glyph
 > _Work in progress._
 
 A. [Tutorial on how to build an OTL Devanagari font](docs/tutorial.md)\
-B. [About glyphs](docs/glyphs.md)
+B. [About glyphs](docs/glyphs.md)\
 C. [References](docs/references.md)
 
 ### Feedback
