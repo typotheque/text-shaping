@@ -1,5 +1,7 @@
 # A. Tutorial on how to build an OTL Devanagari font
 
+> _Work in progress._
+
 This tutorial showcases that, with glyphs already in hand, how one can construct OTL rules to build a basic but functional Devanagari font with desired shaping behavior.
 
 ## A.1 Scope of the exemplar font

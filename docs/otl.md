@@ -1,5 +1,7 @@
 # 2. OTL text shaping
 
+> _Work in progress._
+
 The Unicode Indic encoding models, being highly contextual, present challenges for text rendering. Various complex shaping expectations of Unicode-encoded Indic texts are met by the cooperation between fonts and **text shaping engines** according to **text shaping models**.
 
 <!-- An overview of shaping expectations:
@@ -43,7 +45,7 @@ XeTeX | HarfBuzz (OTL), Core Text (AAT), Graphite engine (Graphite)
 
 ## 2.2 The OTL model
 
-In the OTL model, the exact shaping operations executed by a shaping engine for a script’s text are based on the engine’s knowledge of the script and supplemented by the font’s rules. The engine’s script-specific knowledge is meant to be prescribed in OpenType’s **script development specifications** on an opt-in basis, such as [_Developing OpenType Fonts for Devanagari Script_](https://docs.microsoft.com/en-us/typography/script-development/devanagari). Each specification is **implemented** as a script-specific **shaper** in an OTL shaping engine. A general script or a script unknown to a shaping engine is limited to [few possible operations supported by the general shaper](https://docs.microsoft.com/en-us/typography/script-development/standard).
+In the OTL model, the exact shaping operations executed by a shaping engine for a script’s text are based on the engine’s knowledge of the script and supplemented by the font’s rules. The engine’s script-specific knowledge is meant to be prescribed in OpenType’s **script development specifications** on an opt-in basis, such as [_Developing OpenType Fonts for Devanagari Script_](https://docs.microsoft.com/en-us/typography/script-development/devanagari). Each specification is **implemented** as a script-specific **shaper** in an OTL shaping engine. A general script or a script unknown to a shaping engine is limited to [few possible operations supported by the default script shaper](https://docs.microsoft.com/en-us/typography/script-development/standard).
 
 It is a long-standing problem that the official OTL script development specifications do not accurately reflect what shapers actually do, due to being generally incomplete and outdated. The _work-in-progress_ project [n8willis/opentype-shaping-documents](https://github.com/n8willis/opentype-shaping-documents) is a major community effort to address the need of a complete, developer-oriented documentation for OTL shapers.
 
@@ -68,6 +70,9 @@ Within each language system, **features** are then defined. Features provide a m
 Actual shaping rules are defined in the form of an ordered list of **lookups** that are referred to by features. Note that certain features, especially the ones that are critical to complex script shaping, are executed early in a predefined order, and thus limit the actually executed order of lookups.
 
 ### 2.1.2 Indic-specific treatments
+
+<!-- “Retrieving dynamic character properties” -->
+<!-- First find the main -->
 
 <!-- Because there is no explicit hierarchy in conjoiner-connected base sequences, shaping rules in fonts need to be meticulously prioritized in order to correctly recognize contextual conditions for certain conjoining forms, and to enable appropriate fallback behavior when the whole sequence is not captured by a single precomposed glyph. This is a major source of complexity in shaping. [OTL’s predefined features](2-OTL.md) (and their recommended order) for Indic scripts are meant to partly address this issue. -->
 
@@ -120,7 +125,7 @@ The nine Unicode ISCII scripts are specified to be subject to the following feat
 	- `rkrf`, rakaar form substitution
 	- `blwf`, below-base form substitution
 	- `half`, half-form substitution
-	- `vatu`, vattu variants: obsolete
+	- `vatu`, vattu variants: obsolete [Reinterpretable for base+sign and sign+sign? But cjct can take them all.]
 	- `cjct`, conjunct form substitution
 - Final reordering
 - GSUB: presentation forms

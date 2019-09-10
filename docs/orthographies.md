@@ -1,4 +1,6 @@
-# 3. Orthography-specific shaping requirements
+# 3. Orthography-specific requirements
+
+> _Work in progress._
 
 Because of the multi-dimensional contextual interactions happening in Indic scripts, a script’s all possible shaping requirements tend to show a long tail of edge/corner cases. Fonts therefore need to restrict their scope to a specific set of orthographies to allow a reasonable amount of workload.
 

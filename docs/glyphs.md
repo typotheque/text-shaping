@@ -1,5 +1,7 @@
 # B. About glyphs
 
+> _Work in progress._
+
 ## B.1 Glyphs naming convention
 
 Consistently assigned glyph names facilitate font production.

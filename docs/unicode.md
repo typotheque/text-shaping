@@ -1,5 +1,7 @@
 # 1. Unicode Indic text
 
+> _Work in progress._
+
 Before digital typography became available, shapes in text had been directly reproduced as glyphs in printing, without relying on some underlying abstract units that would be independent from specific fonts and could be exchangeable. Now with **digital typography**, however, exchanging underlying, digitally encoded text is both a possibility and a need.
 
 ## 1.1 Lifecycle of Unicode text

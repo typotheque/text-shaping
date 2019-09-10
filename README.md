@@ -1,9 +1,9 @@
 # Indic text shaping for type designers
 
-_Draft for initial technical review_
+> _Work in progress._
 
-梁海 (Liang Hai), independent researcher\
-Peter Biľak, Typotheque
+[梁海 / Liang Hai](https://twitter.com/lianghai), independent researcher\
+[Peter Biľak](https://www.typotheque.com/authors/peter_bilak), Typotheque
 
 Typography occupies space at the intersection of linguistics, text rendering technologies, and design, and requires some knowledge of all of these areas. This document addresses how Indic (or Brahmic) scripts work, how the Unicode Standard encodes those scripts, what shaping behavior is expected for rendering, and how OpenType Layout (OTL) is utilized to implement the shaping behavior.
 
@@ -21,14 +21,19 @@ This documentation does not contain instructions how to draw and construct glyph
 
 ### Documentation
 
-1\. [Unicode text](docs/1-Unicode.md)\
-2\. [OTL text shaping](docs/2-OTL.md)\
-3\. [Orthography-specific shaping requirements](docs/3-orthographies.md)
+> _Work in progress._
+
+1\. [Unicode text](docs/unicode.md)\
+2\. [OTL text shaping](docs/otl.md)\
+3\. [Orthography-specific requirements](docs/orthographies.md)
 
 ### Appendix
 
-A. [Tutorial on how to build an OTL Devanagari font](docs/A-tutorial.md)\
-B. [About glyphs](docs/B-glyphs.md)
+> _Work in progress._
+
+A. [Tutorial on how to build an OTL Devanagari font](docs/tutorial.md)\
+B. [About glyphs](docs/glyphs.md)
+C. [References](docs/references.md)
 
 ### Feedback
 
