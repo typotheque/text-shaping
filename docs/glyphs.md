@@ -1,8 +1,8 @@
-# B. About glyphs
+# A. About glyphs
 
 > _Work in progress._
 
-## B.1 Glyphs naming convention
+## A.1 Glyphs naming convention
 
 Consistently assigned glyph names facilitate font production.
 
@@ -25,7 +25,7 @@ A dash ( `-` ) leads a **script suffix**, which clarifies a glyph’s script nam
 
 <!-- A dependent sign or conjoining form of a base is systematically named with `sign` suffixed to the base’s name, if it has a corresponding base. It might have a conventional name as well. But how is a base named? -->
 
-## B.2 Reference Glyphs
+## A.2 Reference Glyphs
 
 glyph | name | character | note
 -- | -- | -- | --

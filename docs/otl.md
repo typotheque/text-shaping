@@ -33,7 +33,7 @@ While some platform vendors have their own platform-specific and proprietary sha
 > **Table 2-X.** Available shaping models in common software products
 
 product | shaping engine and supported models
--- | -- | --
+-- | --
 Microsoft products (Windows, Internet Explorer, Edge, Office…) | DirectWrite (OTL)
 Apple products (macOS, iOS, Safari, Pages…) | Core Text (OTL, AAT)
 Android | HarfBuzz (OTL)
