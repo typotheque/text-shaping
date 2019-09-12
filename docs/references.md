@@ -18,3 +18,8 @@
 - [HarfBuzz](https://harfbuzz.github.io).
 - [n8willis/opentype-shaping-documents](https://github.com/n8willis/opentype-shaping-documents).
 - [InDesign CS6 Indic support explored](http://www.typophile.com/node/94543).
+
+---
+
+- [The OpenType Cookbook](http://opentypecookbook.com).
+- [IndicFontbook/Fontbook](https://github.com/IndicFontbook/Fontbook).

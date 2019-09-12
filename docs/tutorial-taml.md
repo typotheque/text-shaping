@@ -16,15 +16,55 @@ character | | glyph | note
 -- | -- | -- | --
 0B83 | ஃ | aytham | SIGN VISARGA is misnomer.
 0B85 | அ | a |
-0B86 | ஆ | aa | ≈ a uusign
+0B86 | ஆ | aa | confusable: a uusign (see uusign)
 0B87 | இ | i |
 0B88 | ஈ | ii |
 0B89 | உ | u |
-0B8A | ஊ | uu |
+0B8A | ஊ | uu | borderline confusable: u lla/aulengthsign
 0B8E | எ | e |
 0B8F | ஏ | ee |
 0B90 | ஐ | ai |
-… | … | … |
+0B92 | ஒ | o |
+0B93 | ஓ | oo |
+0B94 | ஔ | au | ≡ 0B92 0BD7 (o ausign)
+0B95 | க | ka |
+0B99 | ங | nga |
+0B9A | ச | ca |
+0B9C | ஜ | ja | Grantha
+0B9E | ஞ | nya |
+0B9F | ட | tta |
+0BA3 | ண | nna |
+0BA4 | த | ta |
+0BA8 | ந | na |
+0BA9 | ன | nnna |
+0BAA | ப | pa |
+0BAE | ம | ma |
+0BAF | ய | ya |
+0BB0 | ர | ra |
+0BB1 | ற | rra |
+0BB2 | ல | la |
+0BB3 | ள | lla | confusable: aulengthsign
+0BB4 | ழ | llla |
+0BB5 | வ | va |
+0BB6 | ஶ | sha | Grantha; marginal usage
+0BB7 | ஷ | ssa | Grantha
+0BB8 | ஸ | sa | Grantha
+0BB9 | ஹ | ha | Grantha
+0BBE | ா | aasign |
+0BBF | ி | isign |
+0BC0 | ீ | iisign |
+0BC1 | ு | usign | phonetic; only graphically definite on Grantha bases
+0BC2 | ூ | uusign | phonetic; only graphically definite on Grantha bases
+0BC6 | ெ | esign |
+0BC7 | ே | eesign |
+0BC8 | ை | aisign |
+0BCA | ொ | osign | ≡ 0BC6 0BBE (esign aasign)
+0BCB | ோ | oosign | ≡ 0BC7 0BBE (eesign aasign)
+0BCC | ௌ | ausign | ≡ 0BC6 0BD7 (esign aulengthsign)
+0BCD | ் | virama |
+0BD7 | ௗ | aulengthsign | confusable: lla
+
+<!-- Need to confirm usage of U+0BD0 om and U+0BF9 rupee. -->
 
 ## B.2.3 Scripts and language systems
 

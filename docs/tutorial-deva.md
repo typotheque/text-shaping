@@ -28,13 +28,13 @@ This tutorial showcases that, with glyphs already in hand, how one can construct
 
 character | | glyph | note
 -- | -- | -- | --
-0901 | ँ | candrabindu | ≈ esigncandra anusvara
+0901 | ँ | candrabindu | confusable: esigncandra anusvara
 0902 | ं | anusvara |
 0903 | ः | visarga |
 0905 | अ | a |
 0906 | आ | aa | a aasign
 0907 | इ | i |
-0908 | ई | ii | ≈ i repha
+0908 | ई | ii | confusable: i repha
 0909 | उ | u |
 090A | ऊ | uu |
 090B | ऋ | vocalicr |
