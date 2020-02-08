@@ -2,8 +2,8 @@
 
 > _Work in progress._
 
-[梁海 Liang Hai](https://twitter.com/lianghai), independent researcher\
-[Peter Biľak](https://www.typotheque.com/authors/peter_bilak), Typotheque
+**[梁海 Liang Hai](https://twitter.com/lianghai), independent researcher**\
+**[Peter Biľak](https://www.typotheque.com/authors/peter_bilak), Typotheque**
 
 Typography occupies space at the intersection of linguistics, text rendering technologies, and design, and requires some knowledge of all of these areas. This document addresses how Indic (or Brahmic) scripts work, how the Unicode Standard encodes those scripts, what shaping behavior is expected for rendering, and how OpenType Layout (OTL) is utilized to implement the shaping behavior.
 

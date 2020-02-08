@@ -7,7 +7,7 @@ This tutorial showcases that, with glyphs already in hand, how one can construct
 ## B.1.1 Scope of the exemplar font project
 
 - Script: देवनागरी Devanagari
-    - The script suffix `-deva` is omitted from glyph namaes in this tutorial.
+    - The script suffix `-deva` is omitted from glyph names in this tutorial.
 - Orthography: contemporary हिंदी Hindi and मराठी Marathi
 
 <!-- [Glyph sequences are structured in way that a base is followed by zero or more combining marks. Preceding characters sometimes are shaped into following marks for easier shaping.] -->

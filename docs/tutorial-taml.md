@@ -5,7 +5,7 @@
 ## B.2.1 Scope of the exemplar font project
 
 - Script: தமிழ் Tamil
-    - The script suffix `-taml` is omitted from glyph namaes in this tutorial.
+    - The script suffix `-taml` is omitted from glyph names in this tutorial.
 - Orthography: contemporary தமிழ் Tamil
 
 ## B.2.2 Character-to-glyph mapping
@@ -248,4 +248,8 @@ feature ss02 {
 feature dlig {
     lookup stylistic.traditional;
 } dlig;
+
+feature abvm {
+    lookup positioning.mark.top;
+} abvm;
 ```
