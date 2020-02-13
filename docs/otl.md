@@ -93,7 +93,7 @@ The OTL shaping behavior for the nine Unicode ISCII scripts have undergone a maj
 
 script | Indic1 | Indic2
 -- | -- | --
-Bangla–Asamiya | beng | bng2
+Bangla | beng | bng2
 Devanagari | deva\* | dev2
 Gujarati | gujr | gjr2
 Gurmukhi | guru | gur2

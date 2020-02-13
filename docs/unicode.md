@@ -22,7 +22,7 @@ This intentionally complex mapping is bidirectional. It is meant to be the guide
 
 ## 1.2 Indic-specific encoding principles
 
-বাংলা–অসমীয়া Bangla–Asamiya (or Bengali–Assamese), देवनागरी Devanagari, ગુજરાતી Gujarati, ਗੁਰਮੁਖੀ Gurmukhi, ಕನ್ನಡ Kannada, മലയാളം Malayalam, ଓଡ଼ିଆ Odia (Oriya), தமிழ் Tamil, and తెలుగు Telugu are the nine **Indic scripts** (also known as Brahmic scripts) that are supported by the Unicode Standard with an encoding model based on the ISCII-88 standard (_Indian Script Code for Information Interchange_, 1988). This **Unicode ISCII** model exhibits strong influences from Sanskrit and Hindi’s Devanagari orthographies.
+বাংলা Bangla (or Bengali, Bengali–Assamese), देवनागरी Devanagari, ગુજરાતી Gujarati, ਗੁਰਮੁਖੀ Gurmukhi, ಕನ್ನಡ Kannada, മലയാളം Malayalam, ଓଡ଼ିଆ Odia (Oriya), தமிழ் Tamil, and తెలుగు Telugu are the nine **Indic scripts** (also known as Brahmic scripts) that are supported by the Unicode Standard with an encoding model based on the ISCII-88 standard (_Indian Script Code for Information Interchange_, 1988). This **Unicode ISCII** model exhibits strong influences from Sanskrit and Hindi’s Devanagari orthographies.
 
 > FIGURE: Sanskrit–Devanagari alphabet.\
 > अ आ इ ई उ ऊ\
@@ -149,7 +149,7 @@ U+200D ZERO WIDTH JOINER (**ZWJ**, pronounced as [zwɪdʒ]) is used on either si
 
 U+200C ZERO WIDTH NON-JOINER (**ZWNJ** [zwɪndʒ]), on the contrary, is only used after a virama to prevent its conjoiner behavior, leaving it to be a killer. The ZWNJ effectively terminates an akshara, causing the preceding akshara to be onset-only.
 
-ZWJ and ZWNJ also have script-specific behaviors defined for Malayalam, Bangla–Asamiya, and Odia.
+ZWJ and ZWNJ also have script-specific behaviors defined for Malayalam, Bangla, and Odia.
 
 ## 1.4 Character properties
 

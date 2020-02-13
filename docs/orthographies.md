@@ -101,7 +101,7 @@ Signs:
 - half forms: <BASE, virama, zerowidthjoiner> BASE → sasignpre, _historical_
 - right-side trailing: BASE <virama, ya/…> → ya/…signpost _(additional ones are historical)_
 
-## Bangla–Asamiya and Odia scripts
+## Bangla and Odia scripts
 
 Signs:
 
