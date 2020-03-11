@@ -33,23 +33,23 @@ For a glyph of the Latin ‹a›, the glyph name is simply:
 
     a
 
-The same name is also used by the Devanagari ‹अ›, but with a **script namespace** of “Devanagari” instead of the default “Latin”. The script namespace of a glyph can be explicitly **declared** as a suffix separated from the glyph name’s main body with a dash ( `-` ), in the script’s Capitalized four-letter code from [ISO 15924, _Codes for the representation of names of scripts_](https://unicode.org/iso15924/iso15924-codes.html), regardless of OTL script tags:
+The same name is also used by the Devanagari ‹अ›, but with a **script namespace** of “Devanagari” instead of the default “Latin”. The script namespace of a glyph can be explicitly **declared** as a suffix separated from the glyph name’s main body with double period ( `..` ), in the script’s Capitalized four-letter code from [ISO 15924, _Codes for the representation of names of scripts_](https://unicode.org/iso15924/iso15924-codes.html), regardless of OTL script tags:
 
     a       # a
-    a-Deva  # अ, Devanagari
+    a..Deva  # अ, Devanagari
 
 For the sake of brevity in non-Latin projects, a script namespace can also be **inherited** from a project-wide declaration (e.g., in a .glyphs file’s “Notes” field). Therefore, a Devanagari-dominated project can have:
 
     # Script namespace: Devanagari (ISO 15924: Deva)
 
-    a-Latn  # a, Latin
+    a..Latn  # a, Latin
     a       # अ
     ka      # क
     one     # १
 
 Elsewhere in this documentation, an inherited script namespace of “Devanagari” is assumed by default.
 
-In a workflow where more characters are supported in development glyph names, a colon ( `:` ) may be preferred as the separator (e.g., `a:Latn`). This may aid readability. The script code may also be declared as a prefix (`Latn:a`).
+In a workflow where more characters are supported in development glyph names, a colon ( `:` ) may be preferred as the separator (e.g., `a:Latn`). This may aid readability. With a colon, the script code may also be declared as a prefix (`Latn:a`).
 
 ### A.1.3 Direct and phrasal names
 
@@ -69,6 +69,18 @@ For glyphs that are difficult to name in direct terms, use a phrase (e.g., “vo
     k_ssa      # क्ष; k + ssa
     r_u        # रु; r + u
 
+For a written unit or phonetic segment, there can be three levels of naming clarity:
+
+1. Names with a modifier
+    - For example: “dental/soft ta” vs. “retroflex/hard ta”, “vocalic r”, “heavy ya”.
+    - This style is informative, but may look confusing when nested in phrasal names, for example, when naming a phonetic composition (e.g., `h_vocalic_r` for ‹हृ›).
+2. Unicode-style names
+    - For example: “ta” vs. “tta”, “aa”, “rha”.
+    - Although looking unnatural, this style works well in nested phrasal names (e.g., `tt_ttha` for ‹ट्ठ›), but not so well for transcribing words.
+3. Language-specific transcriptions
+    - For example: “virama” for _virāma_, “prishthamatra” for _pṛṣṭhamātrā_, “tha” and “ta” for _ta_ and _ṭa_ in Tamil.
+    - In order to transcribe words in basic Latin letters, certain phonetic segments are folded into one, introducing ambiguity.
+
 Unicode character names are decent sources of direct and phrasal terms for atomically encoded glyphs. But some naming normalization can be helpful.
 
 Use generic terms instead, if a group of glyphs apparently conform to a generic system, such as the Sanskrit alphabet:
@@ -82,17 +94,11 @@ Also, watch out misnomers:
     # Kannada:
     llla  # ೞ; U+0CDE KANNADA LETTER FA, annotated “name is a mistake for LLLA”
 
-For a written unit or phonetic segment, there can be three levels of naming clarity:
+The distinction between “vowel” and “consonant” is generally unhelpful.
 
-1. Names with a modifier
-    - For example: “dental/soft ta” vs. “retroflex/hard ta”, “vocalic r”, “heavy ya”.
-    - This style is informative, but may look confusing when nested in phrasal names, for example, when naming a phonetic composition (e.g., `h_vocalic_r` for ‹हृ›).
-2. Unicode-style names
-    - For example: “ta” vs. “tta”, “aa”, “rha”.
-    - Although looking unnatural, this style works well in nested phrasal names (e.g., `tt_ttha` for ‹ट्ठ›), but not so well for transcribing words.
-3. Language-specific transcriptions
-    - For example: “virama” for _virāma_, “prishthamatra” for _pṛṣṭhamātrā_, “tha” and “ta” for _ta_ and _ṭa_ in Tamil.
-    - In order to transcribe words in basic Latin letters, certain phonetic segments are folded into one, introducing ambiguity.
+For a given script, if its letters generally are already alsyllabic (syllabary or abuguda), use letters’ direct pronounciations for naming. (See Meetei Mayek.) Otherwise (abjad or alphabet), use native letter names. (See Ol Chiki.) Note Latin is a special case for letter naming (e.g., ‹B› is not named “Be”) because it is already the final script used in naming.
+
+Name letters with their
 
 ### A.1.4 Naming signs
 
@@ -112,7 +118,20 @@ A base may correspond to multiple conjoining signs. Each conjoining sign has a s
     sign_ra_left_pre     # र्‍; conjoining sign of ra, left and pre-base
     sign_ra_bottom_post  # ्र; conjoining sign of ra, bottom and post-base
 
-But shorthands are usually used, which avoid verbose names, and can exhibit some shared behavior across scripts. For example, repha (conjoining sign of ra, phonetically initial in onset):
+### Shorthands
+
+***Phonetic compositions***
+
+When there is no ambiguity, the underscores in phonetic compositions can be omitted:
+
+    # Tamil:
+    ku    # கு (instead of k_u)
+    kssa  # க்ஷ (instead of k_ssa)
+    srii  # ஸ்ரீ (instead of s_r_ii)
+
+***Signs***
+
+Shorthands are usually used for signs, which avoid verbose names, and can exhibit some shared behavior across scripts. For example, repha (conjoining sign of ra, phonetically initial in onset):
 
     # Devanagari:
     repha  # र्◌, (top)
@@ -138,13 +157,24 @@ Phonetically post-base signs are considered the default conjoining signs, and do
     sign_ya        # ੍ਯ conjoining sign of ya, (bottom and post-base)
     sign_ya_right  # ੍ਯ, conjoining sign of ya, right (and post-base)
 
-In particular, phonetically pre-base signs have very simple shorthands:
+***Pure consonants***
+
+In particular, phonetically pre-base signs, coda signs, and virama forms can be simply named after the pure consonants, as long as there is no ambiguity inside the script:
 
     # Devanagari:
     k     # क्‍, (conjoining sign of ka, left and pre-base)
     r     # र्‍, (conjoining sign of ra, left and pre-base)
     k_ss  # क्ष्‍, (conjoining sign of k_ssa, left and pre-base)
     t_t   # त्त्‍, (conjoining sign of t_ta, left and pre-base)
+
+    # Bangla:
+    t  # ৎ
+
+    # Malayalam
+    n  # ൻ
+
+    # Kannada
+    k  # ಕ್
 
 ### A.1.5 Variation
 
