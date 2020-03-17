@@ -24,6 +24,7 @@ This documentation does not contain instructions how to draw and construct glyph
 > _Work in progress._
 
 - 1\. [Unicode text](docs/unicode.md)
+- X. [Graphic analysis for digital typography](docs/graphic-analysis.md)
 - 2\. [OTL text shaping](docs/otl.md)
 - 3\. [Orthography-specific requirements](docs/orthographies.md)
 
@@ -31,7 +32,8 @@ This documentation does not contain instructions how to draw and construct glyph
 
 > _Work in progress._
 
-- A. [About glyphs](docs/glyphs.md)
+- A. [Glyph naming](docs/glyph-naming.md)
+- X. [Glyph Database](docs/glyph-database.md)
 - B. Tutorials on how to build OTL Indic fonts:
     - B.1 [देवनागरी Devanagari](docs/tutorial-deva.md)
     - B.2 [தமிழ் Tamil](docs/tutorial-taml.md)
