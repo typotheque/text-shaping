@@ -26,14 +26,14 @@ By default the glyph names we talk about are the so called **development glyph n
 
 A glyph name is up to 63 characters in length, consisting of only characters `A`–`Z`, `a`–`z`, `0`–`9`, period ( `.` ), underscore ( `_` ), and dash ( `-` ). Dash is only valid in d-names. No glyph names can start with a digit or period, except `.notdef`. Although the [OpenType Feature File Specification](https://adobe-type-tools.github.io/afdko/OpenTypeFeatureFileSpecification.html#2.f.i) has cleared seven d-name-only characters, we use only dash due to the [Glyphs app](http://glyphsapp.com)’s restriction.
 
-A **basic name** is followed by a **script suffix** that specify the script namespace.
+A **plain name** is followed by a **script suffix** that specifies the script namespace.
 
 Regardless of the script’s OTL script tag(s), the suffix uses the script’s Capitalized four-letter code from [ISO 15924](https://unicode.org/iso15924/iso15924-codes.html), _Codes for the representation of names of scripts_. The suffix is led by a double period (imagine a lied down colon). For how to omit the script suffix by specifying an implied script namespace, see section A.3, _Shorthands and alternatives_.
 
     a..Latn  # ‹a› glyph “a”, Latin script
     a..Deva  # ‹अ› glyph “a”, Devanagari script
 
-For the sake of readability, basic names are in all-lowercase by default. Bicameral scripts’ capital letters get Capitalized basic names. When a basic name has a composite structure, its constituting parts (e.g., constituting words of a phrase) are joined by dashes.
+For the sake of readability, plain names are in all-lowercase by default. Bicameral scripts’ capital letters get Capitalized plain names. When a plain name has a composite structure, its constituting parts (e.g., constituting words of a phrase) are joined by dashes.
 
 Atomically encoded glyph typically get a name derived from its Unicode character’s name. The Glyph Database provides recommended forms of these **Unicode-derived names** for all the atomically encoded glyphs, and may incorporate [LettError/glyphNameFormatter](https://github.com/LettError/glyphNameFormatter) in the future. For some behind-the-scenes explanation of the strategies used when deriving those recommended names, see section A.4, _Transforming Unicode character names_.
 
@@ -46,12 +46,12 @@ For glyphs that are not atomically encoded, **systematic names** are generated w
     k-ssa..Deva    # ‹क्ष› “k-ssa” (kṣa), Devanagari
     sign-ra..Deva  # ‹…› conjoining sign of “ra” (graphically bottom, phonetically post-base), Devanagari
 
-One or more **variant suffixes** may follow the basic name and precede the script suffix. Each variant suffix is led by a period. Variant suffixes should be informative, and avoid unnecessary abbreviation.
+One or more **variant suffixes** may follow the plain name and precede the script suffix. Each variant suffix is led by a period. Variant suffixes should be informative, and avoid unnecessary abbreviation.
 
     five.northern..Deva          # ‹…› “five”, northern variant, Devanagari
     five.northern.tabular..Deva  # ‹…› “five”, tabular variant of northern variant, Devanagari
 
-If the glyph is a **typographic ligature**, join its components’ basic names with dashes.
+If the glyph is a **typographic ligature**, join its components’ plain names with dashes.
 
     repha_anusvara..Deva         # ‹…› ligature of “repha” and “anusvara”, Devanagari
     repha_anusvara.narrow..Deva  # ‹…› ligature of “repha” and “anusvara”, narrow variant, Devanagari
