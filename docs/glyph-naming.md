@@ -162,10 +162,11 @@ Then, transform the leftover words to all-lowercase, then replace all word space
 
 Certain **overriding** can be helpful. Scripts like Sinhala and Meetei Mayek use native terms in character names, with the Sanskrit-conforming generic names annotated. If a group of glyphs apparently conform to a generic system, such as the Sanskrit alphabet or the decimal digits, the generic terms should be used instead. Certain Unicode character names can also be inappropriate or even simply misnomers, and thus should be corrected in glyph names.
 
-    ka..Sinh    # ‹ක› “ka”, Sinhala; U+0D9A SINHALA LETTER ALPAPRAANA KAYANNA, annotated with alternative name “sinhala letter ka”
-    ka..Mtei    # ‹ꯀ› “ka”, Meetei Mayek; U+ABC0 MEETEI MAYEK LETTER KOK, annotated with alternative name “ka”
-    svarita     # ‹…› “svarita“, general script; U+0951 DEVANAGARI STRESS SIGN UDATTA, annotated with alternative name “Vedic tone svarita” and informative note “mostly used for svarita, with rare use for udatta”
-    llla..Knda  # ‹ೞ› “llla”, Kannada; U+0CDE KANNADA LETTER FA, annotated with normative alias “KANNADA LETTER LLLA” and informative note “name is a mistake for LLLA”
+    ka..Sinh      # ‹ක› “ka”, Sinhala; U+0D9A SINHALA LETTER ALPAPRAANA KAYANNA, annotated with alternative name “sinhala letter ka”
+    ka..Mtei      # ‹ꯀ› “ka”, Meetei Mayek; U+ABC0 MEETEI MAYEK LETTER KOK, annotated with alternative name “ka”
+    svarita       # ‹…› “svarita“, general script; U+0951 DEVANAGARI STRESS SIGN UDATTA, annotated with alternative name “Vedic tone svarita” and informative note “mostly used for svarita, with rare use for udatta”
+    llla..Knda    # ‹ೞ› “llla”, Kannada; U+0CDE KANNADA LETTER FA, annotated with normative alias “KANNADA LETTER LLLA” and informative note “name is a mistake for LLLA”
+    aytham..Taml  # ‹ஃ› “aytham”, Tamil; U+0B83 TAMIL SIGN VISARGA, annotated with alternative name “aytham”; “VISARGA” is a misanalysis inherited from ISCII
 
 Sometimes the Unicode character names are very awkward, and glyph names may benefit from an **alternative set of terms**. As a rule of thumb, for a given script, if generally its letters are already alphasyllabic (syllabary or abugida), transcribe the letters’ pronunciations (see Meetei Mayek); otherwise (abjad or alphabet), transcribe native letter names (see Ol Chiki). Note that Latin is a special case (e.g., ‹B› is not named “Be”) only because there is no transcription involved.
 
