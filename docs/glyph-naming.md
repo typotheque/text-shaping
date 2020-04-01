@@ -83,7 +83,7 @@ In reality though, such cumbersome systematic names are seldom recommended and a
 
 ### Shorthands for systematic names
 
-When there is no ambiguity inside a script, the dashes in phonetic segmentation may be systematically omitted.
+When there is no ambiguity inside a script, the dashes in phonetic segmentation (only in phonetic segmentation, not elsewhere) may be systematically omitted.
 
     ku..Taml    # ‹கு› “ku” (ku) instead of “k u”, Tamil
     kssa..Taml  # ‹க்ஷ› “kssa” (kṣa) instead of ”k ssa”, Tamil
