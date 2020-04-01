@@ -5,7 +5,7 @@
 ## B.2.1 Scope of the exemplar font project
 
 - Script: தமிழ் Tamil
-    - The script suffix `-taml` is omitted from glyph names in this tutorial.
+    - The script suffix `..Taml` is omitted from glyph names in this tutorial.
 - Orthography: contemporary தமிழ் Tamil
 
 ## B.2.2 Character-to-glyph mapping
@@ -16,17 +16,17 @@ character | | glyph | note
 -- | -- | -- | --
 0B83 | ஃ | aytham | SIGN VISARGA is misnomer.
 0B85 | அ | a |
-0B86 | ஆ | aa | confusable: a uusign (see uusign)
+0B86 | ஆ | aa | confusable: a sign-uu (see sign-uu)
 0B87 | இ | i |
 0B88 | ஈ | ii |
 0B89 | உ | u |
-0B8A | ஊ | uu | borderline confusable: u lla/aulengthsign
+0B8A | ஊ | uu | borderline confusable: u lla / au-length
 0B8E | எ | e |
 0B8F | ஏ | ee |
 0B90 | ஐ | ai |
 0B92 | ஒ | o |
 0B93 | ஓ | oo |
-0B94 | ஔ | au | ≡ 0B92 0BD7 (o ausign)
+0B94 | ஔ | au | ≡ 0B92 0BD7 (o sign-au)
 0B95 | க | ka |
 0B99 | ங | nga |
 0B9A | ச | ca |
@@ -43,26 +43,26 @@ character | | glyph | note
 0BB0 | ர | ra |
 0BB1 | ற | rra |
 0BB2 | ல | la |
-0BB3 | ள | lla | confusable: aulengthsign
+0BB3 | ள | lla | confusable: au-length
 0BB4 | ழ | llla |
 0BB5 | வ | va |
 0BB6 | ஶ | sha | Grantha; marginal usage
 0BB7 | ஷ | ssa | Grantha
 0BB8 | ஸ | sa | Grantha
 0BB9 | ஹ | ha | Grantha
-0BBE | ா | aasign |
-0BBF | ி | isign |
-0BC0 | ீ | iisign |
-0BC1 | ு | usign | phonetic; only graphically definite on Grantha bases
-0BC2 | ூ | uusign | phonetic; only graphically definite on Grantha bases
-0BC6 | ெ | esign |
-0BC7 | ே | eesign |
-0BC8 | ை | aisign |
-0BCA | ொ | osign | ≡ 0BC6 0BBE (esign aasign)
-0BCB | ோ | oosign | ≡ 0BC7 0BBE (eesign aasign)
-0BCC | ௌ | ausign | ≡ 0BC6 0BD7 (esign aulengthsign)
+0BBE | ா | sign-aa |
+0BBF | ி | sign-i |
+0BC0 | ீ | sign-ii |
+0BC1 | ு | sign-u | phonetic; only graphically definite on Grantha bases
+0BC2 | ூ | sign-uu | phonetic; only graphically definite on Grantha bases
+0BC6 | ெ | sign-e |
+0BC7 | ே | sign-ee |
+0BC8 | ை | sign-ai |
+0BCA | ொ | sign-o | ≡ 0BC6 0BBE (sign-e sign-aa)
+0BCB | ோ | sign-oo | ≡ 0BC7 0BBE (sign-ee sign-aa)
+0BCC | ௌ | sign-au | ≡ 0BC6 0BD7 (sign-e au-length)
 0BCD | ் | virama |
-0BD7 | ௗ | aulengthsign | confusable: lla
+0BD7 | ௗ | au-length | confusable: lla
 
 <!-- Need to confirm usage of U+0BD0 om and U+0BF9 rupee. -->
 
@@ -83,111 +83,113 @@ languagesystem tml2 dflt;
 ### Complex bases
 
 ```
-lookup base {
+lookup base.grantha_conjunct {
 
     sub ka virama ssa by kssa;
 
-    sub ka isign by ki;
-    sub ka iisign by kii;
-    sub ka usign by ku;
-    sub ka uusign by kuu;
-    sub nga isign by ngi;
-    sub nga iisign by ngii;
-    sub nga usign by ngu;
-    sub nga uusign by nguu;
-    sub ca isign by ci;
-    sub ca iisign by cii;
-    sub ca usign by cu;
-    sub ca uusign by cuu;
-    sub nya isign by nyi;
-    sub nya iisign by nyii;
-    sub nya usign by nyu;
-    sub nya uusign by nyuu;
-    sub tta isign by tti;
-    sub tta iisign by ttii;
-    sub tta usign by ttu;
-    sub tta uusign by ttuu;
-    sub nna isign by nni;
-    sub nna iisign by nnii;
-    sub nna usign by nnu;
-    sub nna uusign by nnuu;
-    sub ta isign by ti;
-    sub ta iisign by tii;
-    sub ta usign by tu;
-    sub ta uusign by tuu;
-    sub na isign by ni;
-    sub na iisign by nii;
-    sub na usign by nu;
-    sub na uusign by nuu;
-    sub pa isign by pi;
-    sub pa iisign by pii;
-    sub pa usign by pu;
-    sub pa uusign by puu;
-    sub ma isign by mi;
-    sub ma iisign by mii;
-    sub ma usign by mu;
-    sub ma uusign by muu;
-    sub ya isign by yi;
-    sub ya iisign by yii;
-    sub ya usign by yu;
-    sub ya uusign by yuu;
-    sub ra isign by ri;
-    sub ra iisign by rii;
-    sub ra usign by ru;
-    sub ra uusign by ruu;
-    sub la isign by li;
-    sub la iisign by lii;
-    sub la usign by lu;
-    sub la uusign by luu;
-    sub va isign by vi;
-    sub va iisign by vii;
-    sub va usign by vu;
-    sub va uusign by vuu;
-    sub llla isign by llli;
-    sub llla iisign by lllii;
-    sub llla usign by lllu;
-    sub llla uusign by llluu;
-    sub lla isign by lli;
-    sub lla iisign by llii;
-    sub lla usign by llu;
-    sub lla uusign by lluu;
-    sub rra isign by rri;
-    sub rra iisign by rrii;
-    sub rra usign by rru;
-    sub rra uusign by rruu;
-    sub nnna isign by nnni;
-    sub nnna iisign by nnnii;
-    sub nnna usign by nnnu;
-    sub nnna uusign by nnnuu;
-    sub ja isign by ji;
-    sub ja iisign by jii;
-    sub ja usign by ju;
-    sub ja uusign by juu;
-    sub ssa isign by ssi;
-    sub ssa iisign by ssii;
-    sub ssa usign by ssu;
-    sub ssa uusign by ssuu;
-    sub sa isign by si;
-    sub sa iisign by sii;
-    sub sa usign by su;
-    sub sa uusign by suu;
-    sub ha isign by hi;
-    sub ha iisign by hii;
-    sub ha usign by hu;
-    sub ha uusign by huu;
-    sub kssa isign by kssi;
-    sub kssa iisign by kssii;
-    sub kssa usign by kssu;
-    sub kssa uusign by kssuu;
-    sub sha isign by shi;
-    sub sha iisign by shii;
-    sub sha usign by shu;
-    sub sha uusign by shuu;
+    sub sa virama ra sign-ii by srii;
+    sub sha virama ra sign-ii by srii;
 
-    sub sa virama ra iisign by srii;
-    sub sha virama ra iisign by srii;
+} base.grantha_conjunct;
 
-} base;
+lookup base.consonant_vowel {
+    sub ka sign-i by ki;
+    sub ka sign-ii by kii;
+    sub ka sign-u by ku;
+    sub ka sign-uu by kuu;
+    sub nga sign-i by ngi;
+    sub nga sign-ii by ngii;
+    sub nga sign-u by ngu;
+    sub nga sign-uu by nguu;
+    sub ca sign-i by ci;
+    sub ca sign-ii by cii;
+    sub ca sign-u by cu;
+    sub ca sign-uu by cuu;
+    sub nya sign-i by nyi;
+    sub nya sign-ii by nyii;
+    sub nya sign-u by nyu;
+    sub nya sign-uu by nyuu;
+    sub tta sign-i by tti;
+    sub tta sign-ii by ttii;
+    sub tta sign-u by ttu;
+    sub tta sign-uu by ttuu;
+    sub nna sign-i by nni;
+    sub nna sign-ii by nnii;
+    sub nna sign-u by nnu;
+    sub nna sign-uu by nnuu;
+    sub ta sign-i by ti;
+    sub ta sign-ii by tii;
+    sub ta sign-u by tu;
+    sub ta sign-uu by tuu;
+    sub na sign-i by ni;
+    sub na sign-ii by nii;
+    sub na sign-u by nu;
+    sub na sign-uu by nuu;
+    sub pa sign-i by pi;
+    sub pa sign-ii by pii;
+    sub pa sign-u by pu;
+    sub pa sign-uu by puu;
+    sub ma sign-i by mi;
+    sub ma sign-ii by mii;
+    sub ma sign-u by mu;
+    sub ma sign-uu by muu;
+    sub ya sign-i by yi;
+    sub ya sign-ii by yii;
+    sub ya sign-u by yu;
+    sub ya sign-uu by yuu;
+    sub ra sign-i by ri;
+    sub ra sign-ii by rii;
+    sub ra sign-u by ru;
+    sub ra sign-uu by ruu;
+    sub la sign-i by li;
+    sub la sign-ii by lii;
+    sub la sign-u by lu;
+    sub la sign-uu by luu;
+    sub va sign-i by vi;
+    sub va sign-ii by vii;
+    sub va sign-u by vu;
+    sub va sign-uu by vuu;
+    sub llla sign-i by llli;
+    sub llla sign-ii by lllii;
+    sub llla sign-u by lllu;
+    sub llla sign-uu by llluu;
+    sub lla sign-i by lli;
+    sub lla sign-ii by llii;
+    sub lla sign-u by llu;
+    sub lla sign-uu by lluu;
+    sub rra sign-i by rri;
+    sub rra sign-ii by rrii;
+    sub rra sign-u by rru;
+    sub rra sign-uu by rruu;
+    sub nnna sign-i by nnni;
+    sub nnna sign-ii by nnnii;
+    sub nnna sign-u by nnnu;
+    sub nnna sign-uu by nnnuu;
+    sub ja sign-i by ji;
+    sub ja sign-ii by jii;
+    sub ja sign-u by ju;
+    sub ja sign-uu by juu;
+    sub ssa sign-i by ssi;
+    sub ssa sign-ii by ssii;
+    sub ssa sign-u by ssu;
+    sub ssa sign-uu by ssuu;
+    sub sa sign-i by si;
+    sub sa sign-ii by sii;
+    sub sa sign-u by su;
+    sub sa sign-uu by suu;
+    sub ha sign-i by hi;
+    sub ha sign-ii by hii;
+    sub ha sign-u by hu;
+    sub ha sign-uu by huu;
+    sub kssa sign-i by kssi;
+    sub kssa sign-ii by kssii;
+    sub kssa sign-u by kssu;
+    sub kssa sign-uu by kssuu;
+    sub sha sign-i by shi;
+    sub sha sign-ii by shii;
+    sub sha sign-u by shu;
+    sub sha sign-uu by shuu;
+} base.consonant_vowel;
 ```
 
 ### Stylistic alternatives
@@ -206,14 +208,14 @@ lookup stylistic.alt_ra.single {
 ```
 lookup stylistic.traditional {
 
-    sub nna aasign by nnaa.traditional;
-    sub rra aasign by rraa.traditional;
-    sub nnna aasign by nnnaa.traditional;
+    sub nna sign-aa by nnaa.traditional;
+    sub rra sign-aa by rraa.traditional;
+    sub nnna sign-aa by nnnaa.traditional;
 
-    sub aisign nna by nnai.traditional;
-    sub aisign la by lai.traditional;
-    sub aisign lla by llai.traditional;
-    sub aisign nnna by nnnai.traditional;
+    sub sign-ai nna by nnai.traditional;
+    sub sign-ai la by lai.traditional;
+    sub sign-ai lla by llai.traditional;
+    sub sign-ai nnna by nnnai.traditional;
 
 } stylistic.traditional;
 ```
@@ -226,7 +228,8 @@ lookup stylistic.traditional {
 
 ```
 feature akhn {
-    lookup base;
+    lookup base.grantha_conjunct;
+    lookup base.consonant_vowel;
 } akhn;
 
 feature ss01 {
