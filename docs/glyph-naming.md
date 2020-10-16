@@ -1,5 +1,11 @@
 # A. Glyph naming
 
+New:
+
+- Anything that makes an orthographical difference should be named as a unique entity that is free of dot-suffixing and underscore-ligation. Thus the existence of dot-suffixing and/or underscore-ligation marks the interface between orthography and typography.
+
+---
+
 Systematic and informative glyph naming facilitates design and development. Typotheque’s scheme for glyph names of Indic scripts is introduced in this appendix, and is used across this document. For the following scripts, the Glyph Database ([appendix X](glyph-database.md)) provides recommended names of their core glyphs, including all the atomically encoded glyphs:
 
 - Scripts used by official languages in India:
