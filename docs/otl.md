@@ -1,4 +1,4 @@
-# 2. OTL text shaping
+# F. OpenType Layout text shaping
 
 > _Work in progress._
 

@@ -1,4 +1,4 @@
-# A. Glyph naming
+# B. Recommended glyph naming
 
 New:
 

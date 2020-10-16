@@ -1,4 +1,4 @@
-# 1. Unicode Indic text
+# E. Unicode text
 
 > _Work in progress._
 

@@ -1,4 +1,4 @@
-# B.1 Tutorial on how to build an OTL Devanagari font
+# 2.1 Per-script tutorial: देवनागरी Devanagari
 
 > _Work in progress._
 

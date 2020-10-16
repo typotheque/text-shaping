@@ -1,4 +1,4 @@
-# C. References
+# 4. References
 
 > _Work in progress._
 

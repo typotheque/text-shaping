@@ -1,4 +1,4 @@
-# B.2 Tutorial on how to build an OTL Tamil font
+# 2.2 Per-script tutorial: தமிழ் Tamil
 
 > _Work in progress._
 
