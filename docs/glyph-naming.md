@@ -1,36 +1,51 @@
 # B. Recommended glyph naming
 
-New:
+Systematic and informative glyph naming facilitates design and development. Typotheque’s glyph naming scheme for Indic scripts is introduced in this appendix, and is used across the documentation project.
 
-- Anything that makes an orthographical difference should be named as a unique entity that is free of dot-suffixing and underscore-ligation. Thus the existence of dot-suffixing and/or underscore-ligation marks the interface between orthography and typography.
+For the following scripts, the **Database of Registered Glyphs** (to be made availabale later) provides recommended names for all of their common glyphs, including all the atomically encoded glyphs: देवनागरी Devanagari, ગુજરાતી Gujarati, ਗੁਰਮੁਖੀ Gurmukhi, বাংলা Bangla, ଓଡ଼ିଆ Odia, తెలుగు Telugu, ಕನ್ನಡ Kannada, മലയാളം Malayalam, தமிழ் Tamil, ꯃꯤꯇꯩ ꯃꯌꯦꯛ Meetei Mayek, ᱚᱞ ᱪᱤᱠᱤ Ol Chiki, and සිංහල Sinhala.
 
----
+## Quick reference
 
-Systematic and informative glyph naming facilitates design and development. Typotheque’s scheme for glyph names of Indic scripts is introduced in this appendix, and is used across this document. For the following scripts, the Glyph Database ([appendix X](glyph-database.md)) provides recommended names of their core glyphs, including all the atomically encoded glyphs:
+There are four general syntactic characters and some alternative formats:
 
-- Scripts used by official languages in India:
+- **Word separator:** dash (-), or **camelCasing**
 
-    - देवनागरी Devanagari
-    - ગુજરાતી Gujarati
-    - ਗੁਰਮੁਖੀ Gurmukhi
-    - বাংলা Bangla
-    - ଓଡ଼ିଆ Odia
-    - తెలుగు Telugu
-    - ಕನ್ನಡ Kannada
-    - മലയാളം Malayalam
-    - தமிழ் Tamil
-    - ꯃꯤꯇꯩ ꯃꯌꯦꯛ Meetei Mayek
-    - ᱚᱞ ᱪᱤᱠᱤ Ol Chiki
+    * Each typographically non-decomposable (i.e., orthographically unique) component is named with either a single all-lowercase word, or a phrase joined by dashes: इ **i**, ि **sign<mark>-</mark>i** (dependent sign _i_), ह **ha**, ह्र **h<mark>-</mark>ra** (_hra_), हृ **h<mark>-</mark>vocalic<mark>-</mark>r** (_hṛ_)
+    * When dashes are undesirable or not allowed (such as in production names), use the equivalent camelCase format: **i**, **signI**, **ha**, **hRa**, **hVocalicR**
 
-- Other scripts:
+- **Component separator:** underscore (_)
 
-    - සිංහල Sinhala
+    * Inside a typographical ligature, components are joined by underscores: म्ह **m<mark>\_</mark>ha** (ligation between म्‍ m and ह ha), हु **ha<mark>\_</mark>sign-u** (ligation between ह ha and ु sign-u)
 
-By default the glyph names we talk about are the so called **development glyph names** (d-names), which may be different from **production glyph names** (p-names). The recommendation about p-names will be made available later. Note that for Indic scripts because of their complex shaping, a PDF needs to be tagged (e.g., with `\ActualText`) anyway in order to enable text extraction, which makes it largely unnecessary to supply p-names that are compliant with the [Adobe Glyph List Specification](https://github.com/adobe-type-tools/agl-specification).
+- **Variation suffix separator:** period (.xxxx)
+
+    * A typographical variant is denoted with a period-seprated suffix: रि **sign-i<mark>.short</mark>** (followed by base ra), की **sign-ii<mark>.long</mark>** (preceded by base ka)
+
+- **Script prefix separator:** colon (xxxx:), or dash for **suffixing** (-xxxx)
+
+    * Formally, the Unicode script a glyph belongs to is denoted by an unambiguous, colon-seprated prefix of the lowercased Unicode script code: क **<mark>deva:</mark>ka**, க **<mark>taml:</mark>ka**, র্চি **<mark>beng:</mark>sign-i_repha.short** (followed by base beng:ca)
+    * When a colon-separated prefix is undesirable or not allowed (such as in the Glyphs app), attach a dash-separated suffix to the last underscore-separated component instead: **ka<mark>-deva</mark>**, **ka<mark>-taml</mark>**, **sign-i_repha<mark>-beng</mark>.short**
+    * Script prefixes/suffixes can often be ommitted in casual discussions when the script is clear.
+
+Each script has its own shorthands, and thus one needs to refer to the database of registered glyphs for recommended names. Some commonly used shorthand solutions are outlined below:
+
+- Conjoining signs: ਕ੍ਰ guru:sign-ra (preceded by base ka), క్ర telu:sign-ra, ക്ര mlym:sign-ra
+- Pure consonant bases and signs whose phonetic names are unambiguous within the script: क्‍ deva:k, క్ telu:k, ൿ mlym:k
+- Nukta-ed components: फ़ phxa, फ़्र phx-ra, फ़्‍ phx, फ़्र्‍ phx-r
+
+## Principles
+
+- Typographical decomposition (which is the basis of glyph naming) is separate from shaping productivity. `ya-post` may be considered productive or not in shaping, but `tt-ya` is apparently typographically decomposable into `<tta, ya-post>`.
+
+- Anything that makes an orthographical difference should be named as a unique entity that is free of typographical composing (dot-suffixing and underscore-ligation). Then the existence of dot-suffixing and/or underscore-ligation can mark the interface between orthography and typography.
+
+- …
+
+By default the glyph names we talk about are the so called **development glyph names**, which may be different from **production glyph names**. The recommendation about production names will be made available later. For Indic scripts, because of their complex shaping, a PDF needs to be tagged (e.g., with `\ActualText`) anyway in order to enable text extraction, which makes it largely unnecessary to supply production names that are compliant with the [Adobe Glyph List Specification](https://github.com/adobe-type-tools/agl-specification).
 
 ## A.1 Structure
 
-A glyph name is up to 63 characters in length, consisting of only characters `A`–`Z`, `a`–`z`, `0`–`9`, period ( `.` ), underscore ( `_` ), and dash ( `-` ). Dash is only valid in d-names. No glyph names can start with a digit or period, except `.notdef`. Although the [OpenType Feature File Specification](https://adobe-type-tools.github.io/afdko/OpenTypeFeatureFileSpecification.html#2.f.i) has cleared seven d-name-only characters, we use only dash due to the [Glyphs app](http://glyphsapp.com)’s restriction.
+A glyph name is up to 63 characters in length, consisting of only characters `A`–`Z`, `a`–`z`, `0`–`9`, period ( `.` ), underscore ( `_` ), and dash ( `-` ). Dash is only valid in development names. No glyph names can start with a digit or period, except `.notdef`. Although the [OpenType Feature File Specification](https://adobe-type-tools.github.io/afdko/OpenTypeFeatureFileSpecification.html#2.f.i) has cleared seven development-name–only characters, we use only dash due to the [Glyphs app](http://glyphsapp.com)’s restriction.
 
 A **plain name** is followed by a **script suffix** that specifies the script namespace.
 
@@ -150,7 +165,7 @@ A script namespace may be inherited from a project-wide declaration (e.g., in a 
 
 Implied script namespace, however, makes copying glyphs from one project to another a slightly complicated task, as renaming is often necessary.
 
-In a workflow where more characters are supported in d-names, a colon ( `:` ) may be preferred to lead the script namespace suffix (e.g., `a:Deva`). This may aid readability. With a colon, the script code may also be declared as a prefix (`Deva:a`), although in practice a suffixed script code makes it easier to search for glyphs.
+In a workflow where more characters are supported in development names, a colon ( `:` ) may be preferred to lead the script namespace suffix (e.g., `a:Deva`). This may aid readability. With a colon, the script code may also be declared as a prefix (`Deva:a`), although in practice a suffixed script code makes it easier to search for glyphs.
 
 ## A.4 Transforming Unicode character names
 
