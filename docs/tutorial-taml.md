@@ -20,13 +20,13 @@ character | | glyph | note
 0B87 | இ | i |
 0B88 | ஈ | ii |
 0B89 | உ | u |
-0B8A | ஊ | uu | borderline confusable: u lla / au-length
+0B8A | ஊ | uu | borderline confusable: u lla / sign-partial-au
 0B8E | எ | e |
 0B8F | ஏ | ee |
 0B90 | ஐ | ai |
 0B92 | ஒ | o |
 0B93 | ஓ | oo |
-0B94 | ஔ | au | ≡ 0B92 0BD7 (o sign-au)
+0B94 | ஔ | au | ≡ 0B92 0BD7 (o sign-partial-au)
 0B95 | க | ka |
 0B99 | ங | nga |
 0B9A | ச | ca |
@@ -43,7 +43,7 @@ character | | glyph | note
 0BB0 | ர | ra |
 0BB1 | ற | rra |
 0BB2 | ல | la |
-0BB3 | ள | lla | confusable: au-length
+0BB3 | ள | lla | confusable: sign-partial-au
 0BB4 | ழ | llla |
 0BB5 | வ | va |
 0BB6 | ஶ | sha | Grantha; marginal usage
@@ -60,9 +60,9 @@ character | | glyph | note
 0BC8 | ை | sign-ai |
 0BCA | ொ | sign-o | ≡ 0BC6 0BBE (sign-e sign-aa)
 0BCB | ோ | sign-oo | ≡ 0BC7 0BBE (sign-ee sign-aa)
-0BCC | ௌ | sign-au | ≡ 0BC6 0BD7 (sign-e au-length)
+0BCC | ௌ | sign-au | ≡ 0BC6 0BD7 (sign-e sign-partial-au)
 0BCD | ் | virama |
-0BD7 | ௗ | au-length | confusable: lla
+0BD7 | ௗ | sign-partial-au | confusable: lla
 
 <!-- Need to confirm usage of U+0BD0 om and U+0BF9 rupee. -->
 
