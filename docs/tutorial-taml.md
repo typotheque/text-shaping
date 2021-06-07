@@ -5,7 +5,7 @@
 ## B.2.1 Scope of the exemplar font project
 
 - Script: தமிழ் Tamil
-    - The script suffix `..Taml` is omitted from glyph names in this tutorial.
+    - The script suffix `-taml` is omitted from glyph names in this tutorial.
 - Orthography: contemporary தமிழ் Tamil
 
 ## B.2.2 Character-to-glyph mapping
@@ -84,15 +84,16 @@ languagesystem tml2 dflt;
 
 ```
 lookup base.grantha_conjunct {
-
     sub ka virama ssa by kssa;
-
-    sub sa virama ra sign-ii by srii;
-    sub sha virama ra sign-ii by srii;
-
 } base.grantha_conjunct;
 
 lookup base.consonant_vowel {
+
+    # Should be under feature akhn: lookup base.grantha_conjunct, but Adobe apps cannot handle the input.
+    sub sa virama ra sign-ii by srii;
+    sub sha virama ra sign-ii by srii;
+
+    # Could be under feature akhn but Adobe apps cannot handle the input.
     sub ka sign-i by ki;
     sub ka sign-ii by kii;
     sub ka sign-u by ku;
@@ -189,33 +190,29 @@ lookup base.consonant_vowel {
     sub sha sign-ii by shii;
     sub sha sign-u by shu;
     sub sha sign-uu by shuu;
+
 } base.consonant_vowel;
 ```
 
 ### Stylistic alternatives
 
 ```
-lookup stylistic.alt_ra.contextual {
+lookup stylistic.alt_ra {
     sub ra' virama by ra.alt;
-} stylistic.alt_ra.contextual;
+    sub ri' by ri.alt;
+    sub rii' by rii.alt;
+} stylistic.alt_ra;
 
-lookup stylistic.alt_ra.single {
-    sub ri by ri.alt;
-    sub rii by rii.alt;
-} stylistic.alt_ra.single;
-```
-
-```
 lookup stylistic.traditional {
 
-    sub nna sign-aa by nnaa.traditional;
-    sub rra sign-aa by rraa.traditional;
-    sub nnna sign-aa by nnnaa.traditional;
+    sub nna sign-aa by nnaa;
+    sub rra sign-aa by rraa;
+    sub nnna sign-aa by nnnaa;
 
-    sub sign-ai nna by nnai.traditional;
-    sub sign-ai la by lai.traditional;
-    sub sign-ai lla by llai.traditional;
-    sub sign-ai nnna by nnnai.traditional;
+    sub sign-ai nna by nnai;
+    sub sign-ai la by lai;
+    sub sign-ai lla by llai;
+    sub sign-ai nnna by nnnai;
 
 } stylistic.traditional;
 ```
@@ -229,18 +226,19 @@ lookup stylistic.traditional {
 ```
 feature akhn {
     lookup base.grantha_conjunct;
-    lookup base.consonant_vowel;
 } akhn;
+
+feature pres {
+    lookup base.consonant_vowel;
+} pres;
 
 feature ss01 {
     featureNames { name "Stylistic Alternates: Alternative Ra"; };
-    lookup stylistic.alt_ra.contextual;
-    lookup stylistic.alt_ra.single;
+    lookup stylistic.alt_ra;
 } ss01;
 
 feature salt {
-    lookup stylistic.alt_ra.contextual;
-    lookup stylistic.alt_ra.single;
+    lookup stylistic.alt_ra;
 } salt;
 
 feature ss02 {
@@ -251,6 +249,8 @@ feature ss02 {
 feature dlig {
     lookup stylistic.traditional;
 } dlig;
+
+# GPOS
 
 feature abvm {
     lookup positioning.mark.top;
