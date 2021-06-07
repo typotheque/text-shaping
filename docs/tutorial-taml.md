@@ -80,7 +80,7 @@ languagesystem tml2 dflt;
 
 ## B.2.5 Lookups
 
-### Complex bases
+### Complex shaping
 
 ```
 lookup base.grantha_conjunct {

@@ -14,7 +14,7 @@ This tutorial showcases that, with glyphs already in hand, how one can construct
 
 <!-- [Workarounds: Eyelash, reordering, ] -->
 
-<!-- [Additional behavior: isign matching, vocalic liquid CV syllable…] -->
+<!-- [Additional behavior: sign-i matching, vocalic liquid CV syllable…] -->
 
 <!-- [Character mapping; precomposed characters are needed for certain platforms, although they can be broken down in general shaping.] -->
 
@@ -28,16 +28,16 @@ This tutorial showcases that, with glyphs already in hand, how one can construct
 
 character | | glyph | note
 -- | -- | -- | --
-0901 | ँ | candrabindu | confusable: esigncandra anusvara
+0901 | ँ | candrabindu | confusable: sign-candra-e anusvara
 0902 | ं | anusvara |
 0903 | ः | visarga |
 0905 | अ | a |
-0906 | आ | aa | a aasign
+0906 | आ | aa | a sign-aa
 0907 | इ | i |
 0908 | ई | ii | confusable: i repha
 0909 | उ | u |
 090A | ऊ | uu |
-090B | ऋ | vocalicr |
+090B | ऋ | vocalic-r |
 … | … | … |
 
 ## B.1.3 Scripts and language systems
@@ -47,9 +47,9 @@ languagesystem DFLT dflt;
 languagesystem dev2 dflt;
 ```
 
-<!-- Under this feature, we forming `*__nukta` glyphs so they can participate in later shaping rules like normal letters.
+<!-- Under this feature, we forming `*_nukta` glyphs so they can participate in later shaping rules like normal letters.
 
-GPOS (blwm) can be used to position nukta on a base instead, then later shaping rules will need to both ignore Signnukta when forming ligatures and position Signnukta on ligature components properly, but also still always recognize the existence of nukta on every component characters (note the ones not next to a virama thus not blocking a virama’s function automatically) and decide whether these clusters should shape in a way consistent to their nukta-less counterparts. -->
+GPOS (blwm) can be used to position nukta on a base instead, then later shaping rules will need to both ignore nukta when forming ligatures and position nukta on ligature components properly, but also still always recognize the existence of nukta on every component characters (note the ones not next to a virama thus not blocking a virama’s function automatically) and decide whether these clusters should shape in a way consistent to their nukta-less counterparts. -->
 
 ## B.1.4 Reordering
 
@@ -57,148 +57,12 @@ GPOS (blwm) can be used to position nukta on a base instead, then later shaping 
 
 ## B.1.5 Lookups
 
-### Complex bases
+### Complex shaping
 
 > FIGURE:\
-> ड (dda) ़ (nukta) → ड़ (dddha)\
-> र (ra) ु (usign) → रु (r_u)\
-> क (ka) ् (virama) ष (ssa) → क्ष (k_ssa)
-
-```
-lookup base.conjoinable.with_nukta {
-
-    # Hindi:
-    sub dda nukta by dddha;
-    sub ddha nukta by rha;
-
-    # Marathi Eyelash encoded with nukta:
-    sub ra nukta by rra;
-
-    # Perso-Arabic, English, etc., loanwords in Hindi:
-    sub ka nukta by qa;
-    sub kha nukta by khha;
-    sub ga nukta by ghha;
-    sub ja nukta by za;
-    sub pha nukta by fa;
-
-} base.conjoinable.with_nukta;
-```
-
-```
-lookup base.conjoinable {
-
-    # Classic prioritized:
-    sub ka virama ssa by k_ssa;
-    sub ja virama nya by j_nya;
-
-} base.conjoinable;
-```
-
-```
-lookup base.conjoinable.C_ra {
-
-    sub ka virama ra by k_ra;
-    sub kha virama ra by kh_ra;
-    sub ga virama ra by g_ra;
-    sub gha virama ra by gh_ra;
-    sub nga virama ra by ng_ra;
-    sub ca virama ra by c_ra;
-    sub cha virama ra by ch_ra;
-    sub ja virama ra by j_ra;
-    sub jha virama ra by jh_ra;
-    sub nya virama ra by ny_ra;
-    sub tta virama ra by tt_ra;
-    sub ttha virama ra by tth_ra;
-    sub dda virama ra by dd_ra;
-    sub ddha virama ra by ddh_ra;
-    sub nna virama ra by nn_ra;
-    sub ta virama ra by t_ra;
-    sub tha virama ra by th_ra;
-    sub da virama ra by d_ra;
-    sub dha virama ra by dh_ra;
-    sub na virama ra by n_ra;
-    sub pa virama ra by p_ra;
-    sub pha virama ra by ph_ra;
-    sub ba virama ra by b_ra;
-    sub bha virama ra by bh_ra;
-    sub ma virama ra by m_ra;
-    sub ya virama ra by y_ra;
-    sub la virama ra by l_ra;
-    sub va virama ra by v_ra;
-    sub sha virama ra by sh_ra;
-    sub ssa virama ra by ss_ra;
-    sub sa virama ra by s_ra;
-    sub ha virama ra by h_ra;
-    sub lla virama ra by ll_ra;
-
-    # Output of lookup base.conjoinable.with_nukta:
-    sub qa virama ra by q_ra;
-    sub khha virama ra by khh_ra;
-    sub ghha virama ra by ghh_ra;
-    sub za virama ra by z_ra;
-    sub fa virama ra by f_ra;
-
-} base.conjoinable.C_ra;
-```
-
-```
-lookup base.post_conjoining {
-
-    # Stemmed, thus conjoinable and should have conjoining form:
-    sub cha-deva virama-deva ya-deva by ch_ya-deva;
-    sub tta-deva virama-deva ya-deva by tt_ya-deva;
-    sub ttha-deva virama-deva ya-deva by tth_ya-deva;
-    sub dda-deva virama-deva ya-deva by dd_ya-deva;
-    sub ddha-deva virama-deva ya-deva by ddh_ya-deva;
-    sub da-deva virama-deva ma-deva by d_ma-deva;
-    sub da-deva virama-deva ya-deva by d_ya-deva;
-    sub ha-deva virama-deva ma-deva by h_ma-deva;
-    sub ha-deva virama-deva ya-deva by h_ya-deva;
-
-    # With ending component that is conjoinable when inline:
-    sub cha-deva virama-deva va-deva by ch_va-deva;
-    sub tta-deva virama-deva va-deva by tt_va-deva;
-    sub ttha-deva virama-deva va-deva by tth_va-deva;
-    sub dda-deva virama-deva va-deva by dd_va-deva;
-    sub ddha-deva virama-deva va-deva by ddh_va-deva;
-    sub da-deva virama-deva ga-deva by d_ga-deva;
-    sub da-deva virama-deva gha-deva by d_gha-deva;
-    sub da-deva virama-deva dha-deva by d_dha-deva;
-    sub da-deva virama-deva na-deva by d_na-deva;
-    sub da-deva virama-deva ba-deva by d_ba-deva;
-    sub da-deva virama-deva bha-deva by d_bha-deva;
-    sub da-deva virama-deva va-deva by d_va-deva;
-    sub ha-deva virama-deva nna-deva by h_nna-deva;
-    sub ha-deva virama-deva na-deva by h_na-deva;
-    sub ha-deva virama-deva la-deva by h_la-deva;
-    sub ha-deva virama-deva va-deva by h_va-deva;
-
-    # Non-conjoinable; less prioritized than C_ra bases:
-    sub tta-deva virama-deva tta-deva by tt_tta-deva;
-    sub tta-deva virama-deva ttha-deva by tt_ttha-deva;
-    sub ttha-deva virama-deva ttha-deva by tth_ttha-deva;
-    sub dda-deva virama-deva dda-deva by dd_dda-deva;
-    sub dda-deva virama-deva ddha-deva by dd_ddha-deva;
-    sub ddha-deva virama-deva ddha-deva by ddh_ddha-deva;
-    sub da-deva virama-deva da-deva by d_da-deva;
-
-} base.post_conjoining;
-```
-
-```
-lookup base.post_conjoining.with_sign {
-
-    sub ra usign by r_u;
-    sub ra uusign by r_u;
-    sub ha vocalicrsign by h_vocalicr;
-
-    # Having recognizable components that have conjoining forms:
-    sub t ta by t_ta;
-
-} base.post_conjoining.with_sign;
-```
-
-### Complex signs
+> ड (dda) ़ (nukta) → ड़ (ddxa)\
+> र (ra) ु (sign-u) → रु (r-u)\
+> क (ka) ् (virama) ष (ssa) → क्ष (k-ssa)
 
 <!-- [OTL pre-base forms are left forms for a phonetically (and thus in encoding) trailing position. …] -->
 
@@ -207,9 +71,86 @@ lookup base.post_conjoining.with_sign {
 > क (ka) ् (virama) → {k} (k)
 
 ```
+lookup base.conjoinable {
+
+    # Classic prioritized:
+    sub ka virama ssa by k-ssa;
+    sub ja virama nya by j-nya;
+
+    # Hindi:
+    sub dda nukta by ddxa;
+    sub ddha nukta by ddhxa;
+
+    # Perso-Arabic, English, etc., loanwords in Hindi:
+    sub ka nukta by kxa;
+    sub kha nukta by khxa;
+    sub ga nukta by gxa;
+    sub ja nukta by jxa;
+    sub pha nukta by phxa;
+
+    # For Eyelash encoded with nukta:
+    sub ra nukta by rxa;
+
+} base.conjoinable;
+```
+
+```
 lookup sign.repha {
     sub ra virama by repha;
 } sign.repha;
+```
+
+```
+lookup base.conjoinable.someRa {
+
+    sub ka virama ra by k-ra;
+    sub kha virama ra by kh-ra;
+    sub ga virama ra by g-ra;
+    sub gha virama ra by gh-ra;
+    sub nga virama ra by ng-ra;
+    sub ca virama ra by c-ra;
+    sub cha virama ra by ch-ra;
+    sub ja virama ra by j-ra;
+    sub jha virama ra by jh-ra;
+    sub nya virama ra by ny-ra;
+    sub tta virama ra by tt-ra;
+    sub ttha virama ra by tth-ra;
+    sub dda virama ra by dd-ra;
+    sub ddha virama ra by ddh-ra;
+    sub nna virama ra by nn-ra;
+    sub ta virama ra by t-ra;
+    sub tha virama ra by th-ra;
+    sub da virama ra by d-ra;
+    sub dha virama ra by dh-ra;
+    sub na virama ra by n-ra;
+    sub pa virama ra by p-ra;
+    sub pha virama ra by ph-ra;
+    sub ba virama ra by b-ra;
+    sub bha virama ra by bh-ra;
+    sub ma virama ra by m-ra;
+    sub ya virama ra by y-ra;
+    sub la virama ra by l-ra;
+    sub va virama ra by v-ra;
+    sub sha virama ra by sh-ra;
+    sub ssa virama ra by ss-ra;
+    sub sa virama ra by s-ra;
+    sub ha virama ra by h-ra;
+    sub lla virama ra by ll-ra;
+
+    # Output of lookup base.conjoinable:
+    sub kxa virama ra by kx-ra;
+    sub khxa virama ra by khx-ra;
+    sub gxa virama ra by gx-ra;
+    sub jxa virama ra by jx-ra;
+    sub phxa virama ra by phx-ra;
+
+} base.conjoinable.someRa;
+```
+
+```
+lookup base.conjoinable.lower_priority {
+    sub ta virama ta by t-ta;
+} base.conjoinable.lower_priority;
 ```
 
 ```
@@ -242,56 +183,105 @@ lookup sign.left {
     sub sa virama by s;
     sub lla virama by ll;
 
-    # Output of lookup base.conjoinable.with_nukta:
-    sub qa virama by q;
-    sub khha virama by khh;
-    sub ghha virama by ghh;
-    sub za virama by z;
-    sub fa virama by f;
-    sub rra virama by r;  # Eyelash encoded with nukta.
-
     # Output of lookup base.conjoinable:
-    sub k_ssa virama by k_ss;
-    sub j_nya virama by j_ny;
+    sub k-ssa virama by k-ss;
+    sub j-nya virama by j-ny;
+    sub kxa virama by kx;
+    sub khxa virama by khx;
+    sub gxa virama by gx;
+    sub jxa virama by jx;
+    sub phxa virama by phx;
+    sub rxa virama by r;  # Eyelash encoded with nukta.
 
-    # Output of lookup base.conjoinable.C_ra:
-    sub k_ra virama by k_r;
-    sub kh_ra virama by kh_r;
-    sub g_ra virama by g_r;
-    sub gh_ra virama by gh_r;
-    sub c_ra virama by c_r;
-    sub j_ra virama by j_r;
-    sub jh_ra virama by jh_r;
-    sub ny_ra virama by ny_r;
-    sub nn_ra virama by nn_r;
-    sub t_ra virama by t_r;
-    sub th_ra virama by th_r;
-    sub dh_ra virama by dh_r;
-    sub n_ra virama by n_r;
-    sub p_ra virama by p_r;
-    sub ph_ra virama by ph_r;
-    sub b_ra virama by b_r;
-    sub bh_ra virama by bh_r;
-    sub m_ra virama by m_r;
-    sub y_ra virama by y_r;
-    sub l_ra virama by l_r;
-    sub v_ra virama by v_r;
-    sub sh_ra virama by sh_r;
-    sub ss_ra virama by ss_r;
-    sub s_ra virama by s_r;
-    sub q_ra virama by q_r;
-    sub khh_ra virama by khh_r;
-    sub ghh_ra virama by ghh_r;
-    sub z_ra virama by z_r;
-    sub f_ra virama by f_r;
+    # Output of lookup base.conjoinable.someRa:
+    sub k-ra virama by k-r;
+    sub kh-ra virama by kh-r;
+    sub g-ra virama by g-r;
+    sub gh-ra virama by gh-r;
+    sub c-ra virama by c-r;
+    sub j-ra virama by j-r;
+    sub jh-ra virama by jh-r;
+    sub ny-ra virama by ny-r;
+    sub nn-ra virama by nn-r;
+    sub t-ra virama by t-r;
+    sub th-ra virama by th-r;
+    sub dh-ra virama by dh-r;
+    sub n-ra virama by n-r;
+    sub p-ra virama by p-r;
+    sub ph-ra virama by ph-r;
+    sub b-ra virama by b-r;
+    sub bh-ra virama by bh-r;
+    sub m-ra virama by m-r;
+    sub y-ra virama by y-r;
+    sub l-ra virama by l-r;
+    sub v-ra virama by v-r;
+    sub sh-ra virama by sh-r;
+    sub ss-ra virama by ss-r;
+    sub s-ra virama by s-r;
+    sub kx-ra virama by kx-r;
+    sub khx-ra virama by khx-r;
+    sub gx-ra virama by gx-r;
+    sub jx-ra virama by jx-r;
+    sub phx-ra virama by phx-r;
+
+    # Output of lookup base.conjoinable.lower_priority:
+    sub t-ta virama by t-t;
 
 } sign.left;
 ```
 
 ```
-lookup sign.post_conjoining {
-    sub t t by t_t;
-} sign.post_conjoining;
+lookup base.post_conjoining {
+
+    # Stemmed, thus conjoinable and should have conjoining form:
+    sub cha virama ya by ch-ya;
+    sub da virama ma by d-ma;
+    sub da virama ya by d-ya;
+    sub ha virama ma by h-ma;
+    sub ha virama ya by h-ya;
+
+    # With ending component that is conjoinable when inline:
+    sub cha virama va by ch-va;
+    sub tta virama va by tt-va;
+    sub ttha virama va by tth-va;
+    sub dda virama va by dd-va;
+    sub ddha virama va by ddh-va;
+    sub da virama ga by d-ga;
+    sub da virama gha by d-gha;
+    sub da virama dha by d-dha;
+    sub da virama na by d-na;
+    sub da virama ba by d-ba;
+    sub da virama bha by d-bha;
+    sub da virama va by d-va;
+    sub ha virama nna by h-nna;
+    sub ha virama na by h-na;
+    sub ha virama la by h-la;
+    sub ha virama va by h-va;
+
+    # Non-conjoinable; less prioritized than C-ra bases:
+    sub tta virama tta by tt-tta;
+    sub tta virama ttha by tt-ttha;
+    sub ttha virama ttha by tth-ttha;
+    sub dda virama dda by dd-dda;
+    sub dda virama ddha by dd-ddha;
+    sub ddha virama ddha by ddh-ddha;
+    sub da virama da by d-da;
+
+} base.post_conjoining;
+```
+
+```
+lookup sign.lower_priority {
+    sub virama ya by sign-ya;
+} sign.lower_priority;
+```
+
+```
+lookup base.lower_priority {
+    sub ra sign-u by r-u;
+    sub ra sign-uu by r-u;
+    sub ha sign-vocalic-r by h-vocalic-r;
+} base.lower_priority;
 ```
 
 ### Typographical treatments
@@ -301,22 +291,23 @@ lookup typographical.sign {
 
     sub repha anusvara by repha_anusvara;
 
-    sub iisign anusvara by iisign_anusvara;
-    sub iisign repha by iisign_repha;
-    sub iisign repha anusvara by iisign_repha_anusvara;
-    sub esign anusvara by esign_anusvara;
-    sub esign repha by esign_repha;
-    sub esign repha anusvara by esign_repha_anusvara;
-    sub aisign anusvara by aisign_anusvara;
-    sub aisign repha by aisign_repha;
-    sub aisign repha anusvara by aisign_repha_anusvara;
-    sub osign repha by osign_repha;
-    sub osign repha anusvara by osign_repha_anusvara;
-    sub ausign anusvara by ausign_anusvara;
-    sub ausign repha by ausign_repha;
-    sub ausign repha anusvara by ausign_repha_anusvara;
+    sub sign-ii anusvara by sign-ii_anusvara;
+    sub sign-ii repha by sign-ii_repha;
+    sub sign-ii repha anusvara by sign-ii_repha_anusvara;
+    sub sign-e anusvara by sign-e_anusvara;
+    sub sign-e repha by sign-e_repha;
+    sub sign-e repha anusvara by sign-e_repha_anusvara;
+    sub sign-ai anusvara by sign-ai_anusvara;
+    sub sign-ai repha by sign-ai_repha;
+    sub sign-ai repha anusvara by sign-ai_repha_anusvara;
+    sub sign-o anusvara by sign-o_anusvara;
+    sub sign-o repha by sign-o_repha;
+    sub sign-o repha anusvara by sign-o_repha_anusvara;
+    sub sign-au anusvara by sign-au_anusvara;
+    sub sign-au repha by sign-au_repha;
+    sub sign-au repha anusvara by sign-au_repha_anusvara;
 
-    sub esigncandra anusvara by esigncandra_anusvara;
+    sub sign-candra-e anusvara by sign-candra-e_anusvara;
 
 } typographical.sign;
 ```
@@ -331,7 +322,6 @@ lookup typographical.sign {
 
 ```
 feature akhn {
-    lookup base.conjoinable.with_nukta;
     lookup base.conjoinable;
 } akhn;
 
@@ -340,7 +330,9 @@ feature rphf {
 } rphf;
 
 feature rkrf {
-    lookup base.conjoinable.C_ra;
+    # Can’t be formed before `lookup sign.repha` because of Adobe shaping engines’ bug.
+    lookup base.conjoinable.someRa;
+    lookup base.conjoinable.lower_priority;
 } rkrf;
 
 feature half {
@@ -349,8 +341,8 @@ feature half {
 
 feature cjct {
     lookup base.post_conjoining;
-    lookup sign.post_conjoining;
-    lookup base.post_conjoining.with_sign;
+    lookup sign.lower_priority;
+    lookup base.lower_priority;
 } cjct;
 
 feature pres {
